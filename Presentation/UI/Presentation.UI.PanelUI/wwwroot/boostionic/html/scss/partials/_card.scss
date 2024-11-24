@@ -1,0 +1,106 @@
+﻿.card {
+    @extend .inlineblock;
+    @include transition(all .3s);
+    background: var(--card-color); 
+    border: 1px dashed var(--border-color);
+    //box-shadow: 0 2px 1px 0 var(--box-shadow-light);
+    margin-bottom: 30px;
+    position: relative;
+    width: 100%;
+
+    &:hover,
+    &:focus-within,
+    &:focus {
+        border-color: var(--primary-color);
+    }
+
+    .header {
+        color: var(--dark-color);
+        padding: 20px;
+        position: relative;       
+        box-shadow: none;
+        margin-bottom: 0;
+
+        .header-dropdown {
+            @extend .margin-0;
+            @extend .padding-0;
+            position: absolute;
+            list-style: none;
+            top: 11px;
+            right: 10px;
+
+            li{
+                @extend .inlineblock;
+                
+                a{
+                    @extend .displayblock;
+                    color: var(--text-muted);
+                    padding: 5px 10px;
+                }
+
+                .dropdown-menu {
+
+                    background: var(--dark-color);
+                    border-radius: $border-radius-small;
+                    overflow: hidden;
+                    transform: none !important; 
+                    left: auto !important;
+                    right: 0;
+                    padding: 10px;
+                    box-shadow: 0px 2px 20px 0px var(--box-shadow);
+                    border: 0;
+
+                    li {
+                        display: block !important;
+    
+                        a {
+                            color: var(--font-light);
+                            padding: 10px;
+                            white-space: nowrap;
+                            font-size: 14px;
+
+                            &:hover{
+                                color: var(--font-white);
+                            }
+                        }
+                    }
+                }    
+            }
+
+            i { 
+                @include transition(all .3s);
+                color: var(--text-muted);
+                font-size: 14px;
+            }
+        }
+        h2 {
+            @extend .margin-0;
+            color: var(--heading-color);
+            font-size: 17px;
+            position: relative;
+
+            small {
+                @extend .displayblock;
+                @extend .m-t-5;
+                color: var(--font-color);
+                line-height: 15px;
+                font-size: 13px;
+
+                a {
+                    font-weight: $font-weight-700;
+                    color: var(--font-color);
+                }
+            }
+        }
+    }
+
+    .p-15 {
+        padding: 15px !important;
+    }
+
+    .body {
+        color: var(--font-color);
+        font-weight: $font-weight-400; 
+        padding: 20px;
+    }
+}

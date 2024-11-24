@@ -1,0 +1,72 @@
+﻿using System.Security.Claims;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+
+
+namespace Core.Application.Helper
+{
+    using BCrypt.Net;
+    public class Cipher
+    {
+        public static string Encrypt(string password)
+        {
+            return BCrypt.HashPassword(password);
+        }
+
+        public static bool Decrypt(string inputPassword, string password)
+        {
+            return BCrypt.Verify(inputPassword, password);
+        }
+
+
+        private static string SecretKey;
+
+        public static void Configure(IConfiguration configuration)
+        {
+            SecretKey = configuration["JwtBearer:ResetPasswordKey"] ?? throw new Exception("ResetPasswordKey is not configured in appsettings.json");
+        }
+
+        public static string EncryptUserId(string userId)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(SecretKey);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("UserId", userId) }),
+                Expires = DateTime.UtcNow.AddMinutes(15),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        public static string DecryptUserId(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(SecretKey);
+
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            try
+            {
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+                return principal.FindFirst("UserId")?.Value;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+    }
+}

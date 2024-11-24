@@ -1,0 +1,36 @@
+.btn{
+	font-size: $font-size;
+
+	&.btn-primary{
+		background-color: var(--primary-color);
+    	border-color: var(--primary-color);
+	}
+	
+	&.btn-secondary{
+		background-color: var(--secondary-color);
+    	border-color: var(--secondary-color);
+	}
+
+	&.btn-outline-primary{
+		color: var(--primary-color);
+		border-color: var(--primary-color);
+
+		&:hover{
+			color: var(--font-white);
+			background-color: var(--primary-color);
+		}
+	}
+}
+
+.btn-default{
+    color: var(--bg-hc-color);
+    background-color: var(--font-xlight);
+    border-color: var(--font-xlight);
+	padding: 6px 18px;
+	
+	&:hover,
+	&:focus,
+	&:focus-within{
+		color: var(--primary-color);
+	}
+}

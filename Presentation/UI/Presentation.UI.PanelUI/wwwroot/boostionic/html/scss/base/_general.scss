@@ -1,0 +1,79 @@
+/* General Styles */
+body {
+	background: var(--body-color);
+	color: var(--font-color);
+	font-size: $font-size;
+
+	&.font-nunito{
+		font-family: "Nunito", sans-serif;
+	}
+	&.font-ubuntu{
+		font-family: "Ubuntu", sans-serif;
+	}
+	&.font-raleway{
+		font-family: "Raleway", sans-serif;
+	}
+	&.font-IBMplex{
+		font-family: "IBM Plex Sans", sans-serif;
+	}
+}
+
+a {
+	&:hover,
+	&:focus {
+		color: var(--link-color);
+		text-decoration: none;
+		outline: none;
+	}
+}
+
+.page-title {
+	font-weight: $font-weight-400;
+	margin-top: 0;
+	margin-bottom: 30px;
+	font-size: 24px;
+}
+
+footer {
+	padding: 0 30px;
+	padding-bottom: 15px;
+	position: absolute;
+	right: 0;
+
+	@include max-screen($break-small) {
+		position: relative;
+		text-align: center;
+	}
+}
+
+.copyright {
+	margin-bottom: 0;
+	font-size: 13px;
+}
+
+.row-deck{
+    >.col,
+    >[class*='col-']{
+        display: flex;
+        align-items: stretch;
+        .card{
+            flex: 1 1 auto;
+        }
+    }
+}
+
+@media only screen and (max-width: $break-small - 1px) {
+	.hidden-xs{
+		display: none;
+	}
+}
+@media only screen and (max-width: $break-medium) {
+	.hidden-sm{
+		display: none;
+	}
+}
+@media only screen and (max-width: $break-1024) {
+	.hidden-md{
+		display: none;
+	}
+}

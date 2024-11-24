@@ -1,0 +1,84 @@
+.file_manager{
+
+    .file{
+        @extend .padding-0;
+        position: relative;
+        border-radius: $border-radius-small;
+        overflow: hidden;
+
+        .image, .icon{
+            max-height: 180px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: top;            
+        }
+
+        .hover{
+            @include transition(all .3s ease-in-out);
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            display: none;
+        }
+
+        a{
+            &:hover{                
+                .hover{
+                    @include transition(all .3s ease-in-out);
+                    @extend .displayblock;
+                }
+            }
+        }
+
+        .icon {
+            padding: 15px 10px;
+            display: table;
+            width: 100%;
+            @extend .align-center;
+
+            i {                
+                display: table-cell;
+                font-size: 30px;
+                vertical-align: middle;
+                color: var(--font-color);
+                line-height: 100px;
+            }
+        }
+
+        .file-name {
+            padding: 10px;
+            border-top: 1px solid var(--border-color);
+
+            small{
+                @extend .displayblock;
+
+                .date{
+                    float: right;
+                }
+            }
+        }
+    }
+}
+
+.folder{
+    padding: 20px;
+    display: block;
+    color: var(--font-color);
+    
+    h6{
+        @extend .m-b-0;
+    }
+}
+
+@media only screen and (max-width: $break-medium) {    
+    .file_manager{                
+        .nav-tabs{
+            padding-left: 0;
+            padding-right: 0;
+    
+            .nav-item{
+                display: inline-block;
+            }
+        }
+    }
+}

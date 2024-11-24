@@ -1,0 +1,11 @@
+.accordion{
+	.card-header{
+        @extend .padding-0;
+        .btn{
+            @extend .align-left;
+            padding: 10px 20px;
+            width: 100%;
+            font-size: 16px;
+        }
+	}
+}

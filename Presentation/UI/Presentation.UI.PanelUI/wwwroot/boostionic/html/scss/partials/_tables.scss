@@ -1,0 +1,60 @@
+.table {
+	color: var(--font-color);
+
+	.thead-primary{
+	    th{
+		  color: var(--font-white);
+		  background-color: var(--primary-color);
+		  border-color: var(--primary-color);
+	    }
+	}
+	.thead-success{
+	    th{
+		  color: var(--font-white);
+		  background-color: $color-success;
+		  border-color: $color-success;
+	    }
+	}
+	.thead-danger{
+	    th{
+		  color: var(--font-white);
+		  background-color: $color-danger;
+		  border-color: $color-danger;
+	    }
+	}
+	.thead-info{
+	    th{
+		  color: var(--font-white);
+		  background-color: $color-info;
+		  border-color: $color-info;
+	    }
+	}
+	.thead-purple{
+	    th{
+		  color: var(--font-white);
+		  background-color: $purple;
+		  border-color: $purple;
+	    }
+	}
+  
+    tbody {
+        tr,
+        th {
+            td {
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+		}
+		tr:hover{
+			color: var(--heading-color);
+		}
+	}
+	
+	td, th{
+		border-color: var(--border-color);
+	}
+	thead th{
+		border-bottom-color: var(--primary-color);
+		border-top-color: var(--border-color);
+	}
+}

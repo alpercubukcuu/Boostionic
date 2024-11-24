@@ -1,0 +1,57 @@
+.auth-main{
+    &.realestate{
+        &:after{
+            background: url(../../assets/images/realestate_auth_bg.jpg) no-repeat top left fixed;
+        }
+    }
+}
+
+.property{
+    &.grid{
+        display: flex;
+        flex-direction: column;
+
+        .thumb{
+            position: relative;
+            margin-bottom: 30px;
+            .icon{
+                position: absolute;
+                top: 20px;
+                right: 20px; 
+                a{
+                    padding: 5px 10px;
+                    background: rgba(#ffffff, .7);
+                }               
+            }
+        }
+    }
+    .tag{
+        li a{
+            background: var(--primary-color3);
+            color: var(--font-white);
+            border-radius: $border-radius-small;
+            padding: 5px 10px;
+        }
+        li + li a{
+            background: var(--secondary-color2);
+        }
+    }
+    .property-info{
+        border-radius: $border-radius-small;
+        background: var(--font-xlight);
+        padding: 8px 15px;
+        a{
+            color: var(--font-color);
+        }
+    }
+}
+
+.amenities-list{
+    li{
+        line-height: 30px;
+        font-size: 15px;
+    }
+}
+
+.w60{ width: 60px;}
+.w100{ width: 100px;}

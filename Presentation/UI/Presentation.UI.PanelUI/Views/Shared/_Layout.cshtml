@@ -1,49 +1,53 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Presentation.UI.PanelUI</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Presentation.UI.PanelUI.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Presentation.UI.PanelUI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <title> Boostionic - Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Boostionic Bootstrap 4.5.0 Admin Template">
+    <meta name="author" content="WrapTheme, design by: ThemeMakker.com">
+    <link rel="icon" href="~/boostionic/html/docs/favicon.ico" type="image/x-icon">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Presentation.UI.PanelUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="~/boostionic/html/dist/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/boostionic/html/dist/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/boostionic/html/dist/assets/vendor/toastr/toastr.min.css">
+    <link rel="stylesheet" href="~/boostionic/html/dist/assets/vendor/charts-c3/plugin.css" />
+
+    <!-- MAIN Project CSS file -->
+    <link rel="stylesheet" href="~/boostionic/html/dist/assets/css/main.css">
+</head>
+<body data-theme="light" class="font-nunito">
+    <div id="wrapper" class="theme-cyan">
+        <!-- Page Loader -->
+        <div class="page-loader-wrapper">
+            <div class="loader">
+                <div class="m-t-30">
+                    <img src="~/boostionic/html/dist/assets/images/logo-icon.svg" width="48" height="48" alt="Iconic">
+                </div>
+                <p>Please wait...</p>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+        @await Component.InvokeAsync("Sidebar", new { viewName = "TopBar" })
+        @await Component.InvokeAsync("Sidebar", new { viewName = "LeftSideBar" })
+        @await Component.InvokeAsync("Sidebar", new { viewName = "RightSideBar" })
+
+        <div id="main-content">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- Javascript -->
+    <script src="~/boostionic/html/dist/assets/bundles/libscripts.bundle.js"></script>
+    <script src="~/boostionic/html/dist/assets/bundles/vendorscripts.bundle.js"></script>
+    <script src="~/js/logout.js"></script>
+
+    <!-- page vendor js file -->
+    <script src="~/boostionic/html/dist/assets/vendor/toastr/toastr.js"></script>
+    <script src="~/boostionic/html/dist/assets/bundles/c3.bundle.js"></script>
+
+    <!-- page js file -->
+    <script src="~/boostionic/html/dist/assets/bundles/mainscripts.bundle.js"></script>
+    <script src="~/boostionic/html/dist/../js/index.js"></script>
 </body>
 </html>

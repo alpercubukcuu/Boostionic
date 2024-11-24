@@ -1,0 +1,443 @@
+
+.rtl_mode {
+	direction: rtl;
+	text-align: right;
+
+	// layouts
+	.navbar-fixed-top{
+		left: $sidebar-icon;
+	}
+	.sidebar{
+		left: auto;
+		right: 0;
+		&.open .btn-toggle-offcanvas{
+			right: 230px;
+			left: auto;
+			.fa-arrow-left:before{
+				content: "\f061";
+			}
+		}
+	}
+	.right_icon_bar{
+		right: auto;
+		left: 0;
+		border-left: 0;
+		border-right-width: 1px;
+	}
+	#main-content{
+		float: left;
+		margin-right: 0;
+		margin-left: 50px;
+	}
+	&.layout-fullwidth #wrapper{
+		.sidebar{
+			left: auto;
+			right: - $sidebar-width;
+		}
+		.navbar-fixed-top{
+			left: $sidebar-icon;
+		}
+	}
+	.search-form{
+		margin-left: 20px;
+	}
+	&.right_icon_toggle{
+		.right_icon_bar{
+			left: - $sidebar-icon;
+			right: auto;
+			ul li:last-child{
+				left: -10px;
+				right: auto;
+			}
+		}
+		#main-content{
+			margin-left: 0;
+		}
+		.navbar-fixed-top{
+			left: 0;
+		}
+		#wrapper .navbar-fixed-top{
+			left: 0;
+		}
+	}
+	&.offcanvas-active{
+		#wrapper .sidebar{
+			right: 0;
+		}
+	}
+
+	// bootstrap component
+	.ml-3, .mx-3{
+		margin-right: 1rem !important;
+		margin-left: 0 !important;
+	}
+	.mr-3, .mx-3 {
+		margin-left: 1rem!important;
+		margin-right: 0 !important;
+	}
+	.ml-2, .mx-2{
+		margin-left: 0 !important;
+		margin-right: .5rem !important;
+	}
+	.float-right{
+		float:  left!important;
+	}
+	.float-left{
+		float:  right!important;
+	}
+	.text-right{
+		text-align: left !important;
+	}
+	.text-left{
+		text-align: right !important;
+	}
+	.input-group-text,
+	.form-control,
+	.btn-group .btn{
+		border-radius: 0;
+	}
+	.input-group{
+		.btn,
+		.input-group-text{
+			border-radius: 0;
+		}
+	}
+	.custom-select{
+		border-radius: 0;
+	}
+	.custom-file{
+		border-radius: 0;
+		.custom-file-label{
+			border-radius: 0;
+			&:after{
+				border-radius: 0;
+			}
+		}
+	}
+	.page-link{
+		border-radius: 0 !important;
+	}
+	.m-r-15{
+		margin-left: 15px;
+		margin-right: 0;
+	}
+	.m-r-10{
+		margin-right: 0;
+		margin-left: 10px;
+	}
+	.ml-auto, .mx-auto{
+		margin-right: auto!important;
+		margin-left: unset !important;
+	}
+	.input-group-append{
+		margin-right: -1px;
+		margin-left: 0;
+	}
+
+	// component
+	ul{
+		padding-right: 0;
+	}
+	.fancy-checkbox{
+		margin-right: 0;
+		margin-left: 10px;
+		input[type="checkbox"]+span:before{
+			margin-right: 0;
+			margin-left: 10px;
+		}
+	}
+	.fancy-radio{
+		margin-left: 10px;
+		margin-right: 0;
+		input[type="radio"]+span i{
+			margin-right: 0;
+			margin-left: 5px;
+			&::after{
+				left: auto;
+				right: 3px;
+			}
+		}
+	}
+	.dt-bootstrap4 .dt-buttons+.dataTables_filter{
+		float: left;
+	}
+	div.dataTables_wrapper{
+		div.dataTables_filter{
+			text-align: left;
+			input{
+				margin-left: 0;
+				margin-right: 5px;
+			}
+		}
+	}
+	.dropdown-lg .dropdown-menu{
+		left: 0 !important;
+		right: auto !important;
+	}
+
+	
+	// menu 
+	.user-account{
+		text-align: right;
+		.user-photo{
+			margin-left: 10px;
+			margin-right: 0;
+		}
+		.dropdown{
+			text-align: right;
+		}
+	}
+	.sidebar-nav{
+		.metismenu{
+			ul{
+				a{
+					padding: 5px 49px 15px 5px;
+					&::before{
+						left: auto;
+						right: 21px;
+					}
+				}
+				ul{
+					&::before{
+						right: 47px;
+						left: auto;
+					}
+					a{
+						padding: 5px 60px 5px 15px;
+					}
+				}
+			}
+		}
+	}
+	.metismenu{
+		.has-arrow:after{
+			left: 1.5em;
+			right: auto;
+		}
+	}
+	.navbar-nav {
+		.dropdown-menu{
+			left: 0;
+			right: auto;
+			text-align: right;
+		}
+		ul.notifications li>a .media{
+			.media-left{
+				margin-right: 0;
+				margin-left: 20px;
+			}
+		}
+	}
+
+
+	// widgets
+	.card{
+		.header{
+			.header-dropdown{
+				right: auto;
+				left: 10px;
+				li .dropdown-menu{
+					right: auto !important;
+					left: 0 !important;
+				}
+			}			
+		}
+	}
+	.right_chat {
+		.media{
+			.media-object{
+				margin-left: 10px;
+				margin-right: 0;
+			}
+		}
+		.status{
+			right: 23px;
+			left: auto;
+		}
+	}
+	.top_widget .icon{
+		left: 20px;
+		right: auto;
+	}
+	.team-info li+li{
+		margin-right: -10px;
+		margin-left: 0;
+	}
+	.chat {
+		.chat-header{
+			.chat-about{
+				float: right;
+				padding-left: 0;
+				padding-right: 10px;
+			}
+			img{
+				float: right;
+			}
+		}
+		.chat-history {
+			.other-message:after{
+				right: 93%;
+				left: auto;
+			}
+			.my-message:after{
+				right: 30px;
+				left: auto;
+			}
+		}
+	}
+	.people-list{
+		img{
+			float: right;
+		}
+		.about{
+			float: right;
+			padding-right: 8px;
+			padding-left: 0;
+		}
+	}
+	.c_list .c_name{
+		margin-left: 0;
+		margin-right: 10px;
+	}
+	.single_post .footer .stats{
+		float: left;
+	}
+	.file_manager .file .file-name small .date{
+		float: left;
+	}
+	.top_counter{
+		.icon{
+			margin-right: 0;
+			margin-left: 15px;
+		}
+	}
+	.feeds_widget{
+		li{
+			.feeds-left{
+				float: right;
+			}
+		}
+	}
+	.list-widget{
+		.badge{
+			float: left;
+		}
+	}
+	.basic-list li span{
+		float: left;
+	}
+	.new_timeline{
+		>ul{
+			padding: 1em 1.2em 0 0;
+			&::before{
+				right: 1.6em;
+				left: auto;
+			}
+		}
+		.bullet{
+			margin-right: 0;
+			margin-left: 5px;
+		}
+	}
+	.weather .city i{
+		right: auto;
+		left: 0;
+	}
+	.c_review .avatar{
+		float: right;
+	}
+	.media.mleft .media-left,
+	.bs-example .media .media-left{
+		margin-left: 20px;
+		margin-right: 0;
+	}
+	.profile-header{
+		text-align: center;
+	}
+	.timeline-item{
+		border-left: 0;
+		border-right-width: 1px;
+		&:after{
+			right: -8px;
+			left: auto;
+		}
+	}
+	.invoice1{
+		.info,
+		.logo,
+		.clientlogo{
+			float: right;
+			margin-left: 15px;
+		}
+		.invoice-top .title{
+			float: left;
+		}
+	}
+
+	// inbox 
+	.mail-inbox{
+		.mail-left{
+			.mail-side .nav li a .badge{
+				margin-right: auto;
+    			margin-left: 0;
+			}
+		}
+		.mail-right{
+			.mail-list ul li{
+				.mail-detail-left,
+				.mail-detail-right{
+					float: right;
+				}
+				.hover-action{
+					left: 0;
+					right: auto;
+				}
+				.mail-detail-left{
+					.mail-star{
+						left: 13px;
+						right: auto;
+					}
+				}
+				.mail-detail-right {
+					padding-left: 70px;
+					padding-right: 0;
+
+					span.time{
+						left: 0;
+						right: auto;
+					}
+				}
+			}
+		}
+	}
+	
+	
+
+	// charts
+	.c3 {
+		direction: ltr;
+	}
+	.w_bitcoin .body {
+		left: 0;
+	}
+	.rs-control {
+		direction: ltr;
+	}
+	.treeview {
+		span.icon{
+			margin-left: 5px;
+			margin-right: 0;
+		}
+	}
+	.knob{
+		direction: ltr;
+	}
+	.knob {
+		margin-right: -79px !important;
+		margin-left: auto !important;
+	}
+	.knob2 {
+		margin-right: -79px !important;
+		margin-left: auto !important;
+	}
+}

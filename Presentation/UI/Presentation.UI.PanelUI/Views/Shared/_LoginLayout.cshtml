@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>:: AoGen Marketing :: Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Iconic Bootstrap 4.5.0 Admin Template">
+    <meta name="author" content="WrapTheme, design by: ThemeMakker.com">
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="~/boostionic/html/dist/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/boostionic/html/dist/assets/vendor/font-awesome/css/font-awesome.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="~/boostionic/html/dist/assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body data-theme="light" class="font-nunito">
+
+@RenderBody()
+
+<script src="~/boostionic/html/dist/assets/vendor/jquery/jquery-3.5.1.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

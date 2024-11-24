@@ -1,0 +1,289 @@
+:root {
+	--dark-color: 		#323A45;
+
+	--heading-color: 	#222222;
+	--font-color: 		#555555;
+	--font-white: 		#ffffff;
+	--font-light: 		#888888;
+	--font-xlight: 		#f0f0f0;
+	--font-ccc: 		#cccccc;
+	--text-muted: 		#9A9A9A;
+
+	--border-color:		#e2e2e2;
+	--card-color: 		#ffffff;
+	--white-color: 		#ffffff;
+	--body-color: 		#fcfcfc;
+	--box-shadow: 		#c7c1c1;
+	--box-shadow-light:	#ececec;
+
+	--font-hc-color:	#888888;
+	--bg-hc-color:		#323A45;
+}
+
+[data-theme="dark"] {
+	--dark-color: 		#ffffff;
+
+	--heading-color: 	#c0c0c0;
+	--font-color: 		#c7c7c7;
+	--font-white: 		#ffffff;
+	--font-light: 		#888888;
+	--font-xlight: 		#333638;
+	--font-ccc: 		#cccccc;
+	--text-muted: 		#80858a;
+
+	--border-color:		#3b3f42;
+	--card-color: 		#26282a;
+	--white-color: 		#000000;
+	--body-color: 		#222426;
+	--box-shadow: 		#585858;
+	--box-shadow-light:	#323536;
+
+	--font-hc-color:	#888888;
+	--bg-hc-color:		#ffffff;
+}
+
+[data-theme="high-contrast"] {
+	--dark-color: 		#ffffff;
+
+	--heading-color: 	#ffffff;
+	--font-color: 		#ffffff;
+	--font-white: 		#ffffff;
+	--font-light: 		#000000;
+	--font-xlight: 		#ffffff;
+	--font-ccc: 		#111111;
+	--text-muted: 		#ffffff;
+
+	--border-color:		#ffffff;
+	--card-color: 		#000000;
+	--white-color: 		#000000;
+	--body-color: 		#000000;
+	--box-shadow: 		#333333;
+	--box-shadow-light:	#333333;
+
+	--font-hc-color:	#ffffff;
+	--bg-hc-color:		#000000;
+}
+
+[class="theme-purple"] {
+	--primary-color: 	#7954AD;	
+	--primary-color2: 	#7B54B1;
+	--primary-color3: 	#A37ADB;
+
+	--secondary-color: 	#E76886;
+	--secondary-color2:	rgb(223, 126, 148);
+
+	--link-color: 		#59C4BC;
+	--primary-gradient: linear-gradient(45deg, #7B54B1, #E76886);
+}
+
+[class="theme-blue"] {
+	--primary-color: 	#2929b9;	
+	--primary-color2: 	#4343D3;
+	--primary-color3: 	#6C6CFF;
+
+	--secondary-color: 	#F99006;
+	--secondary-color2:	#F92F47;
+
+	--link-color: 		#87B70A;
+	--primary-gradient: linear-gradient(45deg, #2929b9, #87B70A);
+}
+
+[class="theme-cyan"] {
+	--primary-color: 	#59C4BC;	
+	--primary-color2: 	#33BAB0;
+	--primary-color3: 	#8BCEC9;
+
+	--secondary-color: 	#637AAE;
+	--secondary-color2:	#00ACEE;
+
+	--link-color: 		#E76886;
+	--primary-gradient: linear-gradient(45deg, #59C4BC, #637AAE);
+}
+
+[class="theme-green"] {
+	--primary-color: 	#38C172;	
+	--primary-color2: 	#249D57;
+	--primary-color3: 	#187741;
+
+	--secondary-color: 	#0957C3;
+	--secondary-color2:	#5589D2;
+
+	--link-color: 		#FED500;
+	--primary-gradient: linear-gradient(45deg, #38C172, #249D57);
+}
+
+[class="theme-orange"] {
+	--primary-color: 	#FFA901;	
+	--primary-color2: 	#FF7F00;
+	--primary-color3: 	#FBC200;
+
+	--secondary-color: 	#600489;
+	--secondary-color2:	#9439BC;
+
+	--link-color: 		#38C172;
+	--primary-gradient: linear-gradient(45deg, #FFA901, #600489);
+}
+
+[class="theme-blush"] {
+	--primary-color: 	#FF6A4A;	
+	--primary-color2: 	#F5856D;
+	--primary-color3: 	#FBC200;
+
+	--secondary-color: 	#87B70A;
+	--secondary-color2:	#AAD736;
+
+	--link-color: 		#056CDB;
+	--primary-gradient: linear-gradient(45deg, #FF6A4A, #AAD736);
+}
+
+[class="theme-red"] {
+	--primary-color: 	#F40000;	
+	--primary-color2: 	#F92C2C;
+	--primary-color3: 	#F14F4F;
+
+	--secondary-color: 	#030886;
+	--secondary-color2:	#252BCF;
+
+	--link-color: 		#C7E203;
+	--primary-gradient: linear-gradient(45deg, #F40000, #252BCF);
+}
+
+// Bootstrap colors
+$color-accent: 			#5c8ed4;
+$color-info: 			#3C89DA;
+$color-success: 		#22af46;
+$color-warning: 		#f3ad06;
+$color-danger: 			#de4848;
+
+// Fonts
+$font-size: 			14px;
+
+
+$purple: 				#7c48d4 !default;
+$orange: 				#ff812d !default;
+$green: 				#42d182 !default;
+$blue: 					#0c85e0 !default;
+$blush: 				#e0455a !default;
+$cyan: 					#34c2b1 !default;
+$red:		 			#fe2053 !default;
+
+$sidebar-width: 		280px;
+$sidebar-icon:	 		50px;
+
+
+$font-weight-300:             	300         !default;
+$font-weight-400:             	400         !default;
+$font-weight-500:              	500         !default;
+$font-weight-600:              	600         !default;
+$font-weight-700:              	700         !default;
+
+$border-radius-extra-small:     0.125rem    !default;
+$border-radius-small:           0.1875rem   !default;
+$border-radius-large:           0.550rem    !default;
+$border-radius-extreme:         0.875rem    !default;
+
+
+// Breakpoints
+$break-xsmall: 					640px;
+$break-small: 					768px;
+$break-medium: 					992px;
+$break-1024: 					1024px;
+$break-large: 					1200px;
+$break-1280: 					1280px;
+$break-xlarge: 					1440px;
+
+// custom colors
+$custom-colors: (
+	"blue": 			#0E9BE2,
+	"green": 			#7CAC25,
+	"orange": 			#FF4402,
+	"purple": 			#AB7DF6,
+	"yellow": 			#F3BB23,
+	"lightseagreen": 	#20B2AA,
+);
+
+// Social media brand colors
+$social-colors : (
+	z500px: 			#0099e5,
+	about-me: 			#00405d,
+	airbnb: 			#fd5c63,
+	alphabet: 			#ed1c24,
+	amazon: 			#ff9900,
+	american-express: 	#002663,
+	aol: 				#ff0b00,
+	behance: 			#1769ff,
+	bing: 				#ffb900,
+	bitbucket: 			#205081,
+	bitly: 				#ee6123,
+	blogger: 			#f57d00,
+	booking-com: 		#003580,
+	buffer: 			#168eea,
+	code-school: 		#616f67,
+	codecademy: 		#f65a5b,
+	creative-market: 	#8ba753,
+	delicious: 			#3399ff,
+	deviantart: 		#05cc47,
+	digg: 				#005be2,
+	disqus: 			#2e9fff,
+	django: 			#092e20,
+	dribbble: 			#ea4c89,
+	dropbox: 			#007ee5,
+	drupal: 			#0077c0,
+	elance: 			#0d69af,
+	envato: 			#82b541,
+	etsy: 				#d5641c,
+	facebook: 			#3b5998,
+	feedly: 			#2bb24c,
+	flattr: 			#f67c1a,
+	flickr: 			#0063dc,
+	flipboard: 			#e12828,
+	flixster: 			#2971b2,
+	foursquare: 		#0732a2,
+	github: 			#333333,
+	google: 			#4285f4,
+	google-plus: 		#dc4e41,
+	instagram: 			#3f729b,
+	kickstarter: 		#2bde73,
+	kik: 				#82bc23,
+	lastfm: 			#d51007,
+	line: 				#00c300,
+	linkedin: 			#0077b5,
+	mail-ru: 			#168de2,
+	mailchimp: 			#2c9ab7,
+	myspace: 			#000000,
+	netflix: 			#e50914,
+	ning: 				#75af42,
+	path: 				#ee3423,
+	patreon: 			#e6461a,
+	paypal: 			#003087,
+	photobucket: 		#0ea0db,
+	pinterest: 			#bd081c,
+	product-hunt: 		#da552f,
+	quora: 				#a82400,
+	rdio: 				#007dc3,
+	reddit: 			#ff4500,
+	rss: 				#f26522,
+	salesforce: 		#1798c1,
+	scribd: 			#1a7bba,
+	shopify: 			#96bf48,
+	skype: 				#00aff0,
+	slack: 				#6ecadc,
+	slideshare: 		#0077b5,
+	soundcloud: 		#ff8800,
+	spotify: 			#2ebd59,
+	squarespace: 		#222222,
+	stackoverflow: 		#fe7a15,
+	stripe: 			#00afe1,
+	stumbleupon: 		#eb4924,
+	telegram: 			#0088cc,
+	tumblr: 			#35465c,
+	twitch-tv: 			#6441a5,
+	twitter: 			#55acee,
+	vimeo: 				#162221,
+	vine: 				#00b488,
+	wechat: 			#7bb32e,
+	whatsapp: 			#43d854,
+	wordpress: 			#21759b,
+	yahoo: 				#410093,
+	youtube: 			#cd201f,
+);

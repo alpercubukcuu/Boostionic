@@ -1,0 +1,7 @@
+.auth-main{
+    &.hospital{
+        &:after{
+            background: url(../../assets/images/hospital_auth_bg.jpg) no-repeat top left fixed;
+        }
+    }
+}

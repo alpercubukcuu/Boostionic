@@ -1,0 +1,63 @@
+*[dir="rtl"] .metismenu{
+    .arrow {
+        float: left;
+    }
+    .plus-times {
+        float: left;
+    }
+    .plus-minus {
+        float: left;
+    }    
+    .has-arrow::after {
+        right: auto;
+        left: 1em;
+        transform: rotate(-93deg) translate(0, -50%);
+    }
+}
+
+.metismenu{
+    .arrow {
+        float: right;
+        line-height: 1.42857;
+    }
+    .collapse {
+        display: none;
+        &.in{
+            display: block;
+        }
+    }
+    .collapsing {
+        position: relative;
+        height: 0;
+        overflow: hidden;
+        transition-timing-function: ease;
+        transition-duration: .35s;
+        transition-property: height, visibility;
+    }
+    .has-arrow {
+        position: relative;
+
+        &:after {
+            @include transition(all .3s ease-out);
+            position: absolute;
+            content: '\f0d7';
+            font-family: "FontAwesome";
+            font-size: 10px;
+            right: 1.5em;
+            transform: rotate(-0deg) translate(0, -50%);
+            transform-origin: top;
+            top: 50%;
+        }
+    }
+}
+
+
+.metismenu .active > .has-arrow::after,
+.metismenu .has-arrow[aria-expanded="true"]::after {
+    transform: rotate(93deg) translate(0, -50%);
+}
+
+*[dir="rtl"] .metismenu .active > .has-arrow::after,
+*[dir="rtl"] .metismenu .has-arrow[aria-expanded="true"]::after {
+    transform: rotate(225deg) translate(0, -50%);
+}

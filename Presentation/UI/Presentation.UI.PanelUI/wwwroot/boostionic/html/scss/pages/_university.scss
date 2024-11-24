@@ -1,0 +1,7 @@
+.auth-main{
+    &.university{
+        &:after{
+            background: url(../../assets/images/university_auth_bg.jpg) no-repeat top left fixed;
+        }
+    }
+}
