@@ -1,0 +1,6 @@
+@Presentation.API.ExternalApi_HostAddress = http://localhost:5240
+
+GET {{Presentation.API.ExternalApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
