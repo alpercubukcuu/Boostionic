@@ -32,7 +32,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No content found for the ID value");
                 getData.IsEnable = false;
                 await _userResetPasswordRepository.UpdateAsync(getData);
-                await AddUserLog("UserResetPassword Delete Handler", "UserResetPassword", getData.Id, TransectionEnum.Delete, getData.Id);
+                await AddUserLog("UserResetPassword Delete Handler", "UserResetPassword", getData.Id, TransactionEnum.Delete, getData.Id);
             }
             catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
             return result;

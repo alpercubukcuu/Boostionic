@@ -8,6 +8,8 @@ namespace Core.Application.Interfaces.Repositories
 {
     public interface IGenericRepository<T> : IRepository<T> where T : BaseEntity
     {
+
+        #region Queries
         IQueryable<T> GetAll(
          Expression<Func<T, bool>> predicate = null,
          Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null,
@@ -40,21 +42,20 @@ namespace Core.Application.Interfaces.Repositories
          Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null,
          Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true);
 
-
-        
-
+        #endregion
 
         #region Add Functions
         Task<T> AddAsync(T entity);
         Task<List<T>> AddRangeAsync(List<T> entity);
+
         #endregion
 
         #region Update Functions
         Task<T> UpdateAsync(T entity);
         Task<bool> UpdateRangeAsync(List<T> entities);
         Task<T> UpdatePropertyAsync(T entity);
-
         Task<int> UpdateMultipleEntitiesAsync(Expression<Func<T, bool>> predicate, Action<T> updateAction);
+
         #endregion
 
         #region Delete Functions

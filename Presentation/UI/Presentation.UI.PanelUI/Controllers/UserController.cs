@@ -24,13 +24,15 @@ namespace Presentation.UI.PanelUI.Controllers
         private readonly IMapper _mapper;
         private readonly IJwtRepository _jwtRepository;
         private readonly string _secretKey;
-        public UserController(IMediator mediator, IMapper mapper, IJwtRepository jwtRepository, IConfiguration configuration)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public UserController(IMediator mediator, IMapper mapper, IJwtRepository jwtRepository, IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             _mediator = mediator;
             _mapper = mapper;
             _jwtRepository = jwtRepository;
             _secretKey = configuration["JwtBearer:ResetPasswordKey"]
                      ?? throw new Exception("ResetPasswordKey is not configured in appsettings.json");
+            _httpClientFactory = httpClientFactory;
         }
         public IActionResult Index()
         {
@@ -87,7 +89,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
                 IResultDataDto<UserDto> result = await this._mediator.Send(map);
 
-                if (!result.IsSuccess) { return BadRequest(result.Err); }
+                if (!result.IsSuccess) { return BadRequest(result.Error); }
 
                 HttpContext.Session.SetString("JwtToken", result.Data?.Token);
 
@@ -193,24 +195,30 @@ namespace Presentation.UI.PanelUI.Controllers
                     if (resUserResPas.IsSuccess)
                     {
                         string fullname = resUser.Data.Name + " " + resUser.Data.SurName;
-                        //var emailFormat = _unitOfWork.EmailService.GetEmailByType(emailType);
 
-                        //if (emailFormat.Success)
-                        //{
-                        //    string bodyHTML = emailFormat.Data.HtmlBody.Replace("{code}", result.Data.ResetCode.ToString())
-                        //        .Replace("{fullName}", (result.Data.User.Name + " " + result.Data.User.SurName).ToString());
+                        IResultDataDto<EmailDto> resEmail = await this._mediator.Send(new GetEmailByTypeQuery() { EmailType = emailType });
+                      
+                        if (resEmail.IsSuccess)
+                        {
+                            string bodyHTML = resEmail.Data.HtmlBody.Replace("{code}", resUserResPas.Data.ResetCode.ToString())
+                                .Replace("{fullName}", (resUser.Data.Name + " " + resUser.Data.SurName).ToString());
 
-                        //    string subjectTitle = emailFormat.Data.Subject;
+                            string subjectTitle = resEmail.Data.Subject;
 
-                        //    _unitOfWork.EmailService.SendMail(emailFormat.Data, user.Data.Email, subjectTitle, bodyHTML);
+                            var client = _httpClientFactory.CreateClient("InternalApiClient");
 
-                        //    resultData.Success = true;
-                        //    resultData.Message = "A reset password code has been sent to your email.";
-                        //    resultData.Data = user.Data;
-                        //    TransferEncodeDataModel transferEncode = new();
-                        //    transferEncode.EncodedUserId = Cipher.EncryptUserId(user.Data.Id.ToString());
-                        //    return Ok(transferEncode.EncodedUserId);
-                        //}
+                            var response = await client.PostAsJsonAsync("Email/SendMail", new
+                            {
+                                emailFormat = resEmail.Data,
+                                toEmail = resUser.Data.Email,
+                                subject = subjectTitle,
+                                body = bodyHTML
+                            });
+                          
+                            TransferEntryInfoDto transferEncode = new();
+                            transferEncode.EncodedUserId = Cipher.EncryptUserId(resUser.Data.Id.ToString(), _secretKey);
+                            return Ok(transferEncode.EncodedUserId);
+                        }
 
                         return Ok();
                     }

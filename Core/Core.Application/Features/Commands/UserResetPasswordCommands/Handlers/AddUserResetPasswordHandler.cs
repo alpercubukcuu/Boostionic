@@ -65,7 +65,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
 
                 result.SetStatus().SetMessage("UserResetPassword created successfully").SetData(resultMap);
 
-                await AddUserLog("UserResetPassword Create Handler", "UserResetPassword", userResetPassword.Id, TransectionEnum.Create, userResetPassword.Id);
+                await AddUserLog("UserResetPassword Create Handler", "UserResetPassword", userResetPassword.Id, TransactionEnum.Create, userResetPassword.Id);
             }
             catch (Exception exception)
             {

@@ -65,7 +65,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 result.Data.Id = getData.Id;
 
                 result.SetStatus().SetMessage("The login process was successful").SetData(result.Data);
-                await AddUserLog("User Login Handler", "User", getData.Id, TransectionEnum.Update, getData.Id);
+                await AddUserLog("User Login Handler", "User", getData.Id, TransactionEnum.Update, getData.Id);
             }
             catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
             return result;

@@ -13,6 +13,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices(builder.Configuration.GetConnectionString("Mssql")!);
 builder.Services.AddApplicationServices();
 
+builder.Services.AddHttpClient("InternalApiClient", client =>
+{
+    var baseUrl = builder.Configuration["ApiSettings:InternalApiBaseUrl"];
+    if (string.IsNullOrEmpty(baseUrl))
+    {
+        throw new Exception("Internal API base URL is not configured in appsettings.json");
+    }
+    client.BaseAddress = new Uri(baseUrl);
+});
+
+builder.Services.AddHttpClient("ExternalApiClient", client =>
+{
+    var baseUrl = builder.Configuration["ApiSettings:ExternalApiBaseUrl"];
+    if (string.IsNullOrEmpty(baseUrl))
+    {
+        throw new Exception("External API base URL is not configured in appsettings.json");
+    }
+    client.BaseAddress = new Uri(baseUrl);
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

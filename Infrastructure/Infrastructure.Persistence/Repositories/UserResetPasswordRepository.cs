@@ -6,7 +6,7 @@ using Infrastructure.Persistence.Context;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    [AddScopetService(Interface = "IUserResetPasswordRepository")]
+    [AddScopedService(Interface = "IUserResetPasswordRepository")]
     public class UserResetPasswordRepository : GenericRepository<UserResetPassword>, IUserResetPasswordRepository
     {
         public UserResetPasswordRepository(DatabaseContext context) : base(context)
