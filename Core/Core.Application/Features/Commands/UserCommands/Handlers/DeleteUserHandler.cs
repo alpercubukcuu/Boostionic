@@ -14,7 +14,9 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
         private readonly IMapper _mapper;
         private readonly ILogRepository _logRepository;
         private readonly IUserRepository _userRepository;
-        public DeleteUserHandler(IMapper mapper,  ILogRepository logRepository, IUserRepository userRepository) : base(userRepository, logRepository)
+
+        public DeleteUserHandler(IMapper mapper, ILogRepository logRepository, IUserRepository userRepository) : base(
+            userRepository, logRepository)
         {
             _mapper = mapper;
             _logRepository = logRepository;
@@ -27,14 +29,20 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
             try
             {
                 var getData = _userRepository.GetSingle(predicate: d => d.Id == request.Id);
-                if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("ID değerine ait içerik bulunamadı");
+                if (getData == null)
+                    return result.SetStatus(false).SetErrorMessage("Not Found Data")
+                        .SetMessage("The content associated with the ID value could not be found.");
                 getData.IsEnable = false;
                 await _userRepository.UpdateAsync(getData);
-                await AddUserLog("User Delete Handler", "BusinessPlace", getData.Id, TransactionEnum.Delete, getData.Id);
+                await AddUserLog("User Delete Handler", "BusinessPlace", getData.Id, TransactionEnum.Delete,
+                    getData.Id);
             }
-            catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
+            catch (Exception exception)
+            {
+                result.SetStatus(false).SetErrorMessage(exception.Message);
+            }
+
             return result;
         }
     }
-
 }

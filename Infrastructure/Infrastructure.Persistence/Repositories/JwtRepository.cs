@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    [AddScopetService(Interface = "IJwtRepository")]
+    [AddScopedService(Interface = "IJwtRepository")]
     public class JwtRepository : IJwtRepository
     {
         private readonly IConfiguration _configuration;

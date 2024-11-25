@@ -6,7 +6,7 @@ using Infrastructure.Persistence.Context;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    [AddScopetService(Interface = "ILogRepository")]
+    [AddScopedService(Interface = "ILogRepository")]
     public class LogRepository : GenericRepository<Log>, ILogRepository
     {
         public LogRepository(DatabaseContext context) : base(context)

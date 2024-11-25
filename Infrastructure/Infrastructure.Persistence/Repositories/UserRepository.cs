@@ -7,7 +7,7 @@ using Infrastructure.Persistence.Context;
 namespace Infrastructure.Persistence.Repositories
 {
 
-    [AddScopetService(Interface = "IUserRepository")]
+    [AddScopedService(Interface = "IUserRepository")]
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
         public UserRepository(DatabaseContext context) : base(context)

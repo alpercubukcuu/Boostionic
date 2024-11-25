@@ -16,20 +16,25 @@ namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
         private readonly IMapper _mapper;
         private readonly ILogRepository _logRepository;
         private readonly IUserRepository _userRepository;
-        public UpdateUserHandler(IMapper mapper, ILogRepository logRepository, IUserRepository userRepository) : base(userRepository, logRepository)
+
+        public UpdateUserHandler(IMapper mapper, ILogRepository logRepository, IUserRepository userRepository) : base(
+            userRepository, logRepository)
         {
             _mapper = mapper;
             _logRepository = logRepository;
             _userRepository = userRepository;
         }
 
-        public async Task<IResultDataDto<UserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<IResultDataDto<UserDto>> Handle(UpdateUserCommand request,
+            CancellationToken cancellationToken)
         {
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>();
             try
             {
                 var getData = _userRepository.GetSingle(predicate: p => p.Id == request.Id);
-                if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No content found for the ID value");
+                if (getData == null)
+                    return result.SetStatus(false).SetErrorMessage("Not Found Data")
+                        .SetMessage("No content found for the ID value");
 
                 var map = _mapper.Map<User>(request);
                 map.CreatedDate = getData.CreatedDate;
@@ -41,10 +46,12 @@ namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
                 result.SetStatus().SetMessage("The update process was successful").SetData(resultMap);
                 await AddUserLog("User Update Handler", "User", map.Id, TransactionEnum.Update, getData.Id);
             }
-            catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
+            catch (Exception exception)
+            {
+                result.SetStatus(false).SetErrorMessage(exception.Message);
+            }
+
             return result;
         }
-
     }
-
 }

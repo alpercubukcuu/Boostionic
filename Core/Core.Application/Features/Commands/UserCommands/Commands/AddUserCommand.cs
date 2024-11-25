@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Core.Application.Features.Commands.UserCommands.Commands
 {
-    public class AddUserCommand : UserDto,  IRequest<IResultDataDto<UserDto>>
-    {       
+    public class AddUserCommand : UserDto, IRequest<IResultDataDto<UserDto>>
+    {
     }
 }

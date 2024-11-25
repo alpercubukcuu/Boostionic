@@ -5,7 +5,7 @@ namespace Core.Application.Dtos.ResultDtos
     public class ResultDataDto<T> : ResultDto, IResultDataDto<T>
     {
         public bool IsSuccess { get; set; } = true;
-        public string Err { get; set; } = "Error";
+        public string Error { get; set; } = "Error";
         public string Message { get; set; } = "Success";
         public Guid Id { get; set; }
         public T Data { get; set; }
@@ -19,7 +19,7 @@ namespace Core.Application.Dtos.ResultDtos
 
         public IResultDataDto<T> SetErrorMessage(string errorMessage)
         {
-            this.Err = errorMessage;
+            this.Error = errorMessage;
             return this;
         }
 

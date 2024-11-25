@@ -8,7 +8,7 @@ namespace Core.Application.Attributes
     /// We use it for our concrete classes that we want to add to Microsoft.Extensions.DependencyInjection.AddScopet.
     /// Example:
     /// 
-    /// [AddScopetService(Interface = “ICompanyRepository”)]
+    /// [AddScopedService(Interface = “ICompanyRepository”)]
     /// public class CompanyRepository : GenericRepository<Company>, ICompanyRepository
     /// 
     /// As mentioned above, we have added the attribute to our concrete class and if we want which interface we have added the attribute from IoC
@@ -23,7 +23,7 @@ namespace Core.Application.Attributes
     /// 
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class AddScopetService : Attribute
+    public class AddScopedService : Attribute
     {
         public string Interface { get; set; }
     }

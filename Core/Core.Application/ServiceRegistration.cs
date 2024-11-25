@@ -17,14 +17,14 @@ namespace Core.Application
         /// <param name="services"></param>
         public static void AddAttributesPersistenceServices(this IServiceCollection services)
         {            
-            List<Type> dynamicServiceList = Assembly.GetExecutingAssembly().GetTypes().Where(x => x.GetCustomAttribute<AddScopetService>() != null).ToList();
+            List<Type> dynamicServiceList = Assembly.GetExecutingAssembly().GetTypes().Where(x => x.GetCustomAttribute<AddScopedService>() != null).ToList();
 
             if (dynamicServiceList != null)
             {
                 dynamicServiceList.ForEach(Class => {                    
-                    Attribute attributes = Class.GetCustomAttribute<AddScopetService>();
+                    Attribute attributes = Class.GetCustomAttribute<AddScopedService>();
                     Type attributesType = attributes.GetType();
-                    string attributesPropValue = attributesType.GetProperty(nameof(AddScopetService.Interface)).GetValue(attributes)?.ToString();
+                    string attributesPropValue = attributesType.GetProperty(nameof(AddScopedService.Interface)).GetValue(attributes)?.ToString();
                     if (!string.IsNullOrEmpty(attributesPropValue))
                     {                       
                         Type interfaceType = Class.GetInterface(attributesPropValue);
