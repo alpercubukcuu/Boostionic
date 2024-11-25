@@ -1,4 +1,5 @@
 ﻿using Core.Domain.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
@@ -40,6 +41,9 @@ namespace Core.Application.Interfaces.Repositories
          Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true);
 
 
+        
+
+
         #region Add Functions
         Task<T> AddAsync(T entity);
         Task<List<T>> AddRangeAsync(List<T> entity);
@@ -49,6 +53,8 @@ namespace Core.Application.Interfaces.Repositories
         Task<T> UpdateAsync(T entity);
         Task<bool> UpdateRangeAsync(List<T> entities);
         Task<T> UpdatePropertyAsync(T entity);
+
+        Task<int> UpdateMultipleEntitiesAsync(Expression<Func<T, bool>> predicate, Action<T> updateAction);
         #endregion
 
         #region Delete Functions
@@ -56,6 +62,7 @@ namespace Core.Application.Interfaces.Repositories
         Task<bool> DeleteByIdAsync(Guid Id);
         Task<bool> DeleteAllAsync(List<T> entities);
         Task<bool> DeleteAllAsync();
+
         #endregion
     }
 }

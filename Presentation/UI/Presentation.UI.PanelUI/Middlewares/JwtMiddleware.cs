@@ -14,12 +14,14 @@ public class JwtMiddleware
     private readonly IJwtRepository _jwtRepository;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-
-    public JwtMiddleware(RequestDelegate next, IMediator mediator, IMapper mapper)
+    private readonly string _secretKey;
+    public JwtMiddleware(RequestDelegate next, IMediator mediator, IMapper mapper, IConfiguration configuration)
     {
         _next = next;
         _mediator = mediator;
         _mapper = mapper;
+        _secretKey = configuration["JwtBearer:ResetPasswordKey"]
+                    ?? throw new Exception("ResetPasswordKey is not configured in appsettings.json");
     }
 
     public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
@@ -34,7 +36,7 @@ public class JwtMiddleware
             if (rememberMeValue)
             {
                 var encryptUserId = context.Request.Cookies["XXXLogin"];
-                var decryptUserId = Cipher.DecryptUserId(encryptUserId);
+                var decryptUserId = Cipher.DecryptUserId(encryptUserId , _secretKey);
 
                 var userRes = _mediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(decryptUserId) });
                   

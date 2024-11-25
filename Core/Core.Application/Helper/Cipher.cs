@@ -21,17 +21,10 @@ namespace Core.Application.Helper
         }
 
 
-        private static string SecretKey;
-
-        public static void Configure(IConfiguration configuration)
-        {
-            SecretKey = configuration["JwtBearer:ResetPasswordKey"] ?? throw new Exception("ResetPasswordKey is not configured in appsettings.json");
-        }
-
-        public static string EncryptUserId(string userId)
+        public static string EncryptUserId(string userId, string securityKey)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(SecretKey);
+            var key = Encoding.ASCII.GetBytes(securityKey);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -44,10 +37,10 @@ namespace Core.Application.Helper
             return tokenHandler.WriteToken(token);
         }
 
-        public static string DecryptUserId(string token)
+        public static string DecryptUserId(string token, string securityKey)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(SecretKey);
+            var key = Encoding.ASCII.GetBytes(securityKey);
 
             var validationParameters = new TokenValidationParameters
             {

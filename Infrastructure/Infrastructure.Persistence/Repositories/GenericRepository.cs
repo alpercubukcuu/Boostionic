@@ -130,6 +130,7 @@ namespace Infrastructure.Persistence.Repositories
         }
 
 
+       
         public async Task<T> AddAsync(T entity)
         {
             try
@@ -287,7 +288,25 @@ namespace Infrastructure.Persistence.Repositories
                 throw new Exception(exception.InnerException != null ? exception.InnerException.Message : exception.Message);
             }
         }
+        public async Task<int> UpdateMultipleEntitiesAsync(Expression<Func<T, bool>> predicate, Action<T> updateAction)
+        {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
-       
+            if (updateAction == null)
+                throw new ArgumentNullException(nameof(updateAction));
+
+            var entities = await _context.Set<T>().Where(predicate).ToListAsync();
+
+            foreach (var entity in entities)
+            {
+                updateAction(entity);
+                _context.Set<T>().Update(entity);
+            }
+
+            return await _context.SaveChangesAsync();
+        }
+
+
     }
 }

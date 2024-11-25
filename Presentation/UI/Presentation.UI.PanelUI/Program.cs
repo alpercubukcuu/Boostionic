@@ -80,6 +80,8 @@ builder.Services.AddAuthentication(options =>
     });
 
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(1);
@@ -107,6 +109,7 @@ app.UseMiddleware<JwtMiddleware>();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

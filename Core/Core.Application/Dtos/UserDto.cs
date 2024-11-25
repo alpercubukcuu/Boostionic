@@ -6,6 +6,7 @@ namespace Core.Application.Dtos
 {
     public class UserDto : BaseDto
     {
+
         [JsonProperty("Name")]
         public string Name { get; set; }
 
@@ -33,7 +34,6 @@ namespace Core.Application.Dtos
         [JsonProperty("LastLogin")]
         public DateTime LastLogin { get; set; }
 
-
         [JsonProperty("UserRoleId")]
         public Guid UserRoleId { get; set; }
         public UserRoleDto UserRole { get; set; }
@@ -42,5 +42,15 @@ namespace Core.Application.Dtos
         [JsonProperty("CompanyId")]
         public Guid CompanyId { get; set; }
         public CompanyDto Company { get; set; }
+
+
+        [JsonProperty("Password")]
+        public string Password { get; set; }
+
+        [JsonProperty("RememberMe")]
+        public bool RememberMe { get; set; }
+
+        [JsonProperty("Token")]
+        public string Token { get; set; }
     }
 }

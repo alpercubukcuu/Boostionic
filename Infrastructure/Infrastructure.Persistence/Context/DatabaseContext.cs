@@ -19,8 +19,7 @@ namespace Infrastructure.Persistence.Context
         public DbSet<UserResetPassword> UserResetPasswords { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Industry> Industries { get; set; }
-
-
+        public DbSet<Log> Logs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
