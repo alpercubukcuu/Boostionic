@@ -2,7 +2,7 @@
 
 namespace Core.Application.Enums
 {
-    public enum TransectionEnum
+    public enum TransactionEnum
     {
         Create = 1,
         Read = 2,

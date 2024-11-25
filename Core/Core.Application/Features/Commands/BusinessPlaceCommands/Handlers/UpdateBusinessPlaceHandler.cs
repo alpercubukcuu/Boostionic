@@ -40,7 +40,7 @@ namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
                 var resultMap = _mapper.Map<BusinessPlaceDto>(addResult);
 
                 result.SetStatus().SetMessage("The update process was successful").SetData(resultMap);
-                await AddUserLog("BusinessPlace Update Handler", "BusinessPlace", map.Id, TransectionEnum.Update, getData.UserId);
+                await AddUserLog("BusinessPlace Update Handler", "BusinessPlace", map.Id, TransactionEnum.Update, getData.UserId);
             }
             catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
             return result;

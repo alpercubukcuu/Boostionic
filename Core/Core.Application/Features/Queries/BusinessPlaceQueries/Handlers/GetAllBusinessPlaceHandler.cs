@@ -25,7 +25,7 @@ namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
             try
             {
 
-                var repoResult = _businessPlaceRepository.GetAll(predicate: d => d.IsEnable != true);
+                var repoResult = _businessPlaceRepository.GetAll(predicate: d => d.IsEnable == true);
                 if (repoResult.Count() <= 0) result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("The list is empty!");
                 var map = _mapper.Map<List<BusinessPlaceDto>>(repoResult);
                 result.SetData(map);

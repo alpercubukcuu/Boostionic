@@ -33,7 +33,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 var resultMap = _mapper.Map<UserDto>(addResult);
                 result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
 
-                await AddUserLog("User Create Handler", "User", map.Id, TransectionEnum.Create, addResult.Id);
+                await AddUserLog("User Create Handler", "User", map.Id, TransactionEnum.Create, addResult.Id);
             }
             catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
             return result;

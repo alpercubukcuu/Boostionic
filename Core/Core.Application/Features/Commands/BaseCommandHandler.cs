@@ -16,7 +16,7 @@ namespace Core.Application.Features.Commands
             _logRepository = logRepository;
         }
 
-        public async Task<bool> AddUserLog(string title, string entity, Guid dataId, TransectionEnum transectionType, Guid adminId)
+        public async Task<bool> AddUserLog(string title, string entity, Guid dataId, TransactionEnum transectionType, Guid adminId)
         {
             try
             {

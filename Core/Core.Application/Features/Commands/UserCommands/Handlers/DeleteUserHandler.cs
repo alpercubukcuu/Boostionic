@@ -30,7 +30,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("ID değerine ait içerik bulunamadı");
                 getData.IsEnable = false;
                 await _userRepository.UpdateAsync(getData);
-                await AddUserLog("User Delete Handler", "BusinessPlace", getData.Id, TransectionEnum.Delete, getData.Id);
+                await AddUserLog("User Delete Handler", "BusinessPlace", getData.Id, TransactionEnum.Delete, getData.Id);
             }
             catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
             return result;

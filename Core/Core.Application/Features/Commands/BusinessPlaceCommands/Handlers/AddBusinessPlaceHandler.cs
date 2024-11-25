@@ -35,7 +35,7 @@ namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
                 var resultMap = _mapper.Map<BusinessPlaceDto>(addResult);
                 result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
 
-                await AddUserLog("BusinessPlace Create Handler", "BusinessPlace", map.Id, TransectionEnum.Create, addResult.UserId);
+                await AddUserLog("BusinessPlace Create Handler", "BusinessPlace", map.Id, TransactionEnum.Create, addResult.UserId);
             }
             catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
             return result;

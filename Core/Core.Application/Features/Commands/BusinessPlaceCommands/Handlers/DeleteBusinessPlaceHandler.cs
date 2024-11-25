@@ -32,7 +32,7 @@ namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
                 if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("ID değerine ait içerik bulunamadı");
                 getData.IsEnable = false;
                 await _businessPlaceRepository.UpdateAsync(getData);
-                await AddUserLog("BusinessPlace Delete Handler", "BusinessPlace", getData.Id, TransectionEnum.Delete, getData.UserId);
+                await AddUserLog("BusinessPlace Delete Handler", "BusinessPlace", getData.Id, TransactionEnum.Delete, getData.UserId);
             }
             catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
             return result;
