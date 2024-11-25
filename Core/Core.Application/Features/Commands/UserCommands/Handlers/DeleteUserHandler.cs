@@ -14,7 +14,9 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
         private readonly IMapper _mapper;
         private readonly ILogRepository _logRepository;
         private readonly IUserRepository _userRepository;
-        public DeleteUserHandler(IMapper mapper,  ILogRepository logRepository, IUserRepository userRepository) : base(userRepository, logRepository)
+
+        public DeleteUserHandler(IMapper mapper, ILogRepository logRepository, IUserRepository userRepository) : base(
+            userRepository, logRepository)
         {
             _mapper = mapper;
             _logRepository = logRepository;
@@ -30,11 +32,15 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No content found for the ID value");
                 getData.IsEnable = false;
                 await _userRepository.UpdateAsync(getData);
-                await AddUserLog("User Delete Handler", "BusinessPlace", getData.Id, TransectionEnum.Delete, getData.Id);
+                await AddUserLog("User Delete Handler", "BusinessPlace", getData.Id, TransactionEnum.Delete,
+                    getData.Id);
             }
-            catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
+            catch (Exception exception)
+            {
+                result.SetStatus(false).SetErrorMessage(exception.Message);
+            }
+
             return result;
         }
     }
-
 }

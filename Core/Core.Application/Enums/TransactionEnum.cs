@@ -2,7 +2,7 @@
 
 namespace Core.Application.Enums
 {
-    public enum TransectionEnum
+    public enum TransactionEnum
     {
         Create = 1,
         Read = 2,
@@ -10,7 +10,7 @@ namespace Core.Application.Enums
         Delete = 4,
         AddRange = 5,
         UpdateRange = 6,
-        DelereRange = 7,
+        DeleteRange = 7,
         StatusChange = 8
     }
 }

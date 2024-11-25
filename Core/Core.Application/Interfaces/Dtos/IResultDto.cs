@@ -5,7 +5,7 @@ namespace Core.Application.Interfaces.Dtos
     public interface IResultDto
     {
         public bool IsSuccess { get; set; }
-        public string Err { get; set; }
+        public string Error { get; set; }
         public string Message { get; set; }
         public Guid Id { get; set; }
 
@@ -16,7 +16,7 @@ namespace Core.Application.Interfaces.Dtos
         /// <returns></returns>
         public IResultDto SetStatus(bool statusValue = true);
         /// <summary>
-        /// Err prop value ekler
+        /// Error prop value ekler
         /// </summary>
         /// <param name="errorMessage"></param>
         /// <returns></returns>

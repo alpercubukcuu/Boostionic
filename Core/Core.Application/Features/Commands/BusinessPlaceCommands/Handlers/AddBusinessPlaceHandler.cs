@@ -10,22 +10,26 @@ using MediatR;
 
 
 namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
-{   
-    public class AddBusinessPlaceHandler : BaseCommandHandler, IRequestHandler<AddBusinessPlaceCommand, IResultDataDto<BusinessPlaceDto>>
+{
+    public class AddBusinessPlaceHandler : BaseCommandHandler,
+        IRequestHandler<AddBusinessPlaceCommand, IResultDataDto<BusinessPlaceDto>>
     {
         private readonly IMapper _mapper;
         private readonly IBusinessPlaceRepository _businessPlaceRepository;
         private readonly ILogRepository _logRepository;
         private readonly IUserRepository _userRepository;
 
-        public AddBusinessPlaceHandler(IMapper mapper, IBusinessPlaceRepository businessPlaceRepository, ILogRepository logRepository, IUserRepository userRepository) : base(userRepository, logRepository)
+        public AddBusinessPlaceHandler(IMapper mapper, IBusinessPlaceRepository businessPlaceRepository,
+            ILogRepository logRepository, IUserRepository userRepository) : base(userRepository, logRepository)
         {
             _mapper = mapper;
             _businessPlaceRepository = businessPlaceRepository;
             _logRepository = logRepository;
             _userRepository = userRepository;
         }
-        public async Task<IResultDataDto<BusinessPlaceDto>> Handle(AddBusinessPlaceCommand request, CancellationToken cancellationToken)
+
+        public async Task<IResultDataDto<BusinessPlaceDto>> Handle(AddBusinessPlaceCommand request,
+            CancellationToken cancellationToken)
         {
             IResultDataDto<BusinessPlaceDto> result = new ResultDataDto<BusinessPlaceDto>();
             try
@@ -35,11 +39,15 @@ namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
                 var resultMap = _mapper.Map<BusinessPlaceDto>(addResult);
                 result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
 
-                await AddUserLog("BusinessPlace Create Handler", "BusinessPlace", map.Id, TransectionEnum.Create, addResult.UserId);
+                await AddUserLog("BusinessPlace Create Handler", "BusinessPlace", map.Id, TransactionEnum.Create,
+                    addResult.UserId);
             }
-            catch (Exception exception) { result.SetStatus(false).SetErrorMessage(exception.Message); }
+            catch (Exception exception)
+            {
+                result.SetStatus(false).SetErrorMessage(exception.Message);
+            }
+
             return result;
         }
-
     }
 }

@@ -6,7 +6,7 @@ namespace Core.Application.Interfaces.Dtos
     {
         public T Data { get; set; }
         public bool IsSuccess { get; set; }
-        public string Err { get; set; }
+        public string Error { get; set; }
         public string Message { get; set; }
         public Dictionary<string, string> Items { get; set; }
 

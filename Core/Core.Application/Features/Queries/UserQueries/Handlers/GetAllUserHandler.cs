@@ -13,20 +13,22 @@ namespace Core.Application.Features.Queries.UserQueries.Handlers
     {
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+
         public GetAllUserHandler(IMapper mapper, IUserRepository userRepository)
         {
             _mapper = mapper;
             _userRepository = userRepository;
         }
 
-        public async Task<IResultDataDto<List<UserDto>>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
+        public async Task<IResultDataDto<List<UserDto>>> Handle(GetAllUserQuery request,
+            CancellationToken cancellationToken)
         {
             IResultDataDto<List<UserDto>> result = new ResultDataDto<List<UserDto>>();
             try
             {
-
                 var repoResult = _userRepository.GetAll(predicate: d => d.IsEnable != true);
-                if (repoResult.Count() <= 0) result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("The list is empty!");
+                if (repoResult.Count() <= 0)
+                    result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("The list is empty!");
                 var map = _mapper.Map<List<UserDto>>(repoResult);
                 result.SetData(map);
                 return result;
@@ -35,9 +37,6 @@ namespace Core.Application.Features.Queries.UserQueries.Handlers
             {
                 return result.SetStatus(false).SetErrorMessage(exception.Message);
             }
-
         }
-
     }
-
 }
