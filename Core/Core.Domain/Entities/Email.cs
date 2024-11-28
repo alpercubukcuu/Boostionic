@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Domain.Entities
 {
-    public class Email : BaseEntity
+    public class Email : OwnersEntity
     {
         public string HtmlBody { get; set; }
         public string Displayname { get; set; }

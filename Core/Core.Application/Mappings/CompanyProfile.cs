@@ -9,8 +9,8 @@ namespace Core.Application.Mappings
     {
         public CompanyProfile()
         {
-            CreateMap<Company, CompanyDto>().ReverseMap();
-            CreateMap<CompanyDto, Company>().ReverseMap();
+            CreateMap<Client, CompanyDto>().ReverseMap();
+            CreateMap<CompanyDto, Client>().ReverseMap();
         }
     }
 }

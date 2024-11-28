@@ -3,7 +3,7 @@
 
 namespace Core.Domain.Entities
 {
-    public class Company : BaseEntity
+    public class Client : OwnersEntity
     {
         public string CompanyName { get; set; }
         public string LegalName { get; set; }

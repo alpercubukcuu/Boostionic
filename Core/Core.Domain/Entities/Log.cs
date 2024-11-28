@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Domain.Entities
 {
-    public partial class Log : BaseEntity
+    public partial class Log : OwnersEntity
     {
         public string Title { get; set; }
         public byte TransectionType { get; set; }

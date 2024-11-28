@@ -2,7 +2,7 @@
 
 namespace Core.Domain.Entities
 {
-    public class RolePermission : BaseEntity
+    public class RolePermission : OwnersEntity
     {
         public bool CanCreate { get; set; }
         public bool CanRead { get; set; }

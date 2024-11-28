@@ -25,12 +25,9 @@ namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>();
             try
             {
-                var repoResult = _userRepository.GetSingle(predicate: d => d.IsEnable == true && d.Email == request.Email, include: d => d.Include(c => c.Company).Include(r => r.UserRole));
-
-                if (repoResult == null) return result.SetStatus(false).SetErrorMessage("Your account was not found! If you think there is a mistake, please contact the support team.").SetMessage("Not Found Data");
-
-                if (repoResult.IsEnable == false) return result.SetStatus(false).SetErrorMessage("Your account is not enabled. Please contact the support team.").SetMessage("Not Found Data");
-                
+                var repoResult = _userRepository.GetSingle(predicate: d => d.IsEnable == true && d.Email == request.Email, include: d => d.Include(c => c.Client).Include(r=>r.UserRole));
+                if (repoResult == null) result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Your account was not found! If you think there is a mistake, please contact the support team.");
+                if(repoResult.IsEnable == false) result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Your account is not enable. Please contact the support team.");
                 var map = _mapper.Map<UserDto>(repoResult);
                 result.SetData(map);
                 return result;
