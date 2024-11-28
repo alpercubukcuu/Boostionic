@@ -34,10 +34,13 @@ $(document).ready(function () {
                 }
             }
             ,
-            error: function () {
+            error: function (xhr) {
+                let errorMessage = xhr.responseText && xhr.responseText.trim() !== ""
+                    ? xhr.responseText
+                    : "An error occurred while processing your request.";
                 Toastify({
-                    text: "Something went wrong. Please try again.",
-                    duration: 3000,
+                    text: errorMessage,
+                    duration: 5000,
                     gravity: "top",
                     position: "right",
                     style: {

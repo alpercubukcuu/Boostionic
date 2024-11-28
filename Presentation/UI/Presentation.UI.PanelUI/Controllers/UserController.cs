@@ -83,7 +83,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
         [HttpPost]
         [EnableRateLimiting("AoGenLimit")]
-        public async Task<ObjectResult> UserLogin([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> UserLogin([FromBody] LoginDto loginDto)
         {
             try
             {
@@ -225,6 +225,10 @@ namespace Presentation.UI.PanelUI.Controllers
 
                         return Ok();
                     }
+                }
+                else
+                {
+                    return BadRequest(resUser.Error);
                 }
             }
             catch (Exception ex)

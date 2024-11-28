@@ -40,12 +40,14 @@ $(document).ready(function () {
                     }).showToast();
                 }
             },
-            error: function (resultData) {
-                console.log(resultData);
+            error: function (xhr) {
                 $("#loading-spinner").hide();               
+                let errorMessage = xhr.responseText && xhr.responseText.trim() !== ""
+                    ? xhr.responseText
+                    : "An error occurred while processing your request.";
                 Toastify({
-                    text: "An error occurred while processing your request.",
-                    duration: 4000,
+                    text: errorMessage,
+                    duration: 5000,
                     gravity: "top",
                     position: "right",
                     style: {

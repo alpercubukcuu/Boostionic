@@ -20,22 +20,33 @@ $(document).ready(function () {
             url: '/User/CheckCode',
             data: {resetCode: code, userId: userId},
             contentType: "application/x-www-form-urlencoded",
-            success: function (resultData) {
-                if (resultData) {
+            success: function (data) {
+                if (data) {
                     window.location.href = '/User/ResetPassword?userId=' + userId;
                 } else {
-                    alert(resultData.message || "Error: Email is not valid.");
+                    alert(data.message || "Error: Email is not valid.");
                 }
             },
-            error: function () {
-                alert("An error occurred while processing your request.");
+            error: function (xhr) {
+                let errorMessage = xhr.responseText && xhr.responseText.trim() !== ""
+                    ? xhr.responseText
+                    : "An error occurred while processing your request.";
+                Toastify({
+                    text: errorMessage,
+                    duration: 5000,
+                    gravity: "top",
+                    position: "right",
+                    style: {
+                        background: "linear-gradient(to right, #ff5f6d, #ffc371)"
+                    }
+                }).showToast();
             }
         });
     });
 
     $('#resend-code-btn').click(function () {
         var userId = $("#UserId").val();
-        var emailType = 1; // Adjust or set dynamically as needed
+        var emailType = 1; 
 
         $.ajax({
             type: "POST",
@@ -53,11 +64,13 @@ $(document).ready(function () {
                     }
                 }).showToast();
             },
-            error: function () {
-                // Error notification
+            error: function (xhr) {
+                let errorMessage = xhr.responseText && xhr.responseText.trim() !== ""
+                    ? xhr.responseText
+                    : "An error occurred while processing your request.";
                 Toastify({
-                    text: "An error occurred while sending the code.",
-                    duration: 4000,
+                    text: errorMessage,
+                    duration: 5000,
                     gravity: "top",
                     position: "right",
                     style: {
