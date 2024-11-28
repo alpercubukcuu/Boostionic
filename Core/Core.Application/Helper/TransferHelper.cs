@@ -17,11 +17,10 @@ namespace Core.Application.Helper
                 throw new ArgumentException("Invalid user ID.");
             }
 
-            // Şifrelenmiş kimliği çöz
             string decodedUserId = Cipher.DecryptUserId(encryptedUserId, "v12n5@Zf+rJl9^K3!hD7TsP$#xQ%6!uLmRtY8P*jKw");
 
-            transferEncode.EncodedUserId = encryptedUserId; 
-            transferEncode.DecodedUserId = decodedUserId;   
+            transferEncode.EncodedUserId = encryptedUserId;
+            transferEncode.DecodedUserId = decodedUserId;
             return transferEncode;
         }
     }

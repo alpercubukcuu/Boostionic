@@ -36,6 +36,8 @@ namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
             }
 
         }
+        
+        
     }
 
 }
