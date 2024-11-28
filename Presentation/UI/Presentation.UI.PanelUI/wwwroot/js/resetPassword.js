@@ -1,54 +1,35 @@
 $(document).ready(function () {
     $("#reset-password-form").submit(function (event) {
         event.preventDefault();
-        var formData = {
+
+        const formData = {
             NewPassword: $("#NewPassword").val(),
             ConfirmPassword: $("#ConfirmPassword").val(),
             UserId: $("#UserId").val()
         };
+               
         if (formData.NewPassword !== formData.ConfirmPassword) {
-            alert("Passwords do not match. Please try again.");
+            ToastifyModule.error("Passwords do not match. Please try again.");
             return;
         }
-        $.ajax({
-            type: "POST",
-            url: '/User/UpdatePassword/',
-            data: JSON.stringify(formData),
-            contentType: "application/json",
-            success: function (data) {
+               
+        ApiModule.postJson(
+            '/User/UpdatePassword/',
+            formData,
+            function (data) {
                 if (data) {
-                    Toastify({
-                        text: "Password changed successfully.",
-                        duration: 3000,
-                        gravity: "top",
-                        position: "right",
-                        style: {
-                            background: "linear-gradient(to right, #00b09b, #96c93d)"
-                        }
-                    }).showToast();
+                    ToastifyModule.success("Password changed successfully.");
+
                     setTimeout(function () {
                         window.location.href = '/User/LoginPage';
                     }, 4000);
                 } else {
-                    alert("Invalid login attempt.");
+                    ToastifyModule.error("Invalid login attempt.");
                 }
+            },
+            function (errorMessage) { 
+                ToastifyModule.error(errorMessage || "An error occurred while processing your request.");
             }
-            ,
-            error: function (xhr) {
-                let errorMessage = xhr.responseText && xhr.responseText.trim() !== ""
-                    ? xhr.responseText
-                    : "An error occurred while processing your request.";
-                Toastify({
-                    text: errorMessage,
-                    duration: 5000,
-                    gravity: "top",
-                    position: "right",
-                    style: {
-                        background: "linear-gradient(to right, #ff5f6d, #ffc371)"
-                    }
-                }).showToast();
-            }
-        })
-        ;
+        );
     });
 });

@@ -1,83 +1,45 @@
 $(document).ready(function () {
-    Toastify({
-        text: "Please check your email! If you don’t see the code, kindly check your spam or junk folder.",
-        duration: 15000,
-        gravity: "top", // Toastify ayarlarında zorunlu, ancak daha sonra konumlandırmayı değiştireceğiz
-        position: "center",
-        style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)"
-        }
-    }).showToast();
+    ToastifyModule.success(
+        "Please check your email! If you don’t see the code, kindly check your spam or junk folder.",
+        15000,
+        "center"
+    );
 
     $("#check-code-form").submit(function (event) {
         event.preventDefault();
 
-        var code = $("#Code").val();
-        var userId = $("#UserId").val();
+        const resetCode = $("#Code").val();
+        const userId = $("#UserId").val();
 
-        $.ajax({
-            type: "POST",
-            url: '/User/CheckCode',
-            data: {resetCode: code, userId: userId},
-            contentType: "application/x-www-form-urlencoded",
-            success: function (data) {
+        ApiModule.post(
+            '/User/CheckCode',
+            { resetCode: resetCode, userId: userId }, 
+            function (data) { 
                 if (data) {
                     window.location.href = '/User/ResetPassword?userId=' + userId;
                 } else {
-                    alert(data.message || "Error: Email is not valid.");
+                    ToastifyModule.error("Invalid code. Please try again.");
                 }
             },
-            error: function (xhr) {
-                let errorMessage = xhr.responseText && xhr.responseText.trim() !== ""
-                    ? xhr.responseText
-                    : "An error occurred while processing your request.";
-                Toastify({
-                    text: errorMessage,
-                    duration: 5000,
-                    gravity: "top",
-                    position: "right",
-                    style: {
-                        background: "linear-gradient(to right, #ff5f6d, #ffc371)"
-                    }
-                }).showToast();
+            function (errorMessage) { 
+                ToastifyModule.error(errorMessage || "An error occurred while processing your request.");
             }
-        });
+        );
     });
 
+    
     $('#resend-code-btn').click(function () {
-        var userId = $("#UserId").val();
-        var emailType = 1; 
+        const userId = $("#UserId").val();
 
-        $.ajax({
-            type: "POST",
-            url: '/User/ResendCode',
-            data: {userId: userId, emailType: emailType},
-            success: function (response) {
-                // Success notification
-                Toastify({
-                    text: "A new code has been sent to your email address.",
-                    duration: 4000,
-                    gravity: "top",
-                    position: "right",
-                    style: {
-                        background: "linear-gradient(to right, #00b09b, #96c93d)"
-                    }
-                }).showToast();
+        ApiModule.post(
+            '/User/ResendCode',
+            { userId: userId, emailType: 1 }, 
+            function (response) { 
+                ToastifyModule.success("A new code has been sent to your email address.");
             },
-            error: function (xhr) {
-                let errorMessage = xhr.responseText && xhr.responseText.trim() !== ""
-                    ? xhr.responseText
-                    : "An error occurred while processing your request.";
-                Toastify({
-                    text: errorMessage,
-                    duration: 5000,
-                    gravity: "top",
-                    position: "right",
-                    style: {
-                        background: "linear-gradient(to right, #ff5f6d, #ffc371)"
-                    }
-                }).showToast();
+            function (errorMessage) { 
+                ToastifyModule.error(errorMessage || "An error occurred while processing your request.");
             }
-        });
+        );
     });
 });

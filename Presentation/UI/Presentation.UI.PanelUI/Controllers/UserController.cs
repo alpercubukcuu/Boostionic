@@ -181,8 +181,6 @@ namespace Presentation.UI.PanelUI.Controllers
             return BadRequest("User is not valid!");
         }
 
-
-
         [HttpPost]
         [EnableRateLimiting("AoGenLimit")]
         public async Task<IActionResult> CheckUserEmail(string email, int emailType)
