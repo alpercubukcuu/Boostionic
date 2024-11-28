@@ -2,12 +2,12 @@ using Core.Domain.Common;
 
 namespace Core.Domain.Entities;
 
-public class ProjectCategory : OwnersEntity
+public class ProjectCategory : BaseEntity
 {
-    public string Name { get; set; } // Kategori Adı (örneğin, "Eğitim", "Sağlık", "Teknoloji")
-    public string Description { get; set; } // Kategori Açıklaması
+    public string Name { get; set; } 
+    public string Description { get; set; } 
 
-    public ICollection<Project> Projects { get; set; } // Bu kategoriye ait projeler
+    public ICollection<Project> Projects { get; set; } 
 
-    public int DisplayOrder { get; set; } // Kategorinin sıralama düzeni
+    public int DisplayOrder { get; set; } 
 }

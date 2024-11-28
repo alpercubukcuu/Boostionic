@@ -1,11 +1,10 @@
 ﻿using Core.Domain.Common;
 
-
 namespace Core.Domain.Entities
 {
-    public class Client : OwnersEntity
+    public class Client : BaseEntity
     {
-        public string CompanyName { get; set; }
+        public string ClientName { get; set; }
         public string LegalName { get; set; }
         public string RegistrationNumber { get; set; }
         public string PhoneNumber { get; set; }

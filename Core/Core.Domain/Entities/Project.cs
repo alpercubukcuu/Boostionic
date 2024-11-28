@@ -2,13 +2,13 @@ using Core.Domain.Common;
 
 namespace Core.Domain.Entities;
 
-public class Project : OwnersEntity
+public class Project : BaseEntity
 {
     public string ProjectName { get; set; }
     public DateTime DeadlineDateTime { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public byte ProjectStatus { get; set; } //(e.g., "In Progress", "Completed", "On Hold") ProjectStatusEnum
+    public byte ProjectStatus { get; set; } 
     public string Description { get; set; }
 
     public Guid ClientId { get; set; }

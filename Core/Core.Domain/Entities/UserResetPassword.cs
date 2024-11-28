@@ -1,9 +1,8 @@
 ﻿using Core.Domain.Common;
 
-
 namespace Core.Domain.Entities
 {
-    public class UserResetPassword : OwnersEntity
+    public class UserResetPassword : BaseEntity
     {
         public Guid UserId { get; set; }
         public DateTime ExpireDate { get; set; }

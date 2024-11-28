@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Core.Domain.Entities
 {
-    public class Language : OwnersEntity
+    public class Language : BaseEntity
     {
         [StringLength(100)]
         public string Title { get; set; }

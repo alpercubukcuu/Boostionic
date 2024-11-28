@@ -20,8 +20,16 @@ namespace Infrastructure.Persistence.Context
         public DbSet<Language> Languages { get; set; }
         public DbSet<Industry> Industries { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<BusinessPlace> BusinessPlaces { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectCategory> ProjectCategories { get; set; }
+        public DbSet<ProjectStage> ProjectStages { get; set; }
+        public DbSet<ProjectTask> ProjectTasks { get; set; }
+        public DbSet<OwnersEntity> OwnersEntities { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {         
+
             base.OnModelCreating(modelBuilder);
 
         }

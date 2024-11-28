@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Domain.Entities
 {
-    public partial class Log : OwnersEntity
+    public partial class Log : BaseEntity
     {
         public string Title { get; set; }
         public byte TransectionType { get; set; }
@@ -18,5 +18,8 @@ namespace Core.Domain.Entities
         public Guid UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
+
+
+        
     }
 }

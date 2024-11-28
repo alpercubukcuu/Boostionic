@@ -1,13 +1,10 @@
 ﻿using Core.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+
 
 namespace Core.Domain.Entities
 {
-    public class Email : OwnersEntity
+    public class Email : BaseEntity
     {
         public string HtmlBody { get; set; }
         public string Displayname { get; set; }

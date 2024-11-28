@@ -2,27 +2,27 @@ using Core.Domain.Common;
 
 namespace Core.Domain.Entities;
 
-public class ProjectTask : OwnersEntity
+public class ProjectTask : BaseEntity
 {
-    public string Name { get; set; } // Görev Adı
-    public string Description { get; set; } // Görev Açıklaması
-    public Guid ProjectStageId { get; set; } // Görevin ait olduğu aşamanın ID'si
-    public Guid? AssignedUserId { get; set; } // Görevi atanan kullanıcının ID'si (Opsiyonel)
+    public string Name { get; set; } 
+    public string Description { get; set; } 
+    public Guid ProjectStageId { get; set; } 
+    public Guid? AssignedUserId { get; set; } 
 
-    public ProjectStage ProjectStage { get; set; } // Görevin ait olduğu aşama
-    public User AssignedUser { get; set; } // Görevi üstlenen kullanıcı
+    public ProjectStage ProjectStage { get; set; } 
+    public User AssignedUser { get; set; } 
 
-    public DateTime StartDate { get; set; } // Görevin başlangıç tarihi
-    public DateTime? EndDate { get; set; } // Görevin bitiş tarihi (Opsiyonel)
-    public DateTime? DeadlineDateTime { get; set; } // Görevin tamamlanması gereken son tarih (Opsiyonel)
-    public byte Status { get; set; } // Görevin durumu (e.g., "Not Started", "In Progress", "Completed")
-    public int Progress { get; set; } // Görevin tamamlanma yüzdesi (0-100)
+    public DateTime StartDate { get; set; } 
+    public DateTime? EndDate { get; set; }
+    public DateTime? DeadlineDateTime { get; set; } 
+    public byte Status { get; set; } 
+    public int Progress { get; set; } 
 
-    public byte Priority { get; set; } // Görevin önceliği (örn. 1: Yüksek, 2: Orta, 3: Düşük)
-    public bool IsBlocked { get; set; } // Görevin engellenmiş olup olmadığını belirtir
-    public string BlockReason { get; set; } // Görev engellendiyse nedenini belirtir (Opsiyonel)
+    public byte Priority { get; set; } 
+    public bool IsBlocked { get; set; } 
+    public string BlockReason { get; set; } 
 
-    public TimeSpan EstimatedDuration { get; set; } // Görevin tahmini süresi
-    public TimeSpan? ActualDuration { get; set; } // Görevin gerçek süresi (Tamamlandıysa)
+    public TimeSpan EstimatedDuration { get; set; } 
+    public TimeSpan? ActualDuration { get; set; } 
 
 }
