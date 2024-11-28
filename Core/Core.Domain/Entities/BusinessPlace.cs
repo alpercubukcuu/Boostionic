@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Domain.Entities
 {
-    public class BusinessPlace : BaseEntity
+    public class BusinessPlace : OwnersEntity
     {
         public string JsonData { get; set; }
         public Guid UserId { get; set; }

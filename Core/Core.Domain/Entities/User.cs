@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Core.Domain.Entities
 {
-    public class User : BaseEntity
+    public class User : OwnersEntity
     {
         [JsonProperty("Name")]
         public string Name { get; set; }
@@ -39,8 +39,8 @@ namespace Core.Domain.Entities
         public UserRole UserRole { get; set; }
 
 
-        [JsonProperty("CompanyId")]
-        public Guid CompanyId { get; set; }
-        public Company Company { get; set; }
+        [JsonProperty("ClientId")]
+        public Guid ClientId { get; set; }
+        public Client Client { get; set; }
     }
 }

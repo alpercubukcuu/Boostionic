@@ -3,7 +3,7 @@
 
 namespace Core.Domain.Entities
 {
-    public class UserResetPassword : BaseEntity
+    public class UserResetPassword : OwnersEntity
     {
         public Guid UserId { get; set; }
         public DateTime ExpireDate { get; set; }

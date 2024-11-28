@@ -12,7 +12,7 @@ namespace Infrastructure.Persistence.Context
 
 
         public DbSet<Email> Emails { get; set; }
-        public DbSet<Company> Companies { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<RolePermission> RolesPermissions { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }

@@ -3,17 +3,17 @@
 
 namespace Core.Domain.Entities
 {
-    public class Industry : BaseEntity
+    public class Industry : OwnersEntity
     {
         public string Name { get; set; } 
         public string Description { get; set; }         
         public string Sector { get; set; } 
         public int? ParentIndustryId { get; set; }        
-        public List<Company> Companies { get; set; }
+        public List<Client> Clients { get; set; }
 
         public Industry()
         {
-            Companies = new List<Company>();
+            Clients = new List<Client>();
         }
     }
 }
