@@ -9,9 +9,9 @@ namespace Core.Application
     {
         /// <summary>
         /// Logic:
-        /// Core.Application.Attributes.AddScopetService class with attributes value added and interface specified in attributes
+        /// Core.Application.Attributes.AddScopedService class with attributes value added and interface specified in attributes
         /// automatically adds the type values to AddScopet by finding the value in the existing assembly.
-        /// Detailed information is given in :Core.Application.Attributes.AddScopetService.
+        /// Detailed information is given in :Core.Application.Attributes.AddScopedService.
         ///
         /// </summary>
         /// <param name="services"></param>
