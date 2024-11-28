@@ -23,7 +23,7 @@ namespace Core.Application.Features.Queries.UserResetPasswordQueries.Handlers
             IResultDataDto<UserResetPasswordDto> result = new ResultDataDto<UserResetPasswordDto>();
             try
             {
-                var repoResult = _userResetPasswordRepository.GetSingle(predicate: d => d.IsEnable == true && d.ResetCode == request.ResetCode && d.Id == request.UserId);
+                var repoResult = _userResetPasswordRepository.GetSingle(predicate: d => d.IsEnable == true && d.ResetCode == request.ResetCode && d.UserId == request.UserId);
                 if (repoResult == null) result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Reset Code does not match !");
 
                 bool checkDate = repoResult != null && DateTime.Now <= repoResult.ExpireDate;

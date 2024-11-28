@@ -16,6 +16,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddHttpClient("InternalApiClient", client =>
 {
     var baseUrl = builder.Configuration["ApiSettings:InternalApiBaseUrl"];
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
     if (string.IsNullOrEmpty(baseUrl))
     {
         throw new Exception("Internal API base URL is not configured in appsettings.json");
@@ -26,6 +27,7 @@ builder.Services.AddHttpClient("InternalApiClient", client =>
 builder.Services.AddHttpClient("ExternalApiClient", client =>
 {
     var baseUrl = builder.Configuration["ApiSettings:ExternalApiBaseUrl"];
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
     if (string.IsNullOrEmpty(baseUrl))
     {
         throw new Exception("External API base URL is not configured in appsettings.json");

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Application.Dtos;
+using Core.Application.Dtos.EmailDtos;
 using Core.Application.Dtos.ResultDtos;
 using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Interfaces.Dtos;

@@ -1,35 +1,39 @@
-﻿using Core.Application.Dtos;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
+using Core.Application.Dtos.EmailDtos;
 
 namespace Presentation.API.InternalApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/internal/email")]
     [ApiController]
     public class EmailController : ControllerBase
     {
-        
-        [HttpPost]
-        public void SendMail(EmailDto emailFormat, string toEmail, string subject, string body) 
+        public EmailController()
         {
-            var smtpClient = new SmtpClient(emailFormat.SmtpServer)
+            
+        }
+
+        [HttpPost("send")]
+        public void SendMail([FromBody] EmailRequestDto emailRequest)
+        {
+            var smtpClient = new SmtpClient(emailRequest.EmailFormat.SmtpServer)
             {
-                Port = emailFormat.SmtpPort,
-                Credentials = new NetworkCredential(emailFormat.UserName, emailFormat.Password),
-                EnableSsl = emailFormat.EnableSsl 
+                Port = emailRequest.EmailFormat.SmtpPort,
+                Credentials = new NetworkCredential(emailRequest.EmailFormat.UserName, emailRequest.EmailFormat.Password),
+                EnableSsl = emailRequest.EmailFormat.EnableSsl
             };
-           
+
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(emailFormat.From, emailFormat.Displayname),
-                Subject = subject,
-                Body = body,
+                From = new MailAddress(emailRequest.EmailFormat.From, emailRequest.EmailFormat.Displayname),
+                Subject = emailRequest.Subject,
+                Body = emailRequest.Body,
                 IsBodyHtml = true
             };
 
-            mailMessage.To.Add(toEmail);
-            
+            mailMessage.To.Add(emailRequest.ToEmail);
+
             smtpClient.Send(mailMessage);
         }
     }

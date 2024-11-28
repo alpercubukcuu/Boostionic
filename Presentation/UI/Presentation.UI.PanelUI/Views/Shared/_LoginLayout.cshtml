@@ -21,10 +21,11 @@
 
 <body data-theme="light" class="font-nunito">
 
-@RenderBody()
+    @RenderBody()
 
-<script src="~/boostionic/html/dist/assets/vendor/jquery/jquery-3.5.1.min.js"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    <script src="~/boostionic/html/dist/assets/vendor/jquery/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 ﻿using Core.Application.Dtos.CommonDtos;
 
 
-namespace Core.Application.Dtos
+namespace Core.Application.Dtos.EmailDtos
 {
     public class EmailDto : BaseDto
     {

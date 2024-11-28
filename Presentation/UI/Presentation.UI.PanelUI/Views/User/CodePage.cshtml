@@ -1,0 +1,43 @@
+@using Core.Application.Dtos
+@model TransferEntryInfoDto
+@{
+Layout = "_LoginLayout";
+ViewData["Title"] = "Recovery Password Page";
+}
+    <!-- WRAPPER -->
+<div id="wrapper" class="theme-cyan">
+    <form id="check-code-form">
+        <input type="hidden" id="UserId" value="@Model.EncodedUserId"/>
+        <div class="vertical-align-wrap">
+            <div class="vertical-align-middle auth-main">
+                <div class="auth-box">
+                    <div class="top">
+                        <img src="~/boostionic/html/dist/assets/images/logo-white.svg" alt="Iconic">
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <p class="lead">Recovery Code</p>
+                        </div>
+                        <div class="body">
+                            <p>Kindly enter the password reset code that has been sent to your email address.</p>
+                            <div class="form-group position-relative">
+                                <input type="number" class="form-control" id="Code" placeholder="Code">
+                                <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Check Code</button>
+                            <div class="bottom">
+                                <span class="helper-text">Know your password? <a href="/User/LoginPage">Login</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- END WRAPPER -->
+
+@section Scripts
+{
+<script src="~/js/checkPassword.js"></script>
+}

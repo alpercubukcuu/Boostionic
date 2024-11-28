@@ -1,19 +1,17 @@
 ﻿using AutoMapper;
 using Core.Application.Dtos;
+using Core.Application.Dtos.EmailDtos;
 using Core.Application.Dtos.LoginDtos;
-using Core.Application.Dtos.ResultDtos;
 using Core.Application.Features.Commands.UserCommands.Commands;
 using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Features.Queries.UserResetPasswordQueries.Queries;
 using Core.Application.Helper;
 using Core.Application.Interfaces.Dtos;
 using Core.Application.Interfaces.Repositories;
-using Core.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using Newtonsoft.Json.Linq;
 
 namespace Presentation.UI.PanelUI.Controllers
 {
@@ -39,6 +37,11 @@ namespace Presentation.UI.PanelUI.Controllers
             return View();
         }
 
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
         public IActionResult LoginPage()
         {
             return View();
@@ -60,7 +63,7 @@ namespace Presentation.UI.PanelUI.Controllers
         {
             var transferEncode = TransferHelper.DecodeUserId(userId);
 
-            IResultDataDto<UserResetPasswordDto> res = await this._mediator.Send(new CheckResetCodeQuery() { ResetCode = resetCode, Id = Guid.Parse(transferEncode.DecodedUserId) });
+            IResultDataDto<UserResetPasswordDto> res = await this._mediator.Send(new CheckResetCodeQuery() { ResetCode = resetCode, UserId = Guid.Parse(transferEncode.DecodedUserId) });
 
             if (res.IsSuccess) { return Ok(userId); }
 
@@ -158,7 +161,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
             string newPassword = Cipher.Encrypt(resetPasswordDto.NewPassword);
 
-            IResultDataDto<UserDto> res = await this._mediator.Send(new UpdateUserPasswordCommand() { ConfirmedPassword = newPassword });
+            IResultDataDto<UserDto> res = await this._mediator.Send(new UpdateUserPasswordCommand() { ConfirmedPassword = newPassword, UserId = Guid.Parse(transferEncode.DecodedUserId) });
             if (!res.IsSuccess) return BadRequest("Password could not updated!");
 
            
@@ -207,7 +210,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
                             var client = _httpClientFactory.CreateClient("InternalApiClient");
 
-                            var response = await client.PostAsJsonAsync("Email/SendMail", new
+                            var response = await client.PostAsJsonAsync("api/internal/email/send", new
                             {
                                 emailFormat = resEmail.Data,
                                 toEmail = resUser.Data.Email,

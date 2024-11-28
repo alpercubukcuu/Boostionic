@@ -27,7 +27,7 @@ namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>();
             try
             {
-                var getData = _userRepository.GetSingle(predicate: p => p.Id == request.Id);
+                var getData = _userRepository.GetSingle(predicate: p => p.Id == request.UserId);
                 if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No content found for the ID value");
 
                 getData.PasswordHash = request.ConfirmedPassword;

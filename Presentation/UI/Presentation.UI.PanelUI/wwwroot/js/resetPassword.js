@@ -35,7 +35,7 @@ $(document).ready(function () {
             }
             ,
             error: function () {
-                oastify({
+                Toastify({
                     text: "Something went wrong. Please try again.",
                     duration: 3000,
                     gravity: "top",

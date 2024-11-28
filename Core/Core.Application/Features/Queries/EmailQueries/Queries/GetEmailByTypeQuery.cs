@@ -1,4 +1,4 @@
-﻿using Core.Application.Dtos;
+﻿using Core.Application.Dtos.EmailDtos;
 using Core.Application.Interfaces.Dtos;
 using MediatR;
 

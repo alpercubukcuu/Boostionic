@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Application.Dtos;
+using Core.Application.Dtos.EmailDtos;
 using Core.Domain.Entities;
 
 
