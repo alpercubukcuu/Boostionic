@@ -23,6 +23,9 @@ public class ProjectTask : BaseEntity
     public string BlockReason { get; set; } 
 
     public TimeSpan EstimatedDuration { get; set; } 
-    public TimeSpan? ActualDuration { get; set; } 
+    public TimeSpan? ActualDuration { get; set; }
+
+    public Guid OwnerId { get; set; }
+    public OwnersEntity Owner { get; set; }
 
 }

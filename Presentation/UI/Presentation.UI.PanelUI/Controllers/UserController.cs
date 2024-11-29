@@ -47,6 +47,11 @@ namespace Presentation.UI.PanelUI.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> CodePage([FromQuery] string userId)
         {
             var transferEncode = TransferHelper.DecodeUserId(userId);

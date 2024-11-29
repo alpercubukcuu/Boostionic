@@ -10,6 +10,10 @@ namespace Core.Domain.Entities
         public int? ParentIndustryId { get; set; }        
         public List<Client> Clients { get; set; }
 
+
+        public Guid OwnerId { get; set; }
+        public OwnersEntity Owner { get; set; }
+
         public Industry()
         {
             Clients = new List<Client>();

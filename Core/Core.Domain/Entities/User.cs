@@ -42,5 +42,9 @@ namespace Core.Domain.Entities
         [JsonProperty("ClientId")]
         public Guid ClientId { get; set; }
         public Client Client { get; set; }
+
+
+        public Guid OwnerId { get; set; }
+        public OwnersEntity Owner { get; set; }
     }
 }

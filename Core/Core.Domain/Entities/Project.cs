@@ -17,4 +17,7 @@ public class Project : BaseEntity
     public ICollection<ProjectStage> ProjectStages { get; set; }
     public ICollection<ProjectTask> ProjectTasks { get; set; }
     public ICollection<ProjectCategory> ProjectCategories { get; set; }
+
+    public Guid OwnerId { get; set; }
+    public OwnersEntity Owner { get; set; }
 }

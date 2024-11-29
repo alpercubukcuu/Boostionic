@@ -16,5 +16,8 @@ public class ProjectStage : BaseEntity
     public ICollection<ProjectTask> ProjectTasks { get; set; }        
     public bool IsCritical { get; set; } 
     public int Order { get; set; } 
-    public int Progress { get; set; } 
+    public int Progress { get; set; }
+
+    public Guid OwnerId { get; set; }
+    public OwnersEntity Owner { get; set; }
 }

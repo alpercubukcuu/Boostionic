@@ -9,5 +9,8 @@ public class ProjectCategory : BaseEntity
 
     public ICollection<Project> Projects { get; set; } 
 
-    public int DisplayOrder { get; set; } 
+    public int DisplayOrder { get; set; }
+
+    public Guid OwnerId { get; set; }
+    public OwnersEntity Owner { get; set; }
 }

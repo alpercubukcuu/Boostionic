@@ -21,5 +21,8 @@ namespace Core.Domain.Entities
         public int Sort { get; set; }
         public int? IsRoot { get; set; }
         public int? Currency { get; set; }
+
+        public Guid OwnerId { get; set; }
+        public OwnersEntity Owner { get; set; }
     }
 }
