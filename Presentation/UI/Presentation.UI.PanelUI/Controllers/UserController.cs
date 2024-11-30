@@ -70,19 +70,20 @@ namespace Presentation.UI.PanelUI.Controllers
                 IResultDataDto<OwnerEntityDto> resultOwner = await this._mediator.Send(new AddOwnerEntityCommand() { OwnerTitle = $"{registerDto.Name} {registerDto.Surname}" });
                 if (!resultOwner.IsSuccess) return BadRequest(resultOwner.Error); 
 
-                var registerUserCommand = _mapper.Map<AddUserCommand>(registerDto);
-                registerUserCommand.OwnerId = resultOwner.Data.Id;
-                registerUserCommand.IsInvated = false;
+                var userCommand = _mapper.Map<AddUserCommand>(registerDto);
+                userCommand.OwnerId = resultOwner.Data.Id;
+                userCommand.IsInvated = false;
+                userCommand.PasswordHash = Cipher.Encrypt(registerDto.PasswordHash);
+                IResultDataDto<UserDto> result = await this._mediator.Send(userCommand);
+                if (!result.IsSuccess) return BadRequest(result.Error);
 
-                IResultDataDto<UserDto> result = await this._mediator.Send(registerUserCommand);
+                return Ok(result.Data);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                return BadRequest(ex.Message);                
             }
-
 
             return Ok();
         }

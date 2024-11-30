@@ -59,5 +59,7 @@ namespace Core.Application.Dtos
         [JsonProperty("Token")]
         public string Token { get; set; }
         public bool IsInvated { get; set; }
+
+        public bool IsOwner { get; set; }
     }
 }

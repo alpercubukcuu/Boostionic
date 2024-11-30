@@ -16,13 +16,15 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
         private readonly IMapper _mapper;
         private readonly ILogRepository _logRepository;
         private readonly IUserRepository _userRepository;
+        public readonly IUserRoleRepository _userRoleRepository;
 
-        public AddUserHandler(IMapper mapper, ILogRepository logRepository, IUserRepository userRepository) : base(
+        public AddUserHandler(IMapper mapper, ILogRepository logRepository, IUserRepository userRepository, IUserRoleRepository userRoleRepository) : base(
             userRepository, logRepository)
         {
             _mapper = mapper;
             _logRepository = logRepository;
             _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
         public async Task<IResultDataDto<UserDto>> Handle(AddUserCommand request, CancellationToken cancellationToken)
@@ -30,12 +32,25 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>();
             try
             {
-                var map = _mapper.Map<User>(request);
-                var addResult = await _userRepository.AddAsync(map);
-                var resultMap = _mapper.Map<UserDto>(addResult);
-                result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
+                if (!request.IsInvated)
+                {
+                    var map = _mapper.Map<User>(request);
+                    map.UserRoleId = _userRoleRepository.GetSingle(predicate: u => u.IsEnable == true && u.RoleName == "Owner").Id;
+                    map.IsOwner = true;
+                    map.UserType = Convert.ToByte(UserTypeEnum.Owner);
+                    map.CreatedDate = DateTime.Now;
 
-                await AddUserLog("User Create Handler", "User", map.Id, TransactionEnum.Create, addResult.Id);
+                    var addResult = await _userRepository.AddAsync(map);
+                    var resultMap = _mapper.Map<UserDto>(addResult);
+                    result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
+                    await AddUserLog("User Create Handler", "User", map.Id, TransactionEnum.Create, addResult.Id);
+                }
+                else
+                {
+                    // We have to write code for invated people
+                }
+
+               
             }
             catch (Exception exception)
             {

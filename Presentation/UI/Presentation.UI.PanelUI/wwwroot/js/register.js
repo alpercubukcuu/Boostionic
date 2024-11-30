@@ -13,11 +13,11 @@ $(document).ready(function () {
             '/User/Register/',
             formData,           
             function (data) { 
-                if (data && data.token) {
+                if (data) {
                     ToastifyModule.success("Register successful! Redirecting...");
 
                     setTimeout(function () {
-                        window.location.href = '/Home/index';
+                        window.location.href = '/User/LoginPage';
                     }, 3000);
                 } else {
                     ToastifyModule.error("Invalid login attempt. Please try again.");
