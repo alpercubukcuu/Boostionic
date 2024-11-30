@@ -10,11 +10,12 @@ namespace Core.Domain.Entities
         public string ContentType { get; set; } 
         public long Size { get; set; }
 
-        public Guid ObjectId { get; set; }
-        public string ObjectType { get; set; }
+        public Guid ObjectId { get; set; }  
+        public string ObjectType { get; set; } 
 
         public Guid OwnerId { get; set; }
         public OwnersEntity Owner { get; set; }
+
 
     }
 }

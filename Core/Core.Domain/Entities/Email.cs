@@ -16,8 +16,5 @@ namespace Core.Domain.Entities
         public int SmtpPort { get; set; }
         public int EmailType { get; set; }
         public bool EnableSsl { get; set; }
-
-        public Guid OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
     }
 }

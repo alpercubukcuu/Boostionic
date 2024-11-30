@@ -13,11 +13,12 @@ public class Project : BaseEntity
 
     public Guid ClientId { get; set; }
     public Client Client { get; set; }
-    
+
+    public Guid WorkspaceId { get; set; }
+    public Workspace Workspace { get; set; }
+
     public ICollection<ProjectStage> ProjectStages { get; set; }
     public ICollection<ProjectTask> ProjectTasks { get; set; }
     public ICollection<ProjectCategory> ProjectCategories { get; set; }
 
-    public Guid OwnerId { get; set; }
-    public OwnersEntity Owner { get; set; }
 }

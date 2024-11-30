@@ -7,7 +7,5 @@ namespace Core.Domain.Entities
         public string RoleName { get; set; }
         public RolePermission RolePermission { get; set; }
 
-        public Guid OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
     }
 }

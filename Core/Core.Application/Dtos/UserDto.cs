@@ -1,4 +1,5 @@
 ﻿using Core.Application.Dtos.CommonDtos;
+using Core.Domain.Entities;
 using Newtonsoft.Json;
 
 
@@ -39,9 +40,14 @@ namespace Core.Application.Dtos
         public UserRoleDto UserRole { get; set; }
 
 
-        [JsonProperty("CompanyId")]
-        public Guid CompanyId { get; set; }
-        public CompanyDto Company { get; set; }
+        [JsonProperty("ClientId")]
+        public Guid? ClientId { get; set; }
+        public ClientDto Client { get; set; }
+
+
+        [JsonProperty("OwnerId")]
+        public Guid? OwnerId { get; set; }
+        public OwnerEntityDto Owner { get; set; }
 
 
         [JsonProperty("Password")]
@@ -52,5 +58,6 @@ namespace Core.Application.Dtos
 
         [JsonProperty("Token")]
         public string Token { get; set; }
+        public bool IsInvated { get; set; }
     }
 }

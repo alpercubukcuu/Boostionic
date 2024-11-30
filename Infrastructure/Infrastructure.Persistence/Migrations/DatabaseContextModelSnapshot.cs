@@ -117,9 +117,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -150,8 +147,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LanguageId");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Clients");
                 });
@@ -186,9 +181,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsEnable")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -212,8 +204,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Emails");
                 });
@@ -285,9 +275,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("ParentIndustryId")
                         .HasColumnType("int");
 
@@ -299,8 +286,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Industries");
                 });
@@ -338,9 +323,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int?>("IsRoot")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Sort")
                         .HasColumnType("int");
 
@@ -353,8 +335,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Languages");
                 });
@@ -382,9 +362,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsEnable")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -399,8 +376,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.HasIndex("UserId");
 
@@ -456,9 +431,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsEnable")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ProjectName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -472,11 +444,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("WorkspaceId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("WorkspaceId");
 
                     b.ToTable("Projects");
                 });
@@ -504,17 +479,46 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OwnerId")
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectCategories");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.ProjectRelation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProjectType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("AssignedUserId");
 
-                    b.ToTable("ProjectCategories");
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectRelations");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.ProjectStage", b =>
@@ -549,9 +553,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Progress")
                         .HasColumnType("int");
 
@@ -569,8 +570,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
-
                     b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectStages");
@@ -584,9 +583,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<TimeSpan?>("ActualDuration")
                         .HasColumnType("time");
-
-                    b.Property<Guid?>("AssignedUserId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BlockReason")
                         .IsRequired()
@@ -618,19 +614,16 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<byte>("Priority")
                         .HasColumnType("tinyint");
 
                     b.Property<int>("Progress")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("ProjectId")
+                    b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProjectStageId")
+                    b.Property<Guid?>("ProjectStageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
@@ -643,10 +636,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssignedUserId");
-
-                    b.HasIndex("OwnerId");
 
                     b.HasIndex("ProjectId");
 
@@ -679,17 +668,45 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsEnable")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("OwnerId")
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RolesPermissions");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.TaskRelation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ProjectTaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("TaskType")
+                        .HasColumnType("tinyint");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("AssignedUserId");
 
-                    b.ToTable("RolesPermissions");
+                    b.HasIndex("ProjectTaskId");
+
+                    b.ToTable("TaskRelations");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.Ticket", b =>
@@ -707,9 +724,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<byte>("Priority")
                         .HasColumnType("tinyint");
@@ -730,11 +744,48 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.TimeTracking", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ProjectTaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectTaskId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TimeTrackings");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.User", b =>
@@ -743,10 +794,10 @@ namespace Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Birthday")
+                    b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("ClientId")
+                    b.Property<Guid?>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
@@ -762,17 +813,23 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsEnable")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("LastFailedLoginAttempt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LastLogin")
+                    b.Property<DateTime?>("LastLogin")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OwnerId")
+                    b.Property<Guid?>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PasswordHash")
@@ -791,6 +848,9 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<Guid>("UserRoleId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("UserType")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -822,9 +882,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsEnable")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ResetCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -836,8 +893,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.HasIndex("UserId");
 
@@ -856,9 +911,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsEnable")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -871,11 +923,38 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
-
                     b.HasIndex("RolePermissionId");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.Workspace", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Workspaces");
                 });
 
             modelBuilder.Entity("ProjectProjectCategory", b =>
@@ -935,26 +1014,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Language");
-
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.Email", b =>
-                {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.FileEntity", b =>
@@ -968,43 +1028,13 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.Industry", b =>
-                {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.Language", b =>
-                {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-                });
-
             modelBuilder.Entity("Core.Domain.Entities.Log", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Core.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Owner");
 
                     b.Navigation("User");
                 });
@@ -1017,92 +1047,97 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
+                    b.HasOne("Core.Domain.Entities.Workspace", "Workspace")
+                        .WithMany("Projects")
+                        .HasForeignKey("WorkspaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
 
-                    b.Navigation("Owner");
+                    b.Navigation("Workspace");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.ProjectCategory", b =>
+            modelBuilder.Entity("Core.Domain.Entities.ProjectRelation", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
+                    b.HasOne("Core.Domain.Entities.User", "AssignedUser")
                         .WithMany()
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("AssignedUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.HasOne("Core.Domain.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedUser");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.ProjectStage", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Core.Domain.Entities.Project", "Project")
                         .WithMany("ProjectStages")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
-
                     b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.ProjectTask", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.User", "AssignedUser")
-                        .WithMany()
-                        .HasForeignKey("AssignedUserId");
-
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
+                    b.HasOne("Core.Domain.Entities.Project", "Project")
+                        .WithMany("ProjectTasks")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.Entities.Project", null)
+                    b.HasOne("Core.Domain.Entities.ProjectStage", null)
                         .WithMany("ProjectTasks")
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectStageId");
 
-                    b.HasOne("Core.Domain.Entities.ProjectStage", "ProjectStage")
-                        .WithMany("ProjectTasks")
-                        .HasForeignKey("ProjectStageId")
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.TaskRelation", b =>
+                {
+                    b.HasOne("Core.Domain.Entities.User", "AssignedUser")
+                        .WithMany()
+                        .HasForeignKey("AssignedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Entities.ProjectTask", "ProjectTask")
+                        .WithMany()
+                        .HasForeignKey("ProjectTaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AssignedUser");
 
-                    b.Navigation("Owner");
-
-                    b.Navigation("ProjectStage");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.RolePermission", b =>
-                {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
+                    b.Navigation("ProjectTask");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.Ticket", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
+                    b.HasOne("Core.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.TimeTracking", b =>
+                {
+                    b.HasOne("Core.Domain.Entities.ProjectTask", "ProjectTask")
+                        .WithMany()
+                        .HasForeignKey("ProjectTaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1112,7 +1147,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.Navigation("ProjectTask");
 
                     b.Navigation("User");
                 });
@@ -1121,15 +1156,11 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("Core.Domain.Entities.Client", "Client")
                         .WithMany("Users")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
                     b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.HasOne("Core.Domain.Entities.UserRole", "UserRole")
                         .WithMany()
@@ -1146,24 +1177,27 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Core.Domain.Entities.UserResetPassword", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Core.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Owner");
-
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.UserRole", b =>
+                {
+                    b.HasOne("Core.Domain.Entities.RolePermission", "RolePermission")
+                        .WithMany()
+                        .HasForeignKey("RolePermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RolePermission");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.Workspace", b =>
                 {
                     b.HasOne("Core.Domain.Entities.OwnersEntity", "Owner")
                         .WithMany()
@@ -1171,15 +1205,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.Entities.RolePermission", "RolePermission")
-                        .WithMany()
-                        .HasForeignKey("RolePermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Owner");
-
-                    b.Navigation("RolePermission");
                 });
 
             modelBuilder.Entity("ProjectProjectCategory", b =>
@@ -1212,6 +1238,11 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Core.Domain.Entities.ProjectStage", b =>
                 {
                     b.Navigation("ProjectTasks");
+                });
+
+            modelBuilder.Entity("Core.Domain.Entities.Workspace", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

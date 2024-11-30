@@ -19,8 +19,6 @@ namespace Core.Domain.Entities
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
 
-        public Guid OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
 
 
     }

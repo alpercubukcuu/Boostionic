@@ -10,7 +10,6 @@ namespace Core.Domain.Entities
         public string ResetCode { get; set; }
         public User User { get; set; }
 
-        public Guid OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
+
     }
 }

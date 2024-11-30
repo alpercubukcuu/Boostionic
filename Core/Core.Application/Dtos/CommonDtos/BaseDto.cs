@@ -11,7 +11,7 @@ namespace Core.Application.Dtos.CommonDtos
     {
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
         public bool IsEnable { get; set; } = true;
     }
 }

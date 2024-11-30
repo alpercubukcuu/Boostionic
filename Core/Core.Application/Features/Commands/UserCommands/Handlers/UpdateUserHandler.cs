@@ -9,7 +9,7 @@ using Core.Application.Interfaces.Repositories;
 using Core.Domain.Entities;
 using MediatR;
 
-namespace Core.Application.Features.Commands.BusinessPlaceCommands.Handlers
+namespace Core.Application.Features.Commands.UserCommands.Handlers
 {
     public class UpdateUserHandler : BaseCommandHandler, IRequestHandler<UpdateUserCommand, IResultDataDto<UserDto>>
     {

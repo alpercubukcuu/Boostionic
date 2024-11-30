@@ -25,8 +25,5 @@ namespace Core.Domain.Entities
         public ICollection<Industry> Industries { get; set; }
 
 
-        public Guid OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
-
     }
 }

@@ -2,6 +2,7 @@
 using Core.Application.Dtos;
 using Core.Application.Dtos.EmailDtos;
 using Core.Application.Dtos.LoginDtos;
+using Core.Application.Features.Commands.OwnerEntityCommands.Commands;
 using Core.Application.Features.Commands.UserCommands.Commands;
 using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Features.Queries.UserResetPasswordQueries.Queries;
@@ -47,10 +48,46 @@ namespace Presentation.UI.PanelUI.Controllers
             return View();
         }
 
-        public IActionResult Register()
+
+
+
+        #region Register
+
+        public IActionResult RegisterPage()
         {
             return View();
         }
+
+        [HttpPost]
+        [EnableRateLimiting("AoGenLimit")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) 
+        {   
+            try
+            {
+                IResultDataDto<UserDto> resultUser = await this._mediator.Send(new GetByEmailUserQuery() { Email = registerDto.Email });
+                if (resultUser.IsSuccess) return BadRequest("User already exist!");
+
+                IResultDataDto<OwnerEntityDto> resultOwner = await this._mediator.Send(new AddOwnerEntityCommand() { OwnerTitle = $"{registerDto.Name} {registerDto.Surname}" });
+                if (!resultOwner.IsSuccess) return BadRequest(resultOwner.Error); 
+
+                var registerUserCommand = _mapper.Map<AddUserCommand>(registerDto);
+                registerUserCommand.OwnerId = resultOwner.Data.Id;
+                registerUserCommand.IsInvated = false;
+
+                IResultDataDto<UserDto> result = await this._mediator.Send(registerUserCommand);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+            return Ok();
+        }
+
+        #endregion
 
         public async Task<IActionResult> CodePage([FromQuery] string userId)
         {

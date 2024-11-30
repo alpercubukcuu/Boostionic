@@ -28,12 +28,15 @@ namespace Infrastructure.Persistence.Context
         public DbSet<OwnersEntity> OwnersEntities { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<FileEntity> Files { get; set; }
+        public DbSet<ProjectRelation> ProjectRelations { get; set; }
+        public DbSet<TaskRelation> TaskRelations { get; set; }
+        public DbSet<TimeTracking> TimeTrackings { get; set; }
+        public DbSet<Workspace> Workspaces { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {         
-
+        {   
             base.OnModelCreating(modelBuilder);
-
         }
     }
 }

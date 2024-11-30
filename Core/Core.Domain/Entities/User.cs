@@ -28,23 +28,28 @@ namespace Core.Domain.Entities
         public DateTime? LastFailedLoginAttempt { get; set; }
 
         [JsonProperty("Birthday")]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
 
         [JsonProperty("LastLogin")]
-        public DateTime LastLogin { get; set; }
+        public DateTime? LastLogin { get; set; }
 
 
         [JsonProperty("UserRoleId")]
         public Guid UserRoleId { get; set; }
         public UserRole UserRole { get; set; }
 
+        public bool IsOwner { get; set; } = false;
 
         [JsonProperty("ClientId")]
-        public Guid ClientId { get; set; }
+        public Guid? ClientId { get; set; }
         public Client Client { get; set; }
 
-
-        public Guid OwnerId { get; set; }
+        public Guid? OwnerId { get; set; }
         public OwnersEntity Owner { get; set; }
+
+        public Guid? ParentId { get; set; }
+        public byte UserType { get; set; } = 0;
+
+
     }
 }

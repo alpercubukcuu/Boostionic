@@ -11,6 +11,5 @@ public class ProjectCategory : BaseEntity
 
     public int DisplayOrder { get; set; }
 
-    public Guid OwnerId { get; set; }
-    public OwnersEntity Owner { get; set; }
+ 
 }

@@ -10,14 +10,11 @@ public class ProjectStage : BaseEntity
     public DateTime? EndDate { get; set; } 
     public DateTime DeadlineDateTime { get; set; }
     public byte Status { get; set; } 
-    public string Description { get; set; }
-    
+    public string Description { get; set; }    
     public Project Project { get; set; }
     public ICollection<ProjectTask> ProjectTasks { get; set; }        
     public bool IsCritical { get; set; } 
     public int Order { get; set; } 
     public int Progress { get; set; }
-
-    public Guid OwnerId { get; set; }
-    public OwnersEntity Owner { get; set; }
+ 
 }

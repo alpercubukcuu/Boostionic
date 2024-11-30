@@ -135,6 +135,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=LoginPage}/{id?}");
+    pattern: "{controller=User}/{action=RegisterPage}/{id?}");
 
 app.Run();
