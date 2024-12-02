@@ -15,9 +15,8 @@ $(document).ready(function () {
             function (data) { 
                 if (data) {
                     ToastifyModule.success("Register successful! Redirecting...");
-
                     setTimeout(function () {
-                        window.location.href = '/User/LoginPage';
+                        window.location.href = '/SetupSetting/SetupPage';
                     }, 3000);
                 } else {
                     ToastifyModule.error("Invalid login attempt. Please try again.");

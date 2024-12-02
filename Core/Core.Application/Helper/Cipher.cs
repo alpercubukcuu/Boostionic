@@ -8,6 +8,9 @@ using System.IdentityModel.Tokens.Jwt;
 namespace Core.Application.Helper
 {
     using BCrypt.Net;
+    using MediatR;
+    using Microsoft.AspNetCore.Http;
+
     public class Cipher
     {
         public static string Encrypt(string password)
@@ -56,10 +59,14 @@ namespace Core.Application.Helper
                 var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
                 return principal.FindFirst("UserId")?.Value;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
         }
+
+
+
+       
     }
 }

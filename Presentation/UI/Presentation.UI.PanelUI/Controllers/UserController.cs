@@ -84,8 +84,6 @@ namespace Presentation.UI.PanelUI.Controllers
             {
                 return BadRequest(ex.Message);                
             }
-
-            return Ok();
         }
 
         #endregion
@@ -129,16 +127,15 @@ namespace Presentation.UI.PanelUI.Controllers
         public async Task<IActionResult> UserLogin([FromBody] LoginDto loginDto)
         {
             try
-            {
-
+            {                
                 var map = _mapper.Map<UserLoginCommand>(loginDto);
+                
+                IResultDataDto<UserDto> result = await _mediator.Send(map);                               
 
-                IResultDataDto<UserDto> result = await this._mediator.Send(map);
-
-                if (!result.IsSuccess) { return BadRequest(result.Error); }
-
+                if (!result.IsSuccess) return BadRequest(result.Error);
+                
                 HttpContext.Session.SetString("JwtToken", result.Data?.Token);
-
+               
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
@@ -146,25 +143,24 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.UtcNow.AddDays(30)
                 };
-
-                if (!Request.Cookies.ContainsKey("XXXLogin"))
-                {
-                    var xxxLogin = Cipher.EncryptUserId(result.Data.Id.ToString(), _secretKey);
-                    Response.Cookies.Append("XXXLogin", xxxLogin, cookieOptions);
-                }
+             
+                HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions);   
 
                 if (loginDto.RememberMe == true)
                 {
                     Response.Cookies.Append("RememberMe", loginDto.RememberMe.ToString(), cookieOptions);
                 }
 
+                if (!result.Data.IsSetup) return RedirectToAction("SetupPage", "SetupSetting");
+
                 return Ok(new { Token = result.Data?.Token });
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return BadRequest("An error occurred during login. Please try again later.");
             }
         }
+
 
         [HttpPost]
         public IActionResult UserLogout()
@@ -278,6 +274,52 @@ namespace Presentation.UI.PanelUI.Controllers
             }
             
             return BadRequest("User not found or process failed.");
+        }
+
+
+
+
+        private void HandleXXXLoginCookie(string userId, CookieOptions cookieOptions)
+        {
+            const string cookieName = "XXXLogin";
+
+            if (!Request.Cookies.ContainsKey(cookieName))
+            {
+                // Yeni Cookie Oluştur
+                var xxxLoginValue = Cipher.EncryptUserId(userId, _secretKey);
+                Response.Cookies.Append(cookieName, xxxLoginValue, cookieOptions);
+            }
+            else
+            {
+                // Mevcut Cookie'yi Kontrol Et
+                var cookieValue = Request.Cookies[cookieName];
+                var parts = cookieValue.Split('|');
+
+                if (parts.Length == 2 && DateTime.TryParse(parts[1], out var expirationDate))
+                {
+                    if (expirationDate < DateTime.UtcNow)
+                    {
+                        // Süresi Dolmuşsa Yeniden Oluştur
+                        ReplaceXXXLoginCookie(userId, cookieOptions);
+                    }
+                }
+                else
+                {
+                    // Geçersiz Cookie, Yeniden Oluştur
+                    ReplaceXXXLoginCookie(userId, cookieOptions);
+                }
+            }
+        }
+
+        private void ReplaceXXXLoginCookie(string userId, CookieOptions cookieOptions)
+        {
+            const string cookieName = "XXXLogin";
+
+            Response.Cookies.Delete(cookieName);
+
+            var newExpiration = DateTime.UtcNow.AddMinutes(30);
+            var newXxxLoginValue = $"{Cipher.EncryptUserId(userId, _secretKey)}|{newExpiration:O}";
+            Response.Cookies.Append(cookieName, newXxxLoginValue, cookieOptions);
         }
     }
 }

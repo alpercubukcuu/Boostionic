@@ -61,5 +61,8 @@ namespace Core.Application.Dtos
         public bool IsInvated { get; set; }
 
         public bool IsOwner { get; set; }
+        public Guid? ParentId { get; set; }
+        public byte UserType { get; set; } = 0;
+        public bool IsSetup { get; set; } = false;
     }
 }

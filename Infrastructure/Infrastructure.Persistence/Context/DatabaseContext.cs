@@ -32,6 +32,7 @@ namespace Infrastructure.Persistence.Context
         public DbSet<TaskRelation> TaskRelations { get; set; }
         public DbSet<TimeTracking> TimeTrackings { get; set; }
         public DbSet<Workspace> Workspaces { get; set; }
+        public DbSet<SetupSetting> SetupSettings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

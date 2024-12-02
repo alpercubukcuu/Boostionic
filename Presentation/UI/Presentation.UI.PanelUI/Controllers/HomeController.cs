@@ -1,21 +1,36 @@
+using Core.Application.Dtos;
+using Core.Application.Features.Queries.SetupSettingQueries.Queries;
+using Core.Application.Features.Queries.UserQueries.Queries;
+using Core.Application.Helper;
+using Core.Application.Interfaces.Dtos;
+using Core.Domain.Entities;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.UI.PanelUI.Models;
 using System.Diagnostics;
 
 namespace Presentation.UI.PanelUI.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly string _secretKey;
+        private readonly IMediator _mediator;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, IMediator mediator)
         {
             _logger = logger;
+            _secretKey = configuration["JwtBearer:ResetPasswordKey"]
+                     ?? throw new Exception("ResetPasswordKey is not configured in appsettings.json");
+            _mediator = mediator;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+           
             return View();
         }
 
