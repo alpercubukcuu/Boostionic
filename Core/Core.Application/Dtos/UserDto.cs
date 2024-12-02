@@ -58,7 +58,7 @@ namespace Core.Application.Dtos
 
         [JsonProperty("Token")]
         public string Token { get; set; }
-        public bool IsInvated { get; set; }
+        public bool IsInvited { get; set; }
 
         public bool IsOwner { get; set; }
         public Guid? ParentId { get; set; }

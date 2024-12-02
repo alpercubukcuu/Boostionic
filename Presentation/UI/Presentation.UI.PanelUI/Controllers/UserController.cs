@@ -72,7 +72,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
                 var userCommand = _mapper.Map<AddUserCommand>(registerDto);
                 userCommand.OwnerId = resultOwner.Data.Id;
-                userCommand.IsInvated = false;
+                userCommand.IsInvited = false;
                 userCommand.PasswordHash = Cipher.Encrypt(registerDto.PasswordHash);
                 IResultDataDto<UserDto> result = await this._mediator.Send(userCommand);
                 if (!result.IsSuccess) return BadRequest(result.Error);
