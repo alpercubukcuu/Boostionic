@@ -32,7 +32,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>();
             try
             {
-                if (!request.IsInvated)
+                if (!request.IsInvited)
                 {
                     var map = _mapper.Map<User>(request);
                     map.UserRoleId = _userRoleRepository.GetSingle(predicate: u => u.IsEnable == true && u.RoleName == "Owner").Id;
