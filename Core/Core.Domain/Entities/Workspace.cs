@@ -7,7 +7,7 @@ namespace Core.Domain.Entities
     {
         public string Name { get; set; }
         public Guid OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
+        public OwnerEntity Owner { get; set; }
         public ICollection<Project> Projects { get; set; }
     }
 }

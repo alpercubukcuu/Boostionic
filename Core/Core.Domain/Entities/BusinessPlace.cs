@@ -10,7 +10,7 @@ namespace Core.Domain.Entities
         public User User { get; set; }
 
         public Guid OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
+        public OwnerEntity OwnerEntity { get; set; }
 
     }
 }

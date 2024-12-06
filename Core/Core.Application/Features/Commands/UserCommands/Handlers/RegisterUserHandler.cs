@@ -31,20 +31,20 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
         public async Task<IResultDataDto<UserDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>();
-            OwnersEntity ownersEntity = new();
+            OwnerEntity ownerEntity = new();
             try
             {
                 var map = _mapper.Map<User>(request);
 
                 string ownerTitle = map.Name + map.SurName + "owner";
 
-                ownersEntity.CreatedDate = request.CreatedDate;
-                ownersEntity.UpdatedDate = request.UpdatedDate;
-                ownersEntity.CompanyOwnerTitle = ownerTitle;
-                ownersEntity.Id = Guid.NewGuid();
-                ownersEntity.IsEnable = true;
+                ownerEntity.CreatedDate = request.CreatedDate;
+                ownerEntity.UpdatedDate = request.UpdatedDate;
+                ownerEntity.CompanyOwnerTitle = ownerTitle;
+                ownerEntity.Id = Guid.NewGuid();
+                ownerEntity.IsEnable = true;
 
-                var ownerResult = await _ownerEntityRepository.AddAsync(ownersEntity);
+                var ownerResult = await _ownerEntityRepository.AddAsync(ownerEntity);
 
 
                 map.IsOwner = true;

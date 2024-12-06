@@ -37,7 +37,7 @@ namespace Core.Application.Features.Commands.OwnerEntityCommands.Handlers
                     return result.SetStatus(false).SetErrorMessage("Not Found Data")
                         .SetMessage("No content found for the ID value");
 
-                var map = _mapper.Map<OwnersEntity>(request);
+                var map = _mapper.Map<OwnerEntity>(request);
                 map.CreatedDate = getData.CreatedDate;
                 map.Id = getData.Id;
 

@@ -33,7 +33,7 @@ namespace Core.Application.Features.Commands.OwnerEntityCommands.Handlers
             IResultDataDto<OwnerEntityDto> result = new ResultDataDto<OwnerEntityDto>();
             try
             {
-                var map = _mapper.Map<OwnersEntity>(request);
+                var map = _mapper.Map<OwnerEntity>(request);
                 map.CompanyOwnerTitle = request.OwnerTitle + " " +"Owner";                
                 map.CreatedDate = DateTime.Now;
 

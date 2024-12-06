@@ -14,7 +14,7 @@ namespace Core.Domain.Entities
         public string ObjectType { get; set; } 
 
         public Guid OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
+        public OwnerEntity Owner { get; set; }
 
 
     }

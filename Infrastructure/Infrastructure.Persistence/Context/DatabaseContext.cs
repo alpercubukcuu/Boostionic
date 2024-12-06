@@ -25,7 +25,7 @@ namespace Infrastructure.Persistence.Context
         public DbSet<ProjectCategory> ProjectCategories { get; set; }
         public DbSet<ProjectStage> ProjectStages { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
-        public DbSet<OwnersEntity> OwnersEntities { get; set; }
+        public DbSet<OwnerEntity> OwnersEntities { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<FileEntity> Files { get; set; }
         public DbSet<ProjectRelation> ProjectRelations { get; set; }
