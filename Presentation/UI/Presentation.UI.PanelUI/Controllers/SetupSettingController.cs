@@ -24,6 +24,12 @@ namespace Presentation.UI.PanelUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
+
+        public async Task<IActionResult> CheckCode()
+        {
+            return Ok();
+        }
+
         public async Task<IActionResult> SetupPage()
         {
             string userIdValue = HttpContext.Request.Cookies["XXXLogin"];
@@ -42,5 +48,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
             return View();
         }
+
+        
     }
 }
