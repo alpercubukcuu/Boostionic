@@ -45,7 +45,7 @@ namespace Core.Domain.Entities
         public Client Client { get; set; }
 
         public Guid? OwnerId { get; set; }
-        public OwnersEntity Owner { get; set; }
+        public OwnerEntity Owner { get; set; }
 
         public Guid? ParentId { get; set; }
         public byte UserType { get; set; } = 0;

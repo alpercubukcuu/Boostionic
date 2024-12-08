@@ -10,11 +10,11 @@ namespace Core.Application.Dtos
         public string Description { get; set; }
         public string Sector { get; set; }
         public int? ParentIndustryId { get; set; }
-        public List<CompanyDto> Companies { get; set; }
+        public List<ClientDto> Client { get; set; }
 
         public IndustryDto()
         {
-            Companies = new List<CompanyDto>();
+            Client = new List<ClientDto>();
         }
     }
 }

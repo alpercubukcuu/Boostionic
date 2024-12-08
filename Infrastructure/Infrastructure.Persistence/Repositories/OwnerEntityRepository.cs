@@ -7,7 +7,7 @@ using Infrastructure.Persistence.Context;
 namespace Infrastructure.Persistence.Repositories
 {
     [AddScopedService(Interface = "IOwnerEntityRepository")]
-    public class OwnerEntityRepository : GenericRepository<OwnersEntity>, IOwnerEntityRepository
+    public class OwnerEntityRepository : GenericRepository<OwnerEntity>, IOwnerEntityRepository
     {
         public OwnerEntityRepository(DatabaseContext context) : base(context)
         {

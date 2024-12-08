@@ -15,6 +15,7 @@ namespace Core.Application.Dtos
     public partial class LogDto
     {
         public Guid UserId { get; set; }
+        
         [ForeignKey(nameof(UserId))]
         public UserDto User { get; set; }
     }

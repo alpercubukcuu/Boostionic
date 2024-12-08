@@ -23,7 +23,5 @@ namespace Core.Domain.Entities
         public ICollection<User> Users { get; set; }
         public Language Language { get; set; }
         public ICollection<Industry> Industries { get; set; }
-
-
     }
 }

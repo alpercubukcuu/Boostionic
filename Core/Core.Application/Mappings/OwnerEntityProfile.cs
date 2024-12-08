@@ -13,8 +13,8 @@ namespace Core.Application.Mappings
     {
         public OwnerEntityProfile()
         {
-            CreateMap<OwnersEntity, OwnerEntityDto>().ReverseMap();
-            CreateMap<OwnerEntityDto, OwnersEntity>().ReverseMap();
+            CreateMap<OwnerEntity, OwnerEntityDto>().ReverseMap();
+            CreateMap<OwnerEntityDto, OwnerEntity>().ReverseMap();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Interfaces.Repositories
 {
-    public interface IOwnerEntityRepository : IGenericRepository<OwnersEntity>
+    public interface IOwnerEntityRepository : IGenericRepository<OwnerEntity>
     {
     }
 }
