@@ -33,6 +33,7 @@ namespace Infrastructure.Persistence.Context
         public DbSet<TimeTracking> TimeTrackings { get; set; }
         public DbSet<Workspace> Workspaces { get; set; }
         public DbSet<SetupSetting> SetupSettings { get; set; }
+        public DbSet<UserRegisterCode> UserRegisterCodes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

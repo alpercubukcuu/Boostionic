@@ -14,10 +14,9 @@ $(document).ready(function () {
             formData,           
             function (data) { 
                 if (data) {
-                    ToastifyModule.success("Register successful! Redirecting...");
                     setTimeout(function () {
-                        window.location.href = '/SetupSetting/SetupPage';
-                    }, 3000);
+                        window.location.href = '/SetupSetting/RegisterCodePage?userId=' + data;
+                    }, 4000);
                 } else {
                     ToastifyModule.error("Invalid login attempt. Please try again.");
                 }

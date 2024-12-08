@@ -2,13 +2,17 @@
 using Core.Application.Dtos;
 using Core.Application.Features.Queries.SetupSettingQueries.Queries;
 using Core.Application.Features.Queries.UserQueries.Queries;
+using Core.Application.Features.Queries.UserRegisterCodeQueries.Queries;
+using Core.Application.Features.Queries.UserResetPasswordQueries.Queries;
 using Core.Application.Helper;
 using Core.Application.Interfaces.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.UI.PanelUI.Controllers
 {
+    [AllowAnonymous]
     public class SetupSettingController : Controller
     {
         private readonly IMediator _mediator;
@@ -25,19 +29,34 @@ namespace Presentation.UI.PanelUI.Controllers
         }
 
 
-        public async Task<IActionResult> CheckCode()
+        public async Task<IActionResult> RegisterCodePage([FromQuery] string userId)
         {
-            return Ok();
+            var transferEncode = TransferHelper.DecodeUserId(userId);
+
+            IResultDataDto<UserDto> result = await this._mediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(transferEncode.DecodedUserId) });
+
+            if (!result.IsSuccess) { return View(transferEncode); }
+
+            return View(transferEncode);
         }
 
-        public async Task<IActionResult> SetupPage()
+        [HttpPost]
+        public async Task<IActionResult> CheckRegisterCode([FromForm] string registerCode, [FromForm] string userId)
         {
-            string userIdValue = HttpContext.Request.Cookies["XXXLogin"];
-            if (string.IsNullOrEmpty(userIdValue)) { return RedirectToAction("Error"); }
+            var transferEncode = TransferHelper.DecodeUserId(userId);
 
-            var userId = Cipher.DecryptUserId(userIdValue, _secretKey);
+            IResultDataDto<UserRegisterCodeDto> res = await this._mediator.Send(new CheckRegisterCodeQuery() { RegisterCode = registerCode, UserId = Guid.Parse(transferEncode.DecodedUserId) });
 
-            IResultDataDto<UserDto> result = await this._mediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(userId) });
+            if (res.IsSuccess) { return Ok(userId); }
+
+            return BadRequest("Code doesn't match!");
+        }
+
+        public async Task<IActionResult> SetupPage([FromQuery] string userId)
+        {
+            var transferEncode = TransferHelper.DecodeUserId(userId); 
+
+            IResultDataDto<UserDto> result = await this._mediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(transferEncode.DecodedUserId) });
             if (!result.IsSuccess) { return RedirectToAction("Error"); }
 
             if (result.Data.IsSetup)
@@ -46,7 +65,7 @@ namespace Presentation.UI.PanelUI.Controllers
                 if (!setResult.IsSuccess) { return RedirectToAction("Error"); }
             }
 
-            return View();
+            return View(transferEncode);
         }
 
         

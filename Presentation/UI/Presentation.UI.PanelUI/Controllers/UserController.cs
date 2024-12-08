@@ -4,6 +4,7 @@ using Core.Application.Dtos.EmailDtos;
 using Core.Application.Dtos.LoginDtos;
 using Core.Application.Features.Commands.OwnerEntityCommands.Commands;
 using Core.Application.Features.Commands.UserCommands.Commands;
+using Core.Application.Features.Commands.UserRegisterCodeCommands.Commands;
 using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Features.Queries.UserResetPasswordQueries.Queries;
 using Core.Application.Helper;
@@ -49,8 +50,6 @@ namespace Presentation.UI.PanelUI.Controllers
         }
 
 
-
-
         #region Register
 
         public IActionResult RegisterPage()
@@ -60,15 +59,15 @@ namespace Presentation.UI.PanelUI.Controllers
 
         [HttpPost]
         [EnableRateLimiting("AoGenLimit")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) 
-        {   
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        {
             try
             {
                 IResultDataDto<UserDto> resultUser = await this._mediator.Send(new GetByEmailUserQuery() { Email = registerDto.Email });
                 if (resultUser.IsSuccess) return BadRequest("User already exist!");
 
                 IResultDataDto<OwnerEntityDto> resultOwner = await this._mediator.Send(new AddOwnerEntityCommand() { OwnerTitle = $"{registerDto.Name} {registerDto.Surname}" });
-                if (!resultOwner.IsSuccess) return BadRequest(resultOwner.Error); 
+                if (!resultOwner.IsSuccess) return BadRequest(resultOwner.Error);
 
                 var userCommand = _mapper.Map<AddUserCommand>(registerDto);
                 userCommand.OwnerId = resultOwner.Data.Id;
@@ -77,12 +76,37 @@ namespace Presentation.UI.PanelUI.Controllers
                 IResultDataDto<UserDto> result = await this._mediator.Send(userCommand);
                 if (!result.IsSuccess) return BadRequest(result.Error);
 
-                return Ok(result.Data);
+                IResultDataDto<UserRegisterCodeDto> resUserRegCode = await this._mediator.Send(new AddUserRegisterCodeCommand() { UserId = result.Data.Id });
+                if (!resUserRegCode.IsSuccess) return BadRequest(resUserRegCode.Error);
+
+                IResultDataDto<EmailDto> resEmail = await this._mediator.Send(new GetEmailByTypeQuery() { EmailType = 2 });
+                if (!resEmail.IsSuccess) return BadRequest(resEmail.Error);
+
+                string fullname = result.Data.Name + " " + result.Data.SurName;
+
+                string bodyHTML = resEmail.Data.HtmlBody.Replace("{code}", resUserRegCode.Data.RegisterCode.ToString())
+                    .Replace("{fullName}", (result.Data.Name + " " + result.Data.SurName).ToString());
+
+                string subjectTitle = resEmail.Data.Subject;
+
+                var client = _httpClientFactory.CreateClient("InternalApiClient");
+
+                var response = await client.PostAsJsonAsync("api/internal/email/send", new
+                {
+                    emailFormat = resEmail.Data,
+                    toEmail = result.Data.Email,
+                    subject = subjectTitle,
+                    body = bodyHTML
+                });
+
+                TransferEntryInfoDto transferEncode = new();
+                transferEncode.EncodedUserId = Cipher.EncryptUserId(result.Data.Id.ToString(), _secretKey);
+                return Ok(transferEncode.EncodedUserId);
 
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);                
+                return BadRequest(ex.Message);
             }
         }
 
@@ -127,15 +151,15 @@ namespace Presentation.UI.PanelUI.Controllers
         public async Task<IActionResult> UserLogin([FromBody] LoginDto loginDto)
         {
             try
-            {                
+            {
                 var map = _mapper.Map<UserLoginCommand>(loginDto);
-                
-                IResultDataDto<UserDto> result = await _mediator.Send(map);                               
+
+                IResultDataDto<UserDto> result = await _mediator.Send(map);
 
                 if (!result.IsSuccess) return BadRequest(result.Error);
-                
+
                 HttpContext.Session.SetString("JwtToken", result.Data?.Token);
-               
+
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
@@ -143,8 +167,8 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.UtcNow.AddDays(30)
                 };
-             
-                HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions);   
+
+                HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions);
 
                 if (loginDto.RememberMe == true)
                 {
@@ -203,7 +227,7 @@ namespace Presentation.UI.PanelUI.Controllers
             IResultDataDto<UserDto> res = await this._mediator.Send(new UpdateUserPasswordCommand() { ConfirmedPassword = newPassword, UserId = Guid.Parse(transferEncode.DecodedUserId) });
             if (!res.IsSuccess) return BadRequest("Password could not updated!");
 
-           
+
             return Ok(true);
         }
 
@@ -211,11 +235,11 @@ namespace Presentation.UI.PanelUI.Controllers
         public async Task<IActionResult> UserAdd([FromBody] UserDto userDto)
         {
             var req = _mapper.Map<AddUserCommand>(userDto);
-            
+
             if (userDto.Id != Guid.Empty) { return BadRequest(""); }
-            
+
             IResultDataDto<UserDto> res = await this._mediator.Send(req);
-            if(res.IsSuccess) return Ok(res);
+            if (res.IsSuccess) return Ok(res);
 
             return BadRequest("User is not valid!");
         }
@@ -223,21 +247,21 @@ namespace Presentation.UI.PanelUI.Controllers
         [HttpPost]
         [EnableRateLimiting("AoGenLimit")]
         public async Task<IActionResult> CheckUserEmail(string email, int emailType)
-        {            
+        {
             try
             {
                 IResultDataDto<UserDto> resUser = await this._mediator.Send(new GetByEmailUserQuery() { Email = email });
-                
+
                 if (resUser.IsSuccess)
                 {
                     IResultDataDto<UserResetPasswordDto> resUserResPas = await this._mediator.Send(new AddUserResetPasswordCommand() { UserId = resUser.Data.Id });
-                   
+
                     if (resUserResPas.IsSuccess)
                     {
                         string fullname = resUser.Data.Name + " " + resUser.Data.SurName;
 
                         IResultDataDto<EmailDto> resEmail = await this._mediator.Send(new GetEmailByTypeQuery() { EmailType = emailType });
-                      
+
                         if (resEmail.IsSuccess)
                         {
                             string bodyHTML = resEmail.Data.HtmlBody.Replace("{code}", resUserResPas.Data.ResetCode.ToString())
@@ -254,7 +278,7 @@ namespace Presentation.UI.PanelUI.Controllers
                                 subject = subjectTitle,
                                 body = bodyHTML
                             });
-                          
+
                             TransferEntryInfoDto transferEncode = new();
                             transferEncode.EncodedUserId = Cipher.EncryptUserId(resUser.Data.Id.ToString(), _secretKey);
                             return Ok(transferEncode.EncodedUserId);
@@ -269,10 +293,10 @@ namespace Presentation.UI.PanelUI.Controllers
                 }
             }
             catch (Exception ex)
-            {               
+            {
                 return BadRequest("Email could not send!");
             }
-            
+
             return BadRequest("User not found or process failed.");
         }
 
