@@ -1,0 +1,60 @@
+﻿
+
+.modal {
+    width: 400px;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.step {
+    width: 100px;
+    text-align: center;
+    padding: 5px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+    .step.active {
+        background: #007bff;
+        color: white;
+    }
+
+.form-step {
+    display: none;
+}
+
+    .form-step.active {
+        display: block;
+    }
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background: #0056b3;
+    }
+
+    button.prev {
+        background: #6c757d;
+    }
+
+        button.prev:hover {
+            background: #5a6268;
+        }

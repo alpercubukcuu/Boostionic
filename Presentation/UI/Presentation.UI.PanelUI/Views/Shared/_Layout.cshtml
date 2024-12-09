@@ -16,6 +16,7 @@
 
     <!-- MAIN Project CSS file -->
     <link rel="stylesheet" href="~/boostionic/html/dist/assets/css/main.css">
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body data-theme="light" class="font-nunito">
     <div id="wrapper" class="theme-cyan">
@@ -49,5 +50,7 @@
     <!-- page js file -->
     <script src="~/boostionic/html/dist/assets/bundles/mainscripts.bundle.js"></script>
     <script src="~/boostionic/html/dist/../js/index.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

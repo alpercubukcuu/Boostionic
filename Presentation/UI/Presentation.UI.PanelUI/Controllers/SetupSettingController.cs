@@ -63,9 +63,15 @@ namespace Presentation.UI.PanelUI.Controllers
             {
                 IResultDataDto<SetupSettingDto> setResult = await this._mediator.Send(new GetByUserIdSetupSettingQuery() { UserId = result.Data.Id });
                 if (!setResult.IsSuccess) { return RedirectToAction("Error"); }
+                return RedirectToAction("Index","Home");
             }
 
             return View(transferEncode);
+        }
+
+        public IActionResult SetupPageDesign()
+        {
+            return View();
         }
 
         
