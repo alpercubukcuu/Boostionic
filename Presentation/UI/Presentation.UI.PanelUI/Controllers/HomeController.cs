@@ -5,8 +5,6 @@ using Core.Application.Helper;
 using Core.Application.Interfaces.Dtos;
 using Core.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.UI.PanelUI.Models;
 using System.Diagnostics;
@@ -30,8 +28,13 @@ namespace Presentation.UI.PanelUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-           
-            return View();
+            string cookieValue = Request.Cookies["XXXLogin"];
+            var userId = Cipher.DecryptUserId(cookieValue, _secretKey);
+
+            IResultDataDto<UserDto> userData = await this._mediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(userId) });
+            if (!userData.IsSuccess) { return RedirectToAction("ErrorPage", "Error", userData.Error); }
+
+            return View(userData.Data);
         }
 
         public IActionResult Privacy()

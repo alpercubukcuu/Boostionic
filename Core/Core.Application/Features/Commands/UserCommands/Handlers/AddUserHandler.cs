@@ -35,9 +35,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 if (!request.IsInvited)
                 {
                     var map = _mapper.Map<User>(request);
-                    map.UserRoleId = _userRoleRepository.GetSingle(predicate: u => u.IsEnable == true && u.RoleName == "Owner").Id;
-                    map.IsOwner = true;
-                    map.UserType = Convert.ToByte(UserTypeEnum.Owner);
+                    map.UserRoleId = _userRoleRepository.GetSingle(predicate: u => u.IsEnable == true && u.RoleName == "Owner").Id;                   
                     map.CreatedDate = DateTime.Now;
 
                     var addResult = await _userRepository.AddAsync(map);

@@ -42,7 +42,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 if (!Cipher.Decrypt(request.Password, getData.PasswordHash))
                 {
                     getData.FailedLoginAttempts = (getData.FailedLoginAttempts ?? 0) + 1;
-                    getData.LastFailedLoginAttempt = DateTime.UtcNow;
+                    getData.LastFailedLoginAttempt = DateTime.Now;
 
                     if (getData.FailedLoginAttempts >= 5)
                     {
@@ -57,7 +57,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
 
 
                 getData.FailedLoginAttempts = 0;
-                getData.LastLogin = DateTime.UtcNow;
+                getData.LastLogin = DateTime.Now;
 
                 await _userRepository.UpdateAsync(getData);
                 var token = _jwtRepository.GenerateJwtToken(getData);

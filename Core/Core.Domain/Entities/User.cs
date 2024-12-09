@@ -38,17 +38,14 @@ namespace Core.Domain.Entities
         public Guid UserRoleId { get; set; }
         public UserRole UserRole { get; set; }
 
-        public bool IsOwner { get; set; } = false;
 
         [JsonProperty("ClientId")]
         public Guid? ClientId { get; set; }
         public Client Client { get; set; }
 
         public Guid? OwnerId { get; set; }
-        public OwnerEntity Owner { get; set; }
+        public OwnerEntity Owner { get; set; }       
 
-        public Guid? ParentId { get; set; }
-        public byte UserType { get; set; } = 0;
         public bool IsSetup { get; set; } = false;
 
 

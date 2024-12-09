@@ -165,7 +165,7 @@ namespace Presentation.UI.PanelUI.Controllers
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddDays(30)
+                    Expires = DateTime.Now.AddDays(30)
                 };
 
                 HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions);
@@ -175,9 +175,8 @@ namespace Presentation.UI.PanelUI.Controllers
                     Response.Cookies.Append("RememberMe", loginDto.RememberMe.ToString(), cookieOptions);
                 }
 
-                if (!result.Data.IsSetup) return RedirectToAction("SetupPage", "SetupSetting");
 
-                return Ok(new { Token = result.Data?.Token });
+                return Ok(result.Data);
             }
             catch (Exception)
             {
@@ -302,7 +301,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
 
 
-
+        //Düzgün çalışmıyor. Süresi geçmiş cookie yenilemiyor !!!.
         private void HandleXXXLoginCookie(string userId, CookieOptions cookieOptions)
         {
             const string cookieName = "XXXLogin";
@@ -321,7 +320,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
                 if (parts.Length == 2 && DateTime.TryParse(parts[1], out var expirationDate))
                 {
-                    if (expirationDate < DateTime.UtcNow)
+                    if (expirationDate < DateTime.Now)
                     {
                         // Süresi Dolmuşsa Yeniden Oluştur
                         ReplaceXXXLoginCookie(userId, cookieOptions);
@@ -341,7 +340,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
             Response.Cookies.Delete(cookieName);
 
-            var newExpiration = DateTime.UtcNow.AddMinutes(30);
+            var newExpiration = DateTime.Now.AddMinutes(30);
             var newXxxLoginValue = $"{Cipher.EncryptUserId(userId, _secretKey)}|{newExpiration:O}";
             Response.Cookies.Append(cookieName, newXxxLoginValue, cookieOptions);
         }

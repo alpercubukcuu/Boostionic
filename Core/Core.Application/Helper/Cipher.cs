@@ -32,7 +32,7 @@ namespace Core.Application.Helper
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("UserId", userId) }),
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.Now.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -42,6 +42,9 @@ namespace Core.Application.Helper
 
         public static string DecryptUserId(string token, string securityKey)
         {
+
+            string jwt = token.Split('|')[0];
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(securityKey);
 
@@ -56,17 +59,16 @@ namespace Core.Application.Helper
 
             try
             {
-                var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+                var principal = tokenHandler.ValidateToken(jwt, validationParameters, out var validatedToken);
                 return principal.FindFirst("UserId")?.Value;
             }
             catch(Exception ex)
             {
-                return null;
+                return ex.Message;
             }
         }
 
-
-
        
+
     }
 }

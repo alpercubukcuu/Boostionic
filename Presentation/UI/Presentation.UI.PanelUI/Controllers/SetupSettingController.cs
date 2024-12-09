@@ -52,9 +52,12 @@ namespace Presentation.UI.PanelUI.Controllers
             return BadRequest("Code doesn't match!");
         }
 
-        public async Task<IActionResult> SetupPage([FromQuery] string userId)
+        public async Task<IActionResult> SetupPage([FromQuery] string userId, bool IsDecoded = false)
         {
-            var transferEncode = TransferHelper.DecodeUserId(userId); 
+            TransferEntryInfoDto transferEncode = new();
+
+            if (!IsDecoded) { transferEncode = TransferHelper.DecodeUserId(userId); }
+            else { transferEncode.DecodedUserId = userId;  }            
 
             IResultDataDto<UserDto> result = await this._mediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(transferEncode.DecodedUserId) });
             if (!result.IsSuccess) { return RedirectToAction("Error"); }

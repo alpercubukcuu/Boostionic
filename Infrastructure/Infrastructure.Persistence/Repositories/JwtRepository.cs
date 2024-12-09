@@ -30,7 +30,7 @@ namespace Infrastructure.Persistence.Repositories
                  new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 Issuer = _configuration["JwtBearer:ValidIssuer"], 
                 Audience = _configuration["JwtBearer:ValidAudience"]

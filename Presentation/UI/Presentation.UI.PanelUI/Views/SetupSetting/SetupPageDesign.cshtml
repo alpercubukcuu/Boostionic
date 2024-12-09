@@ -1,51 +1,95 @@
 ﻿@{
-    Layout = "_LoginLayout";
+    Layout = "_RegisterLayout";
     ViewData["Title"] = "Setup Page";
 }
-<div class="modal">
-    <div class="progress-bar">
-        <div class="step active" id="step1">Step 1</div>
-        <div class="step" id="step2">Step 2</div>
-        <div class="step" id="step3">Step 3</div>
-    </div>
+<div class="wizard_step_form">
+    <main class="d-flex align-items-center main_card_setup_section">
+        <div class="container">
+            <div id="wizard">
+                <h3>Step 1 Title</h3>
+                <section>
+                    <h5 class="bd-wizard-step-title">Step 1</h5>
+                    <h2 class="section-heading">Select business type </h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+                    <div class="purpose-radios-wrapper">
+                        <div class="purpose-radio">
+                            <input type="radio" name="purpose" id="branding" class="purpose-radio-input" value="Branding" checked>
+                            <label for="branding" class="purpose-radio-label">
+                                <span class="label-icon">
+                                    <img src="~/boostionic/html/images/icon_branding.svg" alt="branding" class="label-icon-default">
+                                    <img src="~/boostionic/html/images/icon_branding_green.svg" alt="branding" class="label-icon-active">
+                                </span>
+                                <span class="label-text">Branding</span>
+                            </label>
+                        </div>
+                        <div class="purpose-radio">
+                            <input type="radio" name="purpose" id="mobile-design" class="purpose-radio-input" value="Moile Design">
+                            <label for="mobile-design" class="purpose-radio-label">
+                                <span class="label-icon">
+                                    <img src="~/boostionic/html/images/icon_mobile_design.svg" alt="branding" class="label-icon-default">
+                                    <img src="~/boostionic/html/images/icon_mobile_design_green.svg" alt="branding" class="label-icon-active">
+                                </span>
+                                <span class="label-text">Moile Design</span>
+                            </label>
+                        </div>
+                        <div class="purpose-radio">
+                            <input type="radio" name="purpose" id="web-design" class="purpose-radio-input" value="Web Design">
+                            <label for="web-design" class="purpose-radio-label">
+                                <span class="label-icon">
+                                    <img src="~/boostionic/html/images/icon_web_design.svg" alt="branding" class="label-icon-default">
+                                    <img src="~/boostionic/html/images/icon_web_design_green.svg" alt="branding" class="label-icon-active">
+                                </span>
+                                <span class="label-text">Web Design</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <h3>Step 2 Title</h3>
+                <section>
+                    <h5 class="bd-wizard-step-title">Step 2</h5>
+                    <h2 class="section-heading">Enter your Account Details</h2>
+                    <div class="form-group">
+                        <label for="firstName" class="sr-only">First Name</label>
+                        <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="sr-only">Last Name</label>
+                        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber" class="sr-only">Phone Number</label>
+                        <input type="text" name="phoneNumber" id="phoneNumber" class="form-control" placeholder="Phone Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailAddress" class="sr-only">Email Address</label>
+                        <input type="email" name="emailAddress" id="emailAddress" class="form-control" placeholder="Email Address">
+                    </div>
+                </section>
+                <h3>Step 3 Title</h3>
+                <section>
+                    <h5 class="bd-wizard-step-title">Step 3</h5>
+                    <h2 class="section-heading mb-5">Review your Details and Submit</h2>
+                    <h6 class="font-weight-bold">Select business type</h6>
+                    <p class="mb-4" id="business-type">Branding</p>
+                    <h6 class="font-weight-bold">Enter your Account Details</h6>
+                    <p class="mb-4">
+                        <span id="enteredFirstName">Cha</span> <span id="enteredLastName">Ji-Hun C</span> <br>
+                        Phone: <span id="enteredPhoneNumber">+230-582-6609</span> <br>
+                        Email: <span id="enteredEmailAddress">willms_abby@gmail.com</span>
+                    </p>
 
-    <form id="multiStepForm">
-        <!-- Step 1 -->
-        <div class="form-step active">
-            <h2>Step 1: Personal Information</h2>
-            <label for="name">Name:</label>
-            <input type="text" id="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" required>
-            <button type="button" class="next">Next</button>
+                </section>
+            </div>
         </div>
-
-        <!-- Step 2 -->
-        <div class="form-step">
-            <h2>Step 2: Address Details</h2>
-            <label for="address">Address:</label>
-            <input type="text" id="address" required>
-            <label for="city">City:</label>
-            <input type="text" id="city" required>
-            <button type="button" class="prev">Previous</button>
-            <button type="button" class="next">Next</button>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="form-step">
-            <h2>Step 3: Confirmation</h2>
-            <p>Please confirm your details and submit.</p>
-            <button type="button" class="prev">Previous</button>
-            <button type="submit">Submit</button>
-        </div>
-    </form>
+    </main>
 </div>
 
-@* @section Styles {
+@section Styles {
     <link href="~/css/setup_register.css" rel="stylesheet" />
-} *@
+}
 
 @section Scripts {
+    <script src="~/boostionic/html/js/jquery.steps.min.js"></script>
     <script src="~/js/setup_register.js"></script>
 }
 

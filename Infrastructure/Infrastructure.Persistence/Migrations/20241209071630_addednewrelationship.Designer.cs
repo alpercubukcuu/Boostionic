@@ -4,6 +4,7 @@ using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241209071630_addednewrelationship")]
+    partial class addednewrelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -647,40 +650,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("ProjectTasks");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.RelationUserToWorkspace", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsEnable")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOwner")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserRelationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte>("UserType")
-                        .HasColumnType("tinyint");
-
-                    b.Property<Guid>("WorkspaceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkspaceId");
-
-                    b.ToTable("RelationUserToWorkspace");
-                });
-
             modelBuilder.Entity("Core.Domain.Entities.RolePermission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1197,17 +1166,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasForeignKey("ProjectStageId");
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.RelationUserToWorkspace", b =>
-                {
-                    b.HasOne("Core.Domain.Entities.Workspace", "Workspace")
-                        .WithMany()
-                        .HasForeignKey("WorkspaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Workspace");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.SetupSetting", b =>

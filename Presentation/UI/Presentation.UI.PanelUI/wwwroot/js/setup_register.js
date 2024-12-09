@@ -1,27 +1,32 @@
-﻿$(document).ready(function () {
-    const $steps = $(".step");
-    const $formSteps = $(".form-step");
-    let currentStep = 0;
+﻿let currentStep = 1;
 
-    const updateSteps = () => {
-        $steps.each(function (index) {
-            $(this).toggleClass("active", index === currentStep);
-        });
+function nextStep() {
+    document.getElementById(`step${currentStep}`).classList.remove("active");
+    document.getElementById(`step${currentStep}`).classList.add("d-none");
+    currentStep++;
+    document.getElementById(`step${currentStep}`).classList.add("active");
+    document.getElementById(`step${currentStep}`).classList.remove("d-none");
+}
 
-        $formSteps.each(function (index) {
-            $(this).toggleClass("active", index === currentStep);
-        });
-    };
+function prevStep() {
+    document.getElementById(`step${currentStep}`).classList.remove("active");
+    document.getElementById(`step${currentStep}`).classList.add("d-none");
+    currentStep--;
+    document.getElementById(`step${currentStep}`).classList.add("active");
+    document.getElementById(`step${currentStep}`).classList.remove("d-none");
+}
 
-    $(".next").on("click", function () {
-        currentStep = Math.min(currentStep + 1, $steps.length - 1);
-        updateSteps();
+function finishSetup() {
+    alert("Setup Complete!");
+    // Burada backend'e istekte bulunabilir ve setup durumunu güncelleyebilirsiniz
+    location.reload(); // Sayfayı yeniler
+}
+
+// Modal otomatik açılır
+$(document).ready(function () {
+    $('#setupWizardModal').modal({
+        backdrop: 'static', // Kullanıcının modal'ı kapatmasını engeller
+        keyboard: false // Escape tuşuyla kapatmayı engeller
     });
-
-    $(".prev").on("click", function () {
-        currentStep = Math.max(currentStep - 1, 0);
-        updateSteps();
-    });
-
-    updateSteps();
+    $('#setupWizardModal').modal('show'); // Modal'ı otomatik gösterir
 });

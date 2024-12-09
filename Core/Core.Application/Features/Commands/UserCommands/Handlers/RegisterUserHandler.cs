@@ -46,10 +46,6 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
 
                 var ownerResult = await _ownerEntityRepository.AddAsync(ownerEntity);
 
-
-                map.IsOwner = true;
-
-
                 var addResult = await _userRepository.AddAsync(map);
                 var resultMap = _mapper.Map<UserDto>(addResult);
                 result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
