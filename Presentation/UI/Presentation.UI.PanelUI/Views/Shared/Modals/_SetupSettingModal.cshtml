@@ -1,0 +1,32 @@
+﻿<div id="customModal" class="custom-modal" style="display: none;">
+    <div class="custom-modal-content">
+        <div class="custom-modal-header">
+            <h5 class="custom-modal-title">Setup Wizard</h5>
+           @*  <button class="close-modal" onclick="closeModal()">×</button> *@
+        </div>
+        <div class="custom-modal-body">
+            <div id="wizardSteps">
+                <!-- Step 1 -->
+                <div class="wizard-step active" id="step1">
+                    <h5>Step 1: User Information</h5>
+                    <input type="text" class="form-control mb-3" placeholder="Enter Name">
+                    <input type="text" class="form-control mb-3" placeholder="Enter Email">
+                    <button class="btn btn-primary float-end" onclick="nextStep()">Next</button>
+                </div>
+                <!-- Step 2 -->
+                <div class="wizard-step d-none" id="step2">
+                    <h5>Step 2: Preferences</h5>
+                    <label>
+                        <input type="checkbox"> Enable Notifications
+                    </label>
+                    <br>
+                    <label>
+                        <input type="checkbox"> Dark Mode
+                    </label>
+                    <button class="btn btn-secondary float-start" onclick="prevStep()">Back</button>
+                    <button class="btn btn-primary float-end" onclick="finishSetup()">Finish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

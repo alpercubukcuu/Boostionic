@@ -18,39 +18,7 @@
 }
 else
 {
-    <div id="setupWizardModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="setupWizardModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="setupWizardModalLabel">Setup Wizard</h5>
-                </div>
-                <div class="modal-body">
-                    <!-- Wizard Steps -->
-                    <div id="wizardSteps">
-                        <div class="wizard-step active" id="step1">
-                            <h5>Step 1: User Information</h5>
-                            <input type="text" class="form-control mb-3" placeholder="Enter Name">
-                            <input type="text" class="form-control mb-3" placeholder="Enter Email">
-                            <button class="btn btn-primary float-end" onclick="nextStep()">Next</button>
-                        </div>
-                        <div class="wizard-step d-none" id="step2">
-                            <h5>Step 2: Preferences</h5>
-                            <label>
-                                <input type="checkbox"> Enable Notifications
-                            </label>
-                            <br>
-                            <label>
-                                <input type="checkbox"> Dark Mode
-                            </label>
-                            <button class="btn btn-secondary float-start" onclick="prevStep()">Back</button>
-                            <button class="btn btn-primary float-end" onclick="finishSetup()">Finish</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-       
+   
     @section Styles {
     <link href="~/css/setup_register.css" rel="stylesheet" />
     }

@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="~/boostionic/html/dist/assets/css/main.css">
     @await RenderSectionAsync("Styles", required: false)
 </head>
-<body data-theme="light" class="font-nunito">
+<body data-theme="light" class="font-nunito parent_wrapper">
+   
     <div id="wrapper" class="theme-cyan">
         <!-- Page Loader -->
         <div class="page-loader-wrapper">
@@ -38,6 +39,9 @@
             @RenderBody()
         </div>
     </div>
+
+    @await Html.PartialAsync("Modals/_SetupSettingModal")
+
     <!-- Javascript -->
     <script src="~/boostionic/html/dist/assets/bundles/libscripts.bundle.js"></script>
     <script src="~/boostionic/html/dist/assets/bundles/vendorscripts.bundle.js"></script>

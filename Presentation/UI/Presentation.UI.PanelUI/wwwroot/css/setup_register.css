@@ -1,19 +1,63 @@
-﻿
-#setupWizardModal {
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-.modal-backdrop.show {
-    opacity: 0 !important;
-}
-body.modal-open {
-    filter: blur(5px);
+﻿.parent_wrapper {  
     overflow: hidden;
-    z-index: 1000;
 }
 
+.blurred {
+    filter: blur(5px);
+    transition: filter 0.3s ease-in-out;    
+}
+/* Modal Arka Plan */
+.custom-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Arka planı yarı saydam yapar */
+    z-index: 9000;
+    overflow: hidden;
+}
+
+/* Modal İçerik */
+.custom-modal-content {
+    position: relative;
+    background: #fff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Header */
+.custom-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+/* Close Button */
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Modal Body */
+.custom-modal-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Wizard Steps */
 .wizard-step {
     display: none;
 }
@@ -21,3 +65,21 @@ body.modal-open {
     .wizard-step.active {
         display: block;
     }
+
+/* Button Styles */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff !important;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d !important;
+    color: white;
+}
