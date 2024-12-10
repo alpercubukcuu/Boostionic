@@ -1,4 +1,5 @@
-﻿let currentStep = 1;
+﻿let currentStep = 0;
+let totalSteps = 3;
 
 function openModal() {
     const wrapper = document.getElementById('wrapper');
@@ -12,30 +13,34 @@ function openModal() {
     }, 10);
 }
 
-function closeModal() {
-    document.getElementById('wrapper').classList.remove('blurred');
-    const modal = document.getElementById('customModal');
+function updateProgress() {
+    const progressBar = document.getElementById('progressBar');
+    const rocket = document.getElementById('rocket');
+    const progress = (currentStep / totalSteps) * 100;
 
-    // Blur efektini kaldır
-    wrapper.style.filter = 'none';
+    // Progress bar genişliğini güncelle
+    progressBar.style.width = `${progress}%`;
 
-    // Modal'ı kapat
-    setTimeout(() => {
-        modal.style.display = 'none';
-    }, 300); // Blur kaldırma geçişinden sonra modal'ı gizle
+    // Roket pozisyonunu güncelle (progress bar'ın tam üstünde ortalanmış şekilde)
+    rocket.style.left = `calc(${progress}% + 5px)`; // Roketi tam ortaya hizala
 }
 
-
 function nextStep() {
-    document.getElementById(`step${currentStep}`).classList.remove('active');
-    currentStep++;
-    document.getElementById(`step${currentStep}`).classList.add('active');
+    if (currentStep < totalSteps) {
+        document.getElementById(`step${currentStep}`).classList.remove('active');
+        currentStep++;
+        document.getElementById(`step${currentStep}`).classList.add('active');
+        updateProgress(); // Adım değiştikçe progress bar ve roket hareketi
+    }
 }
 
 function prevStep() {
-    document.getElementById(`step${currentStep}`).classList.remove('active');
-    currentStep--;
-    document.getElementById(`step${currentStep}`).classList.add('active');
+    if (currentStep > 0) {
+        document.getElementById(`step${currentStep}`).classList.remove('active');
+        currentStep--;
+        document.getElementById(`step${currentStep}`).classList.add('active');
+        updateProgress(); // Adım değiştikçe progress bar ve roket hareketi
+    }
 }
 
 function finishSetup() {
@@ -45,4 +50,5 @@ function finishSetup() {
 
 document.addEventListener('DOMContentLoaded', () => {
     openModal();
+    updateProgress();
 });

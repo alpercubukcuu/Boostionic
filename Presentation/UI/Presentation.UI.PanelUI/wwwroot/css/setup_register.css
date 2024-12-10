@@ -1,4 +1,36 @@
-﻿.parent_wrapper {  
+﻿.progress-container {
+    position: relative;
+    width: 90%; /* Modal içeriğinde genişlik */
+    height: 7px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin: 20px auto; /* Ortalamak için */
+    overflow: visible;
+}
+
+/* Progress Bar */
+.progress-bar {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #ffff00, #ff0000); /* Kırmızıdan sarıya geçiş */
+    border-radius: 5px;
+    transition: width 0.5s ease;
+    z-index: 1;
+}
+
+/* Rocket */
+.rocket {
+    position: absolute;
+    top: -27px; /* Roketi progress bar'ın üstünde ortalamak için */
+    left: 0;
+    transform: translateX(-50%); /* Roketi tam ortalamak için */
+    transition: left 0.5s ease;
+    z-index: 2; /* Roketi progress bar'ın önünde tut */
+}
+
+
+.parent_wrapper {  
     overflow: hidden;
 }
 
@@ -38,7 +70,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ddd;
     margin-bottom: 15px;
 }
 
@@ -54,7 +85,6 @@
 /* Modal Body */
 .custom-modal-body {
     max-height: 300px;
-    overflow-y: auto;
 }
 
 /* Wizard Steps */
@@ -63,7 +93,7 @@
 }
 
     .wizard-step.active {
-        display: block;
+        display: block !important;
     }
 
 /* Button Styles */
