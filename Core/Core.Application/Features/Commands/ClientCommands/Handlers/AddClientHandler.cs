@@ -30,22 +30,22 @@ public class AddClientHandler : BaseCommandHandler,
     public async Task<IResultDataDto<ClientDto>> Handle(AddClientCommand request,
         CancellationToken cancellationToken)
     {
-        IResultDataDto<ClientDto> result = new ResultDataDto<ClientDto>();
+        IResultDataDto<ClientDto> resultDataDto = new ResultDataDto<ClientDto>();
         try
         {
-            var map = _mapper.Map<Client>(request);
-            var addResult = await _clientRepository.AddAsync(map);
-            var resultMap = _mapper.Map<ClientDto>(addResult);
-            result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
+            var mapperEntity = _mapper.Map<Client>(request);
+            var addResult = await _clientRepository.AddAsync(mapperEntity);
+            var resultMapper = _mapper.Map<ClientDto>(addResult);
+            resultDataDto.SetStatus().SetMessage("The create was successful").SetData(resultMapper);
 
-            await AddUserLog("Client Create Handler", "Client", map.Id, TransactionEnum.Create,
+            await AddUserLog("Client Create Handler", "Client", mapperEntity.Id, TransactionEnum.Create,
                 addResult.Id);
         }
         catch (Exception exception)
         {
-            result.SetStatus(false).SetErrorMessage(exception.Message);
+            resultDataDto.SetStatus(false).SetErrorMessage(exception.Message);
         }
 
-        return result;
+        return resultDataDto;
     }
 }

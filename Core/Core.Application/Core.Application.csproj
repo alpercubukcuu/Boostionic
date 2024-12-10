@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Commands\BusinessPlaceCommands\Validators\" />
+    <Folder Include="Features\Commands\ProjectCategoryCommands\Handlers\" />
   </ItemGroup>
 
 </Project>
