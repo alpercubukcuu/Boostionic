@@ -23,19 +23,18 @@ public class GetAllFileEntityHandler : IRequestHandler<GetAllFileEntityQuery, IR
         CancellationToken cancellationToken)
     {
         IResultDataDto<List<FileEntityDto>> resultDataDto = new ResultDataDto<List<FileEntityDto>>();
-        
+
         try
         {
-            var repositoryResult =  _fileEntityRepository.GetAll(predicate: d => d.IsEnable == true);
+            var repositoryResult = _fileEntityRepository.GetAll(predicate: d => d.IsEnable == true);
 
             if (repositoryResult.Count() <= 0)
                 resultDataDto.SetStatus(false).SetErrorMessage("Not Found Files").SetMessage("The list is empty!");
-            
+
             var mappedResult = _mapper.Map<List<FileEntityDto>>(repositoryResult);
             resultDataDto.SetData(mappedResult);
-            
-            return resultDataDto;
 
+            return resultDataDto;
         }
         catch (Exception exception)
         {

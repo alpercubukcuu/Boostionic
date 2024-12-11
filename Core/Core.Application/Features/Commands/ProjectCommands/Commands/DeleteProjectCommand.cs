@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Core.Application.Features.Commands.ProjectCommands.Commands;
 
-public class DeleteProjectCommand: ProjectDto, IRequest<IResultDataDto<bool>>
+public class DeleteProjectCommand : ProjectDto, IRequest<IResultDataDto<bool>>
 {
     public Guid Id { get; set; }
 }

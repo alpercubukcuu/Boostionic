@@ -6,5 +6,4 @@ namespace Core.Application.Features.Commands.IndustryCommands.Commands;
 
 public class UpdateIndustryCommand : IndustryDto, IRequest<IResultDataDto<IndustryDto>>
 {
-    
 }
