@@ -6,5 +6,4 @@ namespace Core.Application.Features.Commands.ClientCommands.Commands;
 
 public class AddClientCommand : ClientDto, IRequest<IResultDataDto<ClientDto>>
 {
-    
 }

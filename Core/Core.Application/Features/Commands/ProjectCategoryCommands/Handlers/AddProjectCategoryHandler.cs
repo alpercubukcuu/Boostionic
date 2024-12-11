@@ -39,7 +39,8 @@ public class AddProjectCategoryHandler : BaseCommandHandler,
             var resultMapper = _mapper.Map<ProjectCategoryDto>(addResult);
             resultDataDto.SetStatus().SetMessage("The create was successful").SetData(resultMapper);
 
-            await AddUserLog("ProjectCategory Create Handler", "ProjectCategory", mapperEntity.Id, TransactionEnum.Create,
+            await AddUserLog("ProjectCategory Create Handler", "ProjectCategory", mapperEntity.Id,
+                TransactionEnum.Create,
                 addResult.Id);
         }
         catch (Exception exception)

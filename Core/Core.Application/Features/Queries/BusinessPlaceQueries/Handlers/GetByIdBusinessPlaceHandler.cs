@@ -9,23 +9,29 @@ using MediatR;
 
 namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
 {
-    public class GetByIdBusinessPlaceHandler : IRequestHandler<GetByIdBusinessPlaceQuery, IResultDataDto<BusinessPlaceDto>>
+    public class
+        GetByIdBusinessPlaceHandler : IRequestHandler<GetByIdBusinessPlaceQuery, IResultDataDto<BusinessPlaceDto>>
     {
         private readonly IMapper _mapper;
         private readonly IBusinessPlaceRepository _businessPlaceRepository;
+
         public GetByIdBusinessPlaceHandler(IMapper mapper, IBusinessPlaceRepository businessPlaceRepository)
         {
             _mapper = mapper;
             _businessPlaceRepository = businessPlaceRepository;
         }
 
-        public async Task<IResultDataDto<BusinessPlaceDto>> Handle(GetByIdBusinessPlaceQuery request, CancellationToken cancellationToken)
+        public async Task<IResultDataDto<BusinessPlaceDto>> Handle(GetByIdBusinessPlaceQuery request,
+            CancellationToken cancellationToken)
         {
             IResultDataDto<BusinessPlaceDto> result = new ResultDataDto<BusinessPlaceDto>();
             try
             {
-                var repoResult = _businessPlaceRepository.GetSingle(predicate: d => d.IsEnable == true && d.Id == request.Id);
-                if (repoResult == null) result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No data found for the ID value");
+                var repoResult =
+                    _businessPlaceRepository.GetSingle(predicate: d => d.IsEnable == true && d.Id == request.Id);
+                if (repoResult == null)
+                    result.SetStatus(false).SetErrorMessage("Not Found Data")
+                        .SetMessage("No data found for the ID value");
                 var map = _mapper.Map<BusinessPlaceDto>(repoResult);
                 result.SetData(map);
                 return result;
@@ -34,8 +40,6 @@ namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
             {
                 return result.SetStatus(false).SetErrorMessage(exception.Message);
             }
-
         }
     }
-
 }

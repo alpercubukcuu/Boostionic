@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Core.Application.Features.Commands.ProjectRelationCommands.Handlers;
 
-public class UpdateProjectRelationRelationHandler : BaseCommandHandler,
+public class UpdateProjectRelationHandler : BaseCommandHandler,
     IRequestHandler<UpdateProjectRelationCommand, IResultDataDto<ProjectRelationDto>>
 {
     private readonly IMapper _mapper;
@@ -18,11 +18,11 @@ public class UpdateProjectRelationRelationHandler : BaseCommandHandler,
     private readonly IUserRepository _userRepository;
     private readonly ILogRepository _logRepository;
 
-    public UpdateProjectRelationRelationHandler(IMapper mapper, IProjectRelationRepository ProjectRelationRepository,
+    public UpdateProjectRelationHandler(IMapper mapper, IProjectRelationRepository projectRelationRepository,
         IUserRepository userRepository, ILogRepository logRepository) : base(userRepository, logRepository)
     {
         _mapper = mapper;
-        _projectRelationRepository = ProjectRelationRepository;
+        _projectRelationRepository = projectRelationRepository;
         _userRepository = userRepository;
         _logRepository = logRepository;
     }
@@ -37,8 +37,8 @@ public class UpdateProjectRelationRelationHandler : BaseCommandHandler,
             var getData = _projectRelationRepository.GetSingle(predicate: x => x.Id == request.Id);
 
             if (getData == null)
-                resultDataDto.SetStatus(false).SetErrorMessage("ProjectRelation not found")
-                    .SetMessage("No ProjectRelation found for the ID value");
+                resultDataDto.SetStatus(false).SetErrorMessage("Project Relation not found")
+                    .SetMessage("No Project Relation found for the ID value");
 
             var mappedEntity = _mapper.Map<ProjectRelation>(getData);
             mappedEntity.CreatedDate = getData.CreatedDate;

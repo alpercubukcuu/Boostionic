@@ -10,7 +10,6 @@ using MediatR;
 
 namespace Core.Application.Features.Commands.ProjectCategoryCommands.Handlers;
 
-
 public class UpdateProjectCategoryHandler : BaseCommandHandler,
     IRequestHandler<UpdateProjectCategoryCommand, IResultDataDto<ProjectCategoryDto>>
 {
@@ -49,7 +48,8 @@ public class UpdateProjectCategoryHandler : BaseCommandHandler,
             var resultMapper = _mapper.Map<ProjectCategoryDto>(addResult);
 
             resultDataDto.SetStatus().SetMessage("The update process was successful").SetData(resultMapper);
-            await AddUserLog("ProjectCategory Update Handler", "ProjectCategory", mappedEntity.Id, TransactionEnum.Update,
+            await AddUserLog("ProjectCategory Update Handler", "ProjectCategory", mappedEntity.Id,
+                TransactionEnum.Update,
                 getData.Id);
         }
         catch (Exception exception)

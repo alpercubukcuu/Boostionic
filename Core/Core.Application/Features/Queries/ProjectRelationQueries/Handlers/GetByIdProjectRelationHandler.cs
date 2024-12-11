@@ -9,7 +9,8 @@ using MediatR;
 namespace Core.Application.Features.Queries.ProjectRelationQueries.Handlers;
 
 public class
-    GetByIdProjectRelationRelationHandler : IRequestHandler<GetByIdProjectRelationQuery, IResultDataDto<ProjectRelationDto>>
+    GetByIdProjectRelationRelationHandler : IRequestHandler<GetByIdProjectRelationQuery,
+    IResultDataDto<ProjectRelationDto>>
 {
     private readonly IMapper _mapper;
     private readonly IProjectRelationRepository _projectRelationRepository;
