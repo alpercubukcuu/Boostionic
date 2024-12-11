@@ -1,75 +1,144 @@
-﻿@inject IHttpContextAccessor httpContextAccessor;
-
+﻿@using Core.Application.Helper
+@using Core.Application.Interfaces.Repositories
+@inject IHttpContextAccessor httpContextAccessor;
+@inject IUserRepository _userRepository;
 
 @{
-    var cookieName = "XXXLogin"; 
+    var cookieName = "XXXLogin";
     var cookieValue = httpContextAccessor.HttpContext?.Request.Cookies[cookieName];
-    
-    var userName = !string.IsNullOrEmpty(cookieValue) ? cookieValue : "Guest";
+    var transferData = TransferHelper.DecodeUserId(cookieValue);
+    var dgr = _userRepository.GetSingle(predicate: p => p.Id == Guid.Parse(transferData.DecodedUserId));
+    string userFullName = dgr.Name + " " + dgr.SurName;
+
 }
 
 
-<div id="customModal" class="custom-modal" style="display: none;">
+@* <div id="customModal" class="custom-modal" style="display: none;">
     <div class="custom-modal-content">
         <div class="custom-modal-header">
-            <h5 class="custom-modal-title">Setup Wizard</h5>
-            <h5 class="custom-modal-title"> Welcome </h5>
+            <h5 class="custom-modal-title"> Welcome, @userFullName !</h5>
         </div>
         <div class="custom-modal-body">
             <div id="wizardSteps">
                 <!-- Step 1 -->
                 <div class="wizard-step active" id="step0">
-                    <h5>Step 1: User Information</h5>
-                    <input type="text" class="form-control mb-3" placeholder="Enter Name">
-                    <input type="text" class="form-control mb-3" placeholder="Enter Email">
-                    <button class="btn btn-primary float-end" onclick="nextStep()">Next</button>
+                    <div class="title_parent_div">
+                        <h2>
+                            What will you use this Workspace
+                            for?
+                        </h2>
+                    </div>
+                    <div class="option-container">
+                        <div class="option" onclick="selectOption('Work')">Work</div>
+                        <div class="option" onclick="selectOption('Personal')">Personal</div>
+                        <div class="option" onclick="selectOption('School')">School</div>
+                    </div>
                 </div>
                 <!-- Step 2 -->
                 <div class="wizard-step d-none" id="step1">
-                    <h5>Step 2: Preferences</h5>
-                    <label>
-                        <input type="checkbox"> Enable Notifications
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox"> Dark Mode
-                    </label>
-                    <button class="btn btn-secondary float-start" onclick="prevStep()">Back</button>
-                    <button class="btn btn-primary float-end" onclick="nextStep()">Next</button>
+                    <div class="title_parent_div">
+                        <h2>
+                            What feature would like to use?
+                        </h2>
+                    </div>
+                    <div class="option-container">
+                        <div class="option1" onclick="toggleOption(this, 'Task Management')">Task Management</div>
+                        <div class="option1" onclick="toggleOption(this, 'Social Media Management')">Social Media Management</div>
+                        <div class="option1" onclick="toggleOption(this, 'Marketing')">Marketing</div>
+                    </div>
                 </div>
                 <!-- Step 3 -->
                 <div class="wizard-step d-none" id="step2">
-                    <h5>Step 3: Preferences</h5>
-                    <label>
-                        <input type="checkbox"> Enable Notifications
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox"> Dark Mode
-                    </label>
-                    <button class="btn btn-secondary float-start" onclick="prevStep()">Back</button>
-                    <button class="btn btn-primary float-end" onclick="nextStep()">Next</button>
-                </div>
-                <!-- Step 4 -->
-                <div class="wizard-step d-none" id="step3">
-                    <h5>Step 4: Preferences</h5>
-                    <label>
-                        <input type="checkbox"> Enable Notifications
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox"> Dark Mode
-                    </label>
-                    <button class="btn btn-secondary float-start" onclick="prevStep()">Back</button>
-                    <button class="btn btn-primary float-end" onclick="finishSetup()">Finish</button>
+                    @{
+                        string defaultName = userFullName + "'" + "Workspace";
+                    }
+
+                    <label> Please decide your workspace name</label>
+                    <input type="text" value="@defaultName" />                    
                 </div>
             </div>
-            <div id="progressContainer" class="progress-container">
-                <div id="progressBar" class="progress-bar"></div>
-                <div id="rocket" class="rocket">
-                    <img width="60" src="~/images/rocket_loading_2.gif" alt="Rocket" />
+            <div>
+                <div id="progressContainer" class="progress-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                    <div id="rocket" class="rocket">
+                        <img width="60" src="~/images/rocket_loading_2.gif" alt="Rocket" />
+                    </div>
                 </div>
             </div>
+            <div class="button_preview_ion_boost">
+                <button class="btn btn-secondary float-start backbutton d-none" onclick="prevStep()"> < Back</button>
+                <button class="btn btn-primary float-end submitSelections d-none" onclick="submitSelections()">Next > </button>
+                <button class="btn btn-primary finishSetup float-end d-none" onclick="finishSetup()">Finish</button>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+
+
+<div id="customModal" class="custom-modal" style="display: none;">
+    <div class="custom-modal-content">
+        <div class="custom-modal-header">
+            <h5 class="custom-modal-title"> Welcome, @userFullName !</h5>
+        </div>
+        <div class="custom-modal-body">
+            <div id="wizardSteps">
+                <!-- Step 1 -->
+                <div class="wizard-step active" id="step0">
+                    <div class="title_parent_div">
+                        <h2>
+                            What will you use this Workspace
+                            for?
+                        </h2>
+                    </div>
+                    <div class="option-container">
+                        <div class="option" onclick="selectOption('Work')">Work</div>
+                        <div class="option" onclick="selectOption('Personal')">Personal</div>
+                        <div class="option" onclick="selectOption('School')">School</div>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="wizard-step d-none" id="step1">
+                    <div class="title_parent_div">
+                        <h2>
+                            What features do you want to include?
+                        </h2>
+                    </div>
+                    <div class="option-container">
+                        <div class="option1" onclick="toggleOption(this, 'Workflows')">Workflows</div>
+                        <div class="option1" onclick="toggleOption(this, 'Media')">Media</div>
+                        <div class="option1" onclick="toggleOption(this, 'Growth')">Growth</div>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="wizard-step d-none" id="step2">
+                    @{
+                        string defaultName = userFullName + "'s" +" "+ "Workspace";
+                    }
+                    <div class="title_parent_div">
+                        <h2>
+                            Lastly,
+                            what would you like to
+                            name your Workspace?
+                        </h2>
+                    </div>
+                    <div class="option-container-input">
+                        <input type="text" class="form-control" value="@defaultName" />
+                        <label>Try the name of your company or organization.</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="progressContainer" class="progress-container">
+            <div id="progressBar" class="progress-bar"></div>
+            <div id="rocket" class="rocket">
+                <img width="60" src="~/images/rocket_loading_2.gif" alt="Rocket" />
+            </div>
+        </div>
+        <div class="button_preview_ion_boost">
+            <button class="btn btn-secondary float-start backbutton d-none" onclick="prevStep()"> < Back</button>
+            <button class="btn btn-primary float-end submitSelections d-none" onclick="submitSelections()">Next > </button>
+            <button class="btn btn-primary finishSetup float-end d-none" onclick="finishSetup()">Finish</button>
         </div>
     </div>
 </div>
