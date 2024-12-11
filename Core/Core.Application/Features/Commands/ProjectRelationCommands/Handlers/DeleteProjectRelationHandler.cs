@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Core.Application.Features.Commands.ProjectRelationCommands.Handlers;
 
-public class DeleteProjectRelationRelationHandler : BaseCommandHandler,
+public class DeleteProjectRelationHandler : BaseCommandHandler,
     IRequestHandler<DeleteProjectRelationCommand, IResultDataDto<bool>>
 {
     private readonly IMapper _mapper;
@@ -16,11 +16,11 @@ public class DeleteProjectRelationRelationHandler : BaseCommandHandler,
     private readonly ILogRepository _logRepository;
     private readonly IUserRepository _userRepository;
 
-    public DeleteProjectRelationRelationHandler(IMapper mapper, IProjectRelationRepository ProjectRelationRepository,
+    public DeleteProjectRelationHandler(IMapper mapper, IProjectRelationRepository projectRelationRepository,
         IUserRepository userRepository, ILogRepository logRepository) : base(userRepository, logRepository)
     {
         _mapper = mapper;
-        _ProjectRelationRepository = ProjectRelationRepository;
+        _ProjectRelationRepository = projectRelationRepository;
         _userRepository = userRepository;
         _logRepository = logRepository;
     }
@@ -34,8 +34,8 @@ public class DeleteProjectRelationRelationHandler : BaseCommandHandler,
         {
             var getData = _ProjectRelationRepository.GetSingle(predicate: x => x.Id == request.Id);
             if (getData == null)
-                resultDataDto.SetStatus(false).SetErrorMessage("ProjectRelation not found")
-                    .SetMessage("The ProjectRelation related to the ID value could not be found.");
+                resultDataDto.SetStatus(false).SetErrorMessage("Project Relation not found")
+                    .SetMessage("The Project Relation related to the ID value could not be found.");
             getData.IsEnable = false;
             await _ProjectRelationRepository.UpdateAsync(getData);
             await AddUserLog("ProjectRelation Delete Handler", "ProjectRelation", getData.Id, TransactionEnum.Delete,
