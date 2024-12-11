@@ -111,6 +111,7 @@ function submitSelections() {
         return;
     }
 
+
     console.log('Selected Options:', selectedOptions);
     // Burada seçili seçenekleri backend'e gönderme veya diğer adımlara geçiş yapılabilir
     nextStep();
