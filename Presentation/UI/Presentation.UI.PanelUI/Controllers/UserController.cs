@@ -5,6 +5,7 @@ using Core.Application.Dtos.LoginDtos;
 using Core.Application.Features.Commands.OwnerEntityCommands.Commands;
 using Core.Application.Features.Commands.UserCommands.Commands;
 using Core.Application.Features.Commands.UserRegisterCodeCommands.Commands;
+using Core.Application.Features.Queries.EmailQueries.Queries;
 using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Features.Queries.UserResetPasswordQueries.Queries;
 using Core.Application.Helper;

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Core.Application.Dtos.EmailDtos;
 using Core.Application.Dtos.ResultDtos;
+using Core.Application.Features.Queries.EmailQueries.Queries;
 using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Interfaces.Dtos;
 using Core.Application.Interfaces.Repositories;
 using MediatR;
 
-
-namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
+namespace Core.Application.Features.Queries.EmailQueries.Handlers
 {
     public class GetEmailByTypeHandler : IRequestHandler<GetEmailByTypeQuery, IResultDataDto<EmailDto>>
     {

@@ -1,36 +1,36 @@
 using AutoMapper;
 using Core.Application.Dtos;
 using Core.Application.Dtos.ResultDtos;
-using Core.Application.Features.Queries.TaskRelationQueries.Queries;
+using Core.Application.Features.Queries.TicketQueries.Queries;
 using Core.Application.Interfaces.Dtos;
 using Core.Application.Interfaces.Repositories;
 using MediatR;
 
-namespace Core.Application.Features.Queries.TaskRelationQueries.Handlers;
+namespace Core.Application.Features.Queries.TicketQueries.Handlers;
 
 public class
-    GetByIdTicketHandler : IRequestHandler<GetByIdTaskRelationQuery, IResultDataDto<TaskRelationDto>>
+    GetByIdTicketHandler : IRequestHandler<GetByIdTicketQuery, IResultDataDto<TicketDto>>
 {
     private readonly IMapper _mapper;
-    private readonly ITaskRelationRepository _taskRelationRepository;
+    private readonly ITicketRepository _ticketRepository;
 
-    public GetByIdTicketHandler(IMapper mapper, ITaskRelationRepository taskRelationRepository)
+    public GetByIdTicketHandler(IMapper mapper, ITicketRepository ticketRepository)
     {
         _mapper = mapper;
-        _taskRelationRepository = taskRelationRepository;
+        _ticketRepository = ticketRepository;
     }
 
-    public async Task<IResultDataDto<TaskRelationDto>> Handle(GetByIdTaskRelationQuery request,
+    public async Task<IResultDataDto<TicketDto>> Handle(GetByIdTicketQuery request,
         CancellationToken cancellationToken)
     {
-        IResultDataDto<TaskRelationDto> result = new ResultDataDto<TaskRelationDto>();
+        IResultDataDto<TicketDto> result = new ResultDataDto<TicketDto>();
         try
         {
             var repositoryResult =
-                _taskRelationRepository.GetSingle(predicate: d => d.IsEnable == true && d.Id == request.Id);
+                _ticketRepository.GetSingle(predicate: d => d.IsEnable == true && d.Id == request.Id);
             if (repositoryResult == null)
                 result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No data found for the ID value");
-            var map = _mapper.Map<TaskRelationDto>(repositoryResult);
+            var map = _mapper.Map<TicketDto>(repositoryResult);
             return result;
         }
         catch (Exception exception)
