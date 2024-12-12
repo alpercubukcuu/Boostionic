@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Core.Application.Features.Commands.ProjectStageCommands.Handlers;
 
-public class UpdateProjectStageStageHandler : BaseCommandHandler,
+public class UpdateProjectStageHandler : BaseCommandHandler,
     IRequestHandler<UpdateProjectStageCommand, IResultDataDto<ProjectStageDto>>
 {
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public class UpdateProjectStageStageHandler : BaseCommandHandler,
     private readonly IUserRepository _userRepository;
     private readonly ILogRepository _logRepository;
 
-    public UpdateProjectStageStageHandler(IMapper mapper, IProjectStageRepository projectStageRepository,
+    public UpdateProjectStageHandler(IMapper mapper, IProjectStageRepository projectStageRepository,
         IUserRepository userRepository, ILogRepository logRepository) : base(userRepository, logRepository)
     {
         _mapper = mapper;

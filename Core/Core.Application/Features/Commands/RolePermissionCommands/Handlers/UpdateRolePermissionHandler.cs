@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Core.Application.Features.Commands.RolePermissionCommands.Handlers;
 
-public class UpdateRolePermissionStageHandler : BaseCommandHandler,
+public class UpdateRolePermissionHandler : BaseCommandHandler,
     IRequestHandler<UpdateRolePermissionCommand, IResultDataDto<RolePermissionDto>>
 {
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public class UpdateRolePermissionStageHandler : BaseCommandHandler,
     private readonly IUserRepository _userRepository;
     private readonly ILogRepository _logRepository;
 
-    public UpdateRolePermissionStageHandler(IMapper mapper, IRolePermissionRepository rolePermissionRepository,
+    public UpdateRolePermissionHandler(IMapper mapper, IRolePermissionRepository rolePermissionRepository,
         IUserRepository userRepository, ILogRepository logRepository) : base(userRepository, logRepository)
     {
         _mapper = mapper;
