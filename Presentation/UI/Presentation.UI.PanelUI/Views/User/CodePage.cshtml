@@ -1,10 +1,10 @@
 @using Core.Application.Dtos
 @model TransferEntryInfoDto
 @{
-Layout = "_LoginLayout";
-ViewData["Title"] = "Recovery Password Page";
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Recovery Password Page";
 }
-    <!-- WRAPPER -->
+<!-- WRAPPER -->
 <div id="wrapper" class="theme-cyan">
     <form id="check-code-form">
         <input type="hidden" id="UserId" value="@Model.EncodedUserId"/>
@@ -39,5 +39,5 @@ ViewData["Title"] = "Recovery Password Page";
 
 @section Scripts
 {
-<script src="~/js/userCheckPassword.js"></script>
+    <script src="~/js/userCheckPassword.js"></script>
 }

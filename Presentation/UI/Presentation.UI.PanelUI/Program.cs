@@ -21,6 +21,7 @@ builder.Services.AddHttpClient("InternalApiClient", client =>
     {
         throw new Exception("Internal API base URL is not configured in appsettings.json");
     }
+
     client.BaseAddress = new Uri(baseUrl);
 });
 
@@ -32,6 +33,7 @@ builder.Services.AddHttpClient("ExternalApiClient", client =>
     {
         throw new Exception("External API base URL is not configured in appsettings.json");
     }
+
     client.BaseAddress = new Uri(baseUrl);
 });
 
@@ -61,10 +63,10 @@ builder.Services.AddRateLimiter(options =>
 });
 
 builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -109,7 +111,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
 
 
 var app = builder.Build();

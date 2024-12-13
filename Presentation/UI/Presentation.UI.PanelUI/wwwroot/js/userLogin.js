@@ -2,17 +2,17 @@ $(document).ready(function () {
     $("#login-form").submit(function (event) {
         event.preventDefault();
 
-        
+
         const formData = {
             Email: $("#signin-email").val(),
             Password: $("#signin-password").val(),
             RememberMe: $("#RememberMe").is(":checked")
         };
-               
+
         ApiModule.postJson(
-            '/User/UserLogin/', 
-            formData,           
-            function (data) { 
+            '/User/UserLogin/',
+            formData,
+            function (data) {
                 if (data && data.token) {
                     ToastifyModule.success("Login successful! Redirecting...");
 
@@ -24,7 +24,7 @@ $(document).ready(function () {
                 }
             },
             function (errorMessage) {
-                $("#signin-password").val(""); 
+                $("#signin-password").val("");
                 ToastifyModule.error(errorMessage || "An error occurred while processing your request.");
             }
         );
