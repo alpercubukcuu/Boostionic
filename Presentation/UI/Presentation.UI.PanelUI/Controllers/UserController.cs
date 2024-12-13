@@ -7,10 +7,12 @@ using Core.Application.Features.Commands.UserCommands.Commands;
 using Core.Application.Features.Commands.UserRegisterCodeCommands.Commands;
 using Core.Application.Features.Queries.EmailQueries.Queries;
 using Core.Application.Features.Queries.UserQueries.Queries;
+using Core.Application.Features.Queries.UserRegisterCodeQueries.Queries;
 using Core.Application.Features.Queries.UserResetPasswordQueries.Queries;
 using Core.Application.Helper;
 using Core.Application.Interfaces.Dtos;
 using Core.Application.Interfaces.Repositories;
+using Core.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -184,6 +186,52 @@ namespace Presentation.UI.PanelUI.Controllers
                 return BadRequest("An error occurred during login. Please try again later.");
             }
         }
+        
+        public async Task<IActionResult> EmailRegisterCodePage([FromQuery] string userId)
+        {
+            var transferEncode = TransferHelper.DecodeUserId(userId);
+
+            IResultDataDto<UserDto> result = await this._mediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(transferEncode.DecodedUserId) });
+
+            if (!result.IsSuccess) { return View(transferEncode); }
+
+            return View(transferEncode);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> EmailVerificationCodePage([FromForm] string registerCode, [FromForm] string userId)
+        {
+            var transferEncode = TransferHelper.DecodeUserId(userId);
+
+            IResultDataDto<UserRegisterCodeDto> resultData = await this._mediator.Send(new CheckRegisterCodeQuery() { RegisterCode = registerCode, UserId = Guid.Parse(transferEncode.DecodedUserId) });
+
+            if (resultData.IsSuccess)
+            {
+                IResultDataDto<UserDto> userData = await this._mediator.Send(new GetByIdUserQuery() { Id = resultData.Data.UserId });
+                if(!userData.IsSuccess){ return BadRequest(userData.Error); }
+                
+                var mapUser = _mapper.Map<User>(userData.Data);
+                
+                string token = _jwtRepository.GenerateJwtToken(mapUser);
+                
+                HttpContext.Session.SetString("JwtToken", token);
+                
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.Now.AddDays(30)
+                };
+
+                HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions);
+                
+                return Ok(userData.Data);
+            }
+
+            return BadRequest("Code doesn't match!");
+        }
+
 
 
         [HttpPost]

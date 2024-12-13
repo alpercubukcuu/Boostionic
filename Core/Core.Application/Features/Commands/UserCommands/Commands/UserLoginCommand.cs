@@ -11,5 +11,6 @@ namespace Core.Application.Features.Commands.UserCommands.Commands
 {
     public class UserLoginCommand : UserDto, IRequest<IResultDataDto<UserDto>>
     {
+        
     }
 }

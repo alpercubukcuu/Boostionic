@@ -15,7 +15,7 @@ $(document).ready(function () {
             function (data) { 
                 if (data) {
                     setTimeout(function () {
-                        window.location.href = '/SetupSetting/RegisterCodePage?userId=' + data;
+                        window.location.href = '/User/EmailRegisterCodePage?userId=' + data;
                     }, 4000);
                 } else {
                     ToastifyModule.error("Invalid login attempt. Please try again.");
