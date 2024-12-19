@@ -72,11 +72,7 @@ builder.Services.AddRateLimiter(options =>
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = null;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;        
     })
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddGoogle(googleOptions =>
