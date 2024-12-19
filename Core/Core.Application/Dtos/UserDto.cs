@@ -34,6 +34,11 @@ namespace Core.Application.Dtos
 
         [JsonProperty("LastLogin")]
         public DateTime LastLogin { get; set; }
+        
+        [JsonProperty("SocialMediaId")]
+        public string? SocialMediaId { get; set; }
+        [JsonProperty("SocialMediaType")]
+        public int? SocialMediType { get; set; }
 
         [JsonProperty("UserRoleId")]
         public Guid UserRoleId { get; set; }

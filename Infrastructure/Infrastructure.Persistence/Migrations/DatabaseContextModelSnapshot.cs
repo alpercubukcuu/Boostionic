@@ -896,10 +896,15 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SocialMediType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SocialMediaId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SurName")

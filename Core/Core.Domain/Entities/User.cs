@@ -19,7 +19,7 @@ namespace Core.Domain.Entities
         public string? PhoneNumber { get; set; }
 
         [JsonProperty("PasswordHash")]
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
 
         [JsonProperty("FailedLoginAttempts")]
         public int? FailedLoginAttempts { get; set; }
@@ -32,8 +32,12 @@ namespace Core.Domain.Entities
 
         [JsonProperty("LastLogin")]
         public DateTime? LastLogin { get; set; }
-
-
+        
+        [JsonProperty("SocialMediaId")]
+        public string? SocialMediaId { get; set; }
+        [JsonProperty("SocialMediaType")]
+        public int? SocialMediType { get; set; }
+        
         [JsonProperty("UserRoleId")]
         public Guid UserRoleId { get; set; }
         public UserRole UserRole { get; set; }

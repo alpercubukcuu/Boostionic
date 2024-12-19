@@ -28,9 +28,10 @@ namespace Presentation.UI.PanelUI.Controllers
         private readonly IJwtRepository _jwtRepository;
         private readonly string _secretKey;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserController(IMediator mediator, IMapper mapper, IJwtRepository jwtRepository,
-            IConfiguration configuration, IHttpClientFactory httpClientFactory)
+            IConfiguration configuration, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -38,6 +39,7 @@ namespace Presentation.UI.PanelUI.Controllers
             _secretKey = configuration["JwtBearer:ResetPasswordKey"]
                          ?? throw new Exception("ResetPasswordKey is not configured in appsettings.json");
             _httpClientFactory = httpClientFactory;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult Index()
@@ -50,11 +52,52 @@ namespace Presentation.UI.PanelUI.Controllers
             return View();
         }
 
+        #region Login
+
         public IActionResult LoginPage()
         {
             return View();
         }
 
+        [HttpPost]
+        [EnableRateLimiting("AoGenLimit")]
+        public async Task<IActionResult> UserLogin([FromBody] LoginDto loginDto)
+        {
+            try
+            {
+                var map = _mapper.Map<UserLoginCommand>(loginDto);
+
+                IResultDataDto<UserDto> result = await _mediator.Send(map);
+
+                if (!result.IsSuccess) return BadRequest(result.Error);
+
+                HttpContext.Session.SetString("JwtToken", result.Data?.Token);
+
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.Now.AddDays(30)
+                };
+                
+                UserRememberCookieHelper.HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+
+                if (loginDto.RememberMe == true)
+                {
+                    Response.Cookies.Append("RememberMe", loginDto.RememberMe.ToString(), cookieOptions);
+                }
+
+
+                return Ok(result.Data);
+            }
+            catch (Exception)
+            {
+                return BadRequest("An error occurred during login. Please try again later.");
+            }
+        }
+
+        #endregion
 
         #region Register
 
@@ -167,43 +210,6 @@ namespace Presentation.UI.PanelUI.Controllers
             return View(transferEncode);
         }
 
-        [HttpPost]
-        [EnableRateLimiting("AoGenLimit")]
-        public async Task<IActionResult> UserLogin([FromBody] LoginDto loginDto)
-        {
-            try
-            {
-                var map = _mapper.Map<UserLoginCommand>(loginDto);
-
-                IResultDataDto<UserDto> result = await _mediator.Send(map);
-
-                if (!result.IsSuccess) return BadRequest(result.Error);
-
-                HttpContext.Session.SetString("JwtToken", result.Data?.Token);
-
-                var cookieOptions = new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.Now.AddDays(30)
-                };
-
-                HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions);
-
-                if (loginDto.RememberMe == true)
-                {
-                    Response.Cookies.Append("RememberMe", loginDto.RememberMe.ToString(), cookieOptions);
-                }
-
-
-                return Ok(result.Data);
-            }
-            catch (Exception)
-            {
-                return BadRequest("An error occurred during login. Please try again later.");
-            }
-        }
 
         public async Task<IActionResult> EmailRegisterCodePage([FromQuery] string userId)
         {
@@ -251,8 +257,7 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(30)
                 };
-
-                HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions);
+                UserRememberCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
 
                 return Ok(userData.Data);
             }
@@ -385,51 +390,6 @@ namespace Presentation.UI.PanelUI.Controllers
             }
 
             return BadRequest("User not found or process failed.");
-        }
-
-
-        //Düzgün çalışmıyor. Süresi geçmiş cookie yenilemiyor !!!.
-        private void HandleXXXLoginCookie(string userId, CookieOptions cookieOptions)
-        {
-            const string cookieName = "XXXLogin";
-
-            if (!Request.Cookies.ContainsKey(cookieName))
-            {
-                // Yeni Cookie Oluştur
-                var xxxLoginValue = Cipher.EncryptUserId(userId, _secretKey);
-                Response.Cookies.Append(cookieName, xxxLoginValue, cookieOptions);
-            }
-            else
-            {
-                // Mevcut Cookie'yi Kontrol Et
-                var cookieValue = Request.Cookies[cookieName];
-                var parts = cookieValue.Split('|');
-
-                if (parts.Length == 2 && DateTime.TryParse(parts[1], out var expirationDate))
-                {
-                    if (expirationDate < DateTime.Now)
-                    {
-                        // Süresi Dolmuşsa Yeniden Oluştur
-                        ReplaceXXXLoginCookie(userId, cookieOptions);
-                    }
-                }
-                else
-                {
-                    // Geçersiz Cookie, Yeniden Oluştur
-                    ReplaceXXXLoginCookie(userId, cookieOptions);
-                }
-            }
-        }
-
-        private void ReplaceXXXLoginCookie(string userId, CookieOptions cookieOptions)
-        {
-            const string cookieName = "XXXLogin";
-
-            Response.Cookies.Delete(cookieName);
-
-            var newExpiration = DateTime.Now.AddMinutes(30);
-            var newXxxLoginValue = $"{Cipher.EncryptUserId(userId, _secretKey)}|{newExpiration:O}";
-            Response.Cookies.Append(cookieName, newXxxLoginValue, cookieOptions);
         }
     }
 }

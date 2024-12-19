@@ -40,6 +40,18 @@
                                     <span>Don't have an account? <a href="/User/RegisterPage">Register</a></span>
                                 </div>
                             </form>
+                            <div class="separator-linethrough">
+                                <span>OR</span>
+                            </div>
+                            <button class="btn btn-signin-social">
+                                <i class="fa fa-facebook-official facebook-color">
+                                </i>
+                                <a asp-action="FacebookLogin" asp-controller="SocialMedia">Log in with Facebook</a>
+                            </button>
+                            <button class="btn btn-signin-social">
+                                <i class="fa fa-google google-color"></i>
+                                <a asp-action="GoogleLogin" asp-controller="SocialMedia">Log in with Google</a>
+                            </button>
                         </div>
                     </div>
                 </div>
