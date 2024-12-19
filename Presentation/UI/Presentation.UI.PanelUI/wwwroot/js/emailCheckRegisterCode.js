@@ -12,11 +12,11 @@ $(document).ready(function () {
         const userId = $("#UserId").val();
 
         ApiModule.post(
-            '/SetupSetting/CheckRegisterCode',
+            '/User/EmailVerificationCodePage',
             { registerCode: registerCode, userId: userId }, 
             function (data) { 
                 if (data) {
-                    window.location.href = '/SetupSetting/SetupPage?userId=' + data;
+                    window.location.href = '/Home/Index';
                 } else {
                     ToastifyModule.error("Invalid code. Please try again.");
                 }

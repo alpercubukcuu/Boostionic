@@ -7,11 +7,18 @@ using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceServices(builder.Configuration.GetConnectionString("Mssql")!);
 builder.Services.AddApplicationServices();
+
+var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+var facebookClientId = builder.Configuration["Authentication:Facebook:AppId"];
+var facebookClientSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
 
 builder.Services.AddHttpClient("InternalApiClient", client =>
 {
@@ -21,6 +28,7 @@ builder.Services.AddHttpClient("InternalApiClient", client =>
     {
         throw new Exception("Internal API base URL is not configured in appsettings.json");
     }
+
     client.BaseAddress = new Uri(baseUrl);
 });
 
@@ -32,6 +40,7 @@ builder.Services.AddHttpClient("ExternalApiClient", client =>
     {
         throw new Exception("External API base URL is not configured in appsettings.json");
     }
+
     client.BaseAddress = new Uri(baseUrl);
 });
 
@@ -61,10 +70,30 @@ builder.Services.AddRateLimiter(options =>
 });
 
 builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = null;
+    })
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = googleClientId;
+        googleOptions.ClientSecret = googleClientSecret;
+        googleOptions.Scope.Add("openid");
+        googleOptions.Scope.Add("profile");
+        googleOptions.Scope.Add("email");
+        googleOptions.SaveTokens = true;
+        
+    })
+    .AddFacebook(facebookOptions =>
+    {
+        facebookOptions.AppId = facebookClientId; 
+        facebookOptions.AppSecret = facebookClientSecret;
+    })
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -109,7 +138,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
 
 
 var app = builder.Build();

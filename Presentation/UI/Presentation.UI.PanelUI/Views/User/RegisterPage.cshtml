@@ -37,9 +37,18 @@
                                 <span class="helper-text">Already have an account? <a href="/User/LoginPage">Login</a></span>
                             </div>
                         </form>
-                        <div class="separator-linethrough"><span>OR</span></div>
-                        <button class="btn btn-signin-social"><i class="fa fa-facebook-official facebook-color"></i> Sign in with Facebook</button>
-                        <button class="btn btn-signin-social"><i class="fa fa-twitter twitter-color"></i> Sign in with Twitter</button>
+                        <div class="separator-linethrough">
+                            <span>OR</span>
+                        </div>
+                        <button class="btn btn-signin-social">
+                            <i class="fa fa-facebook-official facebook-color">
+                            </i>
+                            <a asp-action="FacebookLogin" asp-controller="SocialMedia">Sign in with Facebook</a>
+                        </button>
+                        <button class="btn btn-signin-social">
+                            <i class="fa fa-google google-color"></i>
+                            <a asp-action="GoogleLogin" asp-controller="SocialMedia">Sign in with Google</a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -51,4 +60,5 @@
 {
     <script src="~/js/register.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 }
