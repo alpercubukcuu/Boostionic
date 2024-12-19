@@ -34,7 +34,10 @@
     margin: 20px 0;
 }
 
-
+.selected_feature {
+    background-color: #6041b0 !important;
+    color:white !important;
+}
 
 .option {
     padding: 15px 30px;

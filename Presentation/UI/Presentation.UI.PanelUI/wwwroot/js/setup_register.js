@@ -1,31 +1,28 @@
 ﻿let currentStep = 0;
-let totalSteps = 2;
+let totalSteps = 3;
 
 function openModal() {
     const wrapper = document.getElementById('wrapper');
     const modal = document.getElementById('customModal');
-
-    // Önce modal'ı görünür yap
+    
     modal.style.display = 'block';
 
     setTimeout(() => {
         wrapper.classList.add('blurred');
     }, 10);
-
-    // Başlangıçta butonları güncelle
+    
     updateButtons();
 }
 
-function updateProgress() {
+function updateProgress(customProgress = null) {
     const progressBar = document.getElementById('progressBar');
     const rocket = document.getElementById('rocket');
-    const progress = (currentStep / totalSteps) * 100;
-
-    // Progress bar genişliğini güncelle
+    const progress = customProgress !== null ? customProgress : (currentStep / totalSteps) * 100;
+    
+      
     progressBar.style.width = `${progress}%`;
-
-    // Roket pozisyonunu güncelle (progress bar'ın tam üstünde ortalanmış şekilde)
-    rocket.style.left = `calc(${progress}% + 5px)`; // Roketi tam ortaya hizala
+    
+    rocket.style.left = `calc(${progress}% + 5px)`; 
 }
 
 function updateButtons() {
@@ -33,19 +30,15 @@ function updateButtons() {
     const nextButton = document.querySelector('.submitSelections');
     const finishButton = document.querySelector('.finishSetup');
 
-    // Tüm butonları önce gizle
     backButton.classList.add('d-none');
     nextButton.classList.add('d-none');
     finishButton.classList.add('d-none');
 
     if (currentStep === 0) {
-        // Step 0'da hiç buton gösterilmeyecek
     } else if (currentStep === 1) {
-        // Step 1'de "Back" ve "Next" butonları gösterilecek
         backButton.classList.remove('d-none');
         nextButton.classList.remove('d-none');
     } else if (currentStep === 2) {
-        // Step 2'de "Back" ve "Finish" butonları gösterilecek
         backButton.classList.remove('d-none');
         finishButton.classList.remove('d-none');
     }
@@ -84,8 +77,16 @@ function closeModal() {
 }
 
 function finishSetup() {
-    alert('Setup Complete!');
-    closeModal();
+    updateProgress(100);   
+     
+    setTimeout(() => {
+        closeModal();
+    }, 500);
+
+    setTimeout(() => {
+        launchConfetti();
+    }, 500);
+    
 }
 
 function selectOption(option) {
@@ -106,19 +107,49 @@ function toggleOption(element, option) {
 }
 
 function submitSelections() {
+    const selectedElements = document.querySelectorAll('.option1.selected');
+    selectedOptions = Array.from(selectedElements).map(el => el.id);
+
     if (selectedOptions.length === 0) {
         ToastifyModule.error("Please select at least one option.");
         return;
     }
 
-
     console.log('Selected Options:', selectedOptions);
-    // Burada seçili seçenekleri backend'e gönderme veya diğer adımlara geçiş yapılabilir
     nextStep();
 }
 
-// Sayfa yüklendiğinde modalı aç ve progress bar'ı başlat
+
+
 document.addEventListener('DOMContentLoaded', () => {
     openModal();
     updateProgress();
 });
+
+
+function launchConfetti() {
+    const duration = 3 * 1000; // Konfeti süresi (3 saniye)
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            return;
+        }
+
+        const particleCount = 50 * (timeLeft / duration);      
+        confetti(
+            Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0.1, 0.9), y: Math.random() - 0.2 },
+            })
+        );
+    }, 250);
+}
