@@ -10002,17 +10002,17 @@ ul.list-connected-app > li:last-child .connected-app {
 }
 
 #register-button {
-    display: flex; /* İçeriği hizalamak için */
-    justify-content: center; /* Ortalıyor */
-    align-items: center; /* Dikeyde ortalıyor */
-    position: relative; /* Sabit konum için */
-    overflow: hidden; /* İçerik taşmasını engeller */
-    width: 100%; /* Sabit genişlik */
-    height: 50px; /* Sabit yükseklik */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 50px;
 }
 
 #loading-text {
-    font-size: 14px; /* Yazı boyutu */
-    color: #ffffff; /* Yazı rengi */
+    font-size: 14px;
+    color: #ffffff;
     font-weight: bold;
 }
