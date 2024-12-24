@@ -11,7 +11,11 @@ namespace Presentation.API.InternalApi.Controllers
     {
         public EmailController()
         {
-            
+        }
+
+        [HttpGet("healthChecks")]
+        public void CheckHealthAsync()
+        {
         }
 
         [HttpPost("send")]
@@ -20,7 +24,8 @@ namespace Presentation.API.InternalApi.Controllers
             var smtpClient = new SmtpClient(emailRequest.EmailFormat.SmtpServer)
             {
                 Port = emailRequest.EmailFormat.SmtpPort,
-                Credentials = new NetworkCredential(emailRequest.EmailFormat.UserName, emailRequest.EmailFormat.Password),
+                Credentials =
+                    new NetworkCredential(emailRequest.EmailFormat.UserName, emailRequest.EmailFormat.Password),
                 EnableSsl = emailRequest.EmailFormat.EnableSsl
             };
 

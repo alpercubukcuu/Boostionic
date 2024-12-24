@@ -31,7 +31,8 @@ namespace Presentation.UI.PanelUI.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserController(IMediator mediator, IMapper mapper, IJwtRepository jwtRepository,
-            IConfiguration configuration, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+            IConfiguration configuration, IHttpClientFactory httpClientFactory,
+            IHttpContextAccessor httpContextAccessor)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -80,8 +81,9 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(30)
                 };
-                
-                UserRememberCookieHelper.HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+
+                UserRememberCookieHelper.HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions,
+                    _httpContextAccessor, _secretKey);
 
                 if (loginDto.RememberMe == true)
                 {
@@ -112,6 +114,10 @@ namespace Presentation.UI.PanelUI.Controllers
         {
             try
             {
+                var client = _httpClientFactory.CreateClient("InternalApiClient");
+                var healthResponse = await client.GetAsync("api/internal/email/healthChecks");
+                if (!healthResponse.IsSuccessStatusCode) return BadRequest(healthResponse);
+
                 IResultDataDto<UserDto> resultUser =
                     await this._mediator.Send(new GetByEmailUserQuery() { Email = registerDto.Email });
                 if (resultUser.IsSuccess) return BadRequest("User already exist!");
@@ -141,8 +147,6 @@ namespace Presentation.UI.PanelUI.Controllers
                     .Replace("{fullName}", (result.Data.Name + " " + result.Data.SurName).ToString());
 
                 string subjectTitle = resEmail.Data.Subject;
-
-                var client = _httpClientFactory.CreateClient("InternalApiClient");
 
                 var response = await client.PostAsJsonAsync("api/internal/email/send", new
                 {
@@ -257,7 +261,29 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(30)
                 };
-                UserRememberCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+                UserRememberCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions,
+                    _httpContextAccessor, _secretKey);
+
+
+                IResultDataDto<EmailDto> EmailVerified =
+                    await this._mediator.Send(new GetEmailByTypeQuery() { EmailType = 3 });
+                if (!EmailVerified.IsSuccess) return BadRequest(EmailVerified.Error);
+                string fullname = userData.Data.Name + " " + userData.Data.SurName;
+
+                string bodyHTML = EmailVerified.Data.HtmlBody.Replace("{loginUrl}", "https://localhost:7091/login")
+                    .Replace("{fullName}", (userData.Data.Name + " " + userData.Data.SurName).ToString());
+
+                string subjectTitle = EmailVerified.Data.Subject;
+
+                var client = _httpClientFactory.CreateClient("InternalApiClient");
+
+                var response = await client.PostAsJsonAsync("api/internal/email/send", new
+                {
+                    emailFormat = EmailVerified.Data,
+                    toEmail = userData.Data.Email,
+                    subject = subjectTitle,
+                    body = bodyHTML
+                });
 
                 return Ok(userData.Data);
             }

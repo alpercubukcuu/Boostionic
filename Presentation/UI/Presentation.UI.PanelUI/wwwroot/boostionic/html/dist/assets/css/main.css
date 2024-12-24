@@ -10000,3 +10000,19 @@ ul.list-connected-app > li:last-child .connected-app {
         transform: rotate(360deg);
     }
 }
+
+#register-button {
+    display: flex; /* İçeriği hizalamak için */
+    justify-content: center; /* Ortalıyor */
+    align-items: center; /* Dikeyde ortalıyor */
+    position: relative; /* Sabit konum için */
+    overflow: hidden; /* İçerik taşmasını engeller */
+    width: 100%; /* Sabit genişlik */
+    height: 50px; /* Sabit yükseklik */
+}
+
+#loading-text {
+    font-size: 14px; /* Yazı boyutu */
+    color: #ffffff; /* Yazı rengi */
+    font-weight: bold;
+}
