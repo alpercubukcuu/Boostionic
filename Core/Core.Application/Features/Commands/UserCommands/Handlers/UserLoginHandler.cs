@@ -37,7 +37,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
 
                 if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Your account was not found! If you think there is a mistake, please contact the support team.");
 
-                if (getData.IsEnable == false) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Your account is not enable. Please contact the support team.");
+                if (getData.EmailVerified == false) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Your account is not enable. Please contact the support team.");
                 
                 if (!Cipher.Decrypt(request.Password, getData.PasswordHash))
                 {

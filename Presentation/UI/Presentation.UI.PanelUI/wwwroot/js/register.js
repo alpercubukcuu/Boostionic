@@ -35,10 +35,10 @@ $(document).ready(function () {
             formData,
             function (data) {
                 if (data) {
-                    stopLoading();
                     setTimeout(function () {
                         window.location.href = '/User/EmailRegisterCodePage?userId=' + data;
-                    }, 4000);
+                    },100);
+                    stopLoading();
                 } else {
                     stopLoading();
                     ToastifyModule.error("Invalid login attempt. Please try again.");

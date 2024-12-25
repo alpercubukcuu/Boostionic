@@ -126,6 +126,7 @@ namespace Presentation.UI.PanelUI.Controllers
                     { OwnerTitle = $"{registerDto.Name} {registerDto.Surname}" });
                 if (!resultOwner.IsSuccess) return BadRequest(resultOwner.Error);
 
+
                 var userCommand = _mapper.Map<AddUserCommand>(registerDto);
                 userCommand.OwnerId = resultOwner.Data.Id;
                 userCommand.IsInvited = false;
@@ -247,6 +248,11 @@ namespace Presentation.UI.PanelUI.Controllers
                 {
                     return BadRequest(userData.Error);
                 }
+
+                var userUpdateCommand = _mapper.Map<UpdateUserCommand>(userData.Data);
+                userUpdateCommand.EmailVerified = true;
+                IResultDataDto<UserDto> result = await this._mediator.Send(userUpdateCommand);
+                if (!result.IsSuccess) return BadRequest(result.Error);
 
                 var mapUser = _mapper.Map<User>(userData.Data);
 
