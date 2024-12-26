@@ -34,6 +34,9 @@ namespace Core.Application.Dtos
 
         [JsonProperty("LastLogin")]
         public DateTime LastLogin { get; set; }
+
+        [JsonProperty("EmailVerified")] 
+        public bool EmailVerified { get; set; } = false;
         
         [JsonProperty("SocialMediaId")]
         public string? SocialMediaId { get; set; }

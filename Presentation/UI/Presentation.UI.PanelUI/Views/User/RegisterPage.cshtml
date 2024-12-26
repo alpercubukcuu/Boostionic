@@ -22,19 +22,26 @@
                             </div>
                             <div class="form-group">
                                 <label for="register-surname" class="control-label sr-only">Surname</label>
-                                <input type="text" class="form-control" id="register-surname" placeholder="Surname e.g. Doe">
+                                <input type="text" class="form-control" id="register-surname"
+                                       placeholder="Surname e.g. Doe">
                             </div>
                             <div class="form-group">
                                 <label for="register-email" class="control-label sr-only">Work Email</label>
-                                <input type="email" class="form-control" id="register-email" placeholder="Email e.g. example@site.com">
+                                <input type="email" class="form-control" id="register-email"
+                                       placeholder="Email e.g. example@site.com">
                             </div>
                             <div class="form-group">
                                 <label for="signin-password" class="control-label sr-only">Choose Password</label>
-                                <input type="password" class="form-control" id="register-password" placeholder="Password">
+                                <input type="password" class="form-control" id="register-password"
+                                       placeholder="Password">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-lg btn-block">Start Boost Your Company</button>
+                            <button id="register-button" type="submit" class="btn btn-primary btn-lg btn-block">
+                                <span id="button-text">Start Boost Your Company</span>
+                                <span id="loading-text" style="display: none;"></span>
+                            </button>
                             <div class="bottom">
-                                <span class="helper-text">Already have an account? <a href="/User/LoginPage">Login</a></span>
+                                <span class="helper-text">Already have an account? <a
+                                        href="/User/LoginPage">Login</a></span>
                             </div>
                         </form>
                         <div class="separator-linethrough">

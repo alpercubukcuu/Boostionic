@@ -33,6 +33,9 @@ namespace Core.Domain.Entities
         [JsonProperty("LastLogin")]
         public DateTime? LastLogin { get; set; }
         
+        [JsonProperty("EmailVerified")]
+        public bool EmailVerified  { get; set; }
+        
         [JsonProperty("SocialMediaId")]
         public string? SocialMediaId { get; set; }
         [JsonProperty("SocialMediaType")]
@@ -51,9 +54,5 @@ namespace Core.Domain.Entities
         public OwnerEntity Owner { get; set; }       
 
         public bool IsSetup { get; set; } = false;
-
-        public bool EmailVerified { get; set; } = false;
-
-
     }
 }

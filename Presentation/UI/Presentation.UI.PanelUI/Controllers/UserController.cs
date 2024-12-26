@@ -33,7 +33,8 @@ namespace Presentation.UI.PanelUI.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserController(IMediator mediator, IMapper mapper, IJwtRepository jwtRepository,
-            IConfiguration configuration, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+            IConfiguration configuration, IHttpClientFactory httpClientFactory,
+            IHttpContextAccessor httpContextAccessor)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -143,8 +144,6 @@ namespace Presentation.UI.PanelUI.Controllers
 
                 string subjectTitle = resEmail.Data.Subject;
 
-                var client = _httpClientFactory.CreateClient("InternalApiClient");
-
                 var response = await client.PostAsJsonAsync("api/internal/email/send", new
                 {
                     emailFormat = resEmail.Data,
@@ -245,6 +244,11 @@ namespace Presentation.UI.PanelUI.Controllers
                     return BadRequest(userData.Error);
                 }
 
+                var userUpdateCommand = _mapper.Map<UpdateUserCommand>(userData.Data);
+                userUpdateCommand.EmailVerified = true;
+                IResultDataDto<UserDto> result = await this._mediator.Send(userUpdateCommand);
+                if (!result.IsSuccess) return BadRequest(result.Error);
+
                 var mapUser = _mapper.Map<User>(userData.Data);
 
                 string token = _jwtRepository.GenerateJwtToken(mapUser);
@@ -258,7 +262,7 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(30)
                 };
-                UserCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+                UserRememberCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
 
                 return Ok(userData.Data);
             }

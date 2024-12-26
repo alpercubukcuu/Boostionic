@@ -1,6 +1,6 @@
 $(document).ready(function () {
     ToastifyModule.success(
-        "Please check your email! If you don’t see the code, kindly check your spam or junk folder.",
+        "Your account has been successfully created. Please verify your email using the code sent to your inbox. If you don’t see the code, kindly check your spam or junk folder.",
         15000,
         "center"
     );
