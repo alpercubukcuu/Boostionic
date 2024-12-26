@@ -4000,7 +4000,7 @@ select.form-control:not([size]):not([multiple]) {
     width: 100%;
     height: 100%;
     z-index: -2;
-    background: url(../../assets/images/auth_bg.jpg) no-repeat top left fixed
+    background: url(/images/login_3.gif) no-repeat top left fixed
 }
 
 .auth-main .card {

@@ -50,9 +50,12 @@ public class SocialMediaController : Controller
     {
         HttpContext.Session.Remove("SocialMediaIssuer");
         HttpContext.Session.Remove("UserLoginInfo");
-        
-        var redirectUrl = $"{Request.Scheme}://{Request.Host}{Url.Action("SocialMediaLoginResponse", "SocialMedia")}";
-        var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
+
+        var redirectUrl = Url.Action("SocialMediaLoginResponse");
+        var properties = new AuthenticationProperties
+        {
+            RedirectUri = redirectUrl
+        };
         return Challenge(properties, GoogleDefaults.AuthenticationScheme);
     }
 
@@ -60,7 +63,7 @@ public class SocialMediaController : Controller
     {
         HttpContext.Session.Remove("SocialMediaIssuer");
         HttpContext.Session.Remove("UserLoginInfo");
-        
+
         var redirectUrl = Url.Action("SocialMediaLoginResponse", "SocialMedia");
         var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
         return Challenge(properties, FacebookDefaults.AuthenticationScheme);
@@ -79,19 +82,19 @@ public class SocialMediaController : Controller
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.Now.AddDays(30)
             };
-            
+
             var resultSocialMedia =
                 await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             if (resultSocialMedia?.Principal == null)
             {
-                return BadRequest("Invalid credentials");
+                UserCookieHelper.SetErrorMessage(_httpContextAccessor, "Invalid credentials");
+                return RedirectToAction("RegisterPage", "User");
             }
 
             var claims = resultSocialMedia.Principal.Identities.FirstOrDefault()?.Claims;
 
-            var socialMediaId =
-                claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value; // SocialMediaID
+            var socialMediaId = claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var socialMediaFullName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
             var socialMediaName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
             var socialMediaSurname = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
@@ -106,15 +109,15 @@ public class SocialMediaController : Controller
                 {
                     resultUser.Data = new UserDto();
                     IResultDataDto<OwnerEntityDto> resultOwner = await this._mediator.Send(new AddOwnerEntityCommand()
-                        { OwnerTitle = socialMediaFullName });
+                    { OwnerTitle = socialMediaFullName });
                     if (!resultOwner.IsSuccess) return BadRequest(resultOwner.Error);
 
                     resultUser.Data.Name = socialMediaName;
-                    resultUser.Data.SurName = socialMediaSurname;
+                    resultUser.Data.SurName = string.IsNullOrEmpty(socialMediaSurname) ? $"{Guid.NewGuid().ToString("N").Substring(0, 8)}" : socialMediaSurname;
                     resultUser.Data.SocialMediaId = socialMediaId;
                     resultUser.Data.Email = socialMediaEmail;
                     resultUser.Data.IsInvited = false;
-                    
+
                     if (socialMediaIssuer == "Google")
                         resultUser.Data.SocialMediType = (int?)SocialMediaLoginTypeEnum.Google;
                     if (socialMediaIssuer == "Facebook")
@@ -123,14 +126,18 @@ public class SocialMediaController : Controller
                     var userCommand = _mapper.Map<AddUserCommand>(resultUser.Data);
                     userCommand.OwnerId = resultOwner.Data.Id;
                     userCommand.IsInvited = false;
+                    userCommand.EmailVerified = true;
 
                     IResultDataDto<UserDto> result = await this._mediator.Send(userCommand);
                     if (!result.IsSuccess) return BadRequest(result.Error);
-                    
-                    HttpContext.Session.SetString("JwtToken", result.Data?.Token);
 
-                    UserRememberCookieHelper.HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
-                    
+
+                    var mapUser = _mapper.Map<User>(result.Data);
+                    string token = _jwtRepository.GenerateJwtToken(mapUser);
+                    HttpContext.Session.SetString("JwtToken", token);
+
+                    UserCookieHelper.HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+
                     Response.Cookies.Append("RememberMe", true.ToString(), cookieOptions);
 
                     return RedirectToAction("Index", "Home");
@@ -142,23 +149,28 @@ public class SocialMediaController : Controller
                     var token = _jwtRepository.GenerateJwtToken(mapUser);
 
                     resultUser.Data.Token = token;
-                    
+
                     HttpContext.Session.SetString("JwtToken", token);
-                    
-                    UserRememberCookieHelper.HandleXXXLoginCookie(resultUser.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
-                    
+
+                    UserCookieHelper.HandleXXXLoginCookie(resultUser.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+
                     Response.Cookies.Append("RememberMe", true.ToString(), cookieOptions);
 
                     return RedirectToAction("Index", "Home");
                 }
-                if(resultUser.Data.SocialMediType is not null)
-                    return BadRequest("Invalid Social Media Login request please try another one.");
+                if (resultUser.Data.SocialMediType is not null)
+                {
+                    UserCookieHelper.SetErrorMessage(_httpContextAccessor, "Invalid Social Media Login request please try another one.");                   
+                    return RedirectToAction("RegisterPage", "User");
+                }
 
-                return BadRequest(
-                    "That email registered before please try manual login.If you forgot to password please reset your password.");
+                UserCookieHelper.SetErrorMessage(_httpContextAccessor, "That email registered before please try manual login.If you forgot to password please reset your password.");
+                return RedirectToAction("RegisterPage", "User");
+                               
             }
 
-            return BadRequest("Something went wrong please try again.");
+            UserCookieHelper.SetErrorMessage(_httpContextAccessor, "Something went wrong please try again.");
+            return RedirectToAction("RegisterPage", "User");
         }
         catch (Exception ex)
         {

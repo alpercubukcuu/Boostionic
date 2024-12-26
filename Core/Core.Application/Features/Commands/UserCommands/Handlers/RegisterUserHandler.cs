@@ -18,7 +18,8 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
         private readonly IUserRepository _userRepository;
         private readonly IOwnerEntityRepository _ownerEntityRepository;
         private readonly IWorkspaceRepository _workspaceRepository;
-        public RegisterUserHandler(IMapper mapper, ILogRepository logRepository, IUserRepository userRepository, IOwnerEntityRepository ownerEntityRepository, IWorkspaceRepository workspaceRepository) : base(
+        public readonly IUserRoleRepository _userRoleRepository;
+        public RegisterUserHandler(IMapper mapper, ILogRepository logRepository, IUserRepository userRepository, IOwnerEntityRepository ownerEntityRepository, IWorkspaceRepository workspaceRepository, IUserRoleRepository userRoleRepository) : base(
             userRepository, logRepository)
         {
             _mapper = mapper;
@@ -26,6 +27,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
             _userRepository = userRepository;
             _ownerEntityRepository = ownerEntityRepository;
             _workspaceRepository = workspaceRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
         public async Task<IResultDataDto<UserDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -45,6 +47,11 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 ownerEntity.IsEnable = true;
 
                 var ownerResult = await _ownerEntityRepository.AddAsync(ownerEntity);
+
+                map.OwnerId = ownerResult.Id;
+                map.IsEnable = true;
+                map.UserRoleId = _userRoleRepository.GetSingle(predicate: u => u.IsEnable == true && u.RoleName == "Owner").Id;
+                map.CreatedDate = DateTime.Now;
 
                 var addResult = await _userRepository.AddAsync(map);
                 var resultMap = _mapper.Map<UserDto>(addResult);

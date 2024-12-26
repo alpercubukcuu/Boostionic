@@ -4,6 +4,7 @@ using Core.Application.Helper;
 using Core.Application.Interfaces.Repositories;
 using Core.Domain.Entities;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 
 namespace Presentation.UI.PanelUI.Middlewares;
@@ -21,6 +22,7 @@ public class JwtMiddleware
 
     public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
     {
+        
         using (var scope = serviceProvider.CreateScope())
         {
             var scopedMediator = scope.ServiceProvider.GetRequiredService<IMediator>();
@@ -28,6 +30,7 @@ public class JwtMiddleware
             var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
 
             string token = context.Session.GetString("JwtToken");
+
 
             if (context.Request.Cookies.ContainsKey("RememberMe") && context.Request.Cookies.ContainsKey("XXXLogin"))
             {

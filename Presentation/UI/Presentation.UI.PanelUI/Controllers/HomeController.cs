@@ -1,9 +1,7 @@
 using Core.Application.Dtos;
-using Core.Application.Features.Queries.SetupSettingQueries.Queries;
 using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Helper;
 using Core.Application.Interfaces.Dtos;
-using Core.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.UI.PanelUI.Models;

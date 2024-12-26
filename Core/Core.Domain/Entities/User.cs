@@ -52,6 +52,8 @@ namespace Core.Domain.Entities
 
         public bool IsSetup { get; set; } = false;
 
+        public bool EmailVerified { get; set; } = false;
+
 
     }
 }

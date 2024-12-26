@@ -17,6 +17,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.IdentityModel.Abstractions;
+using Presentation.UI.PanelUI.Models;
 
 namespace Presentation.UI.PanelUI.Controllers
 {
@@ -80,8 +82,8 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(30)
                 };
-                
-                UserRememberCookieHelper.HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+
+                UserCookieHelper.HandleXXXLoginCookie(result.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
 
                 if (loginDto.RememberMe == true)
                 {
@@ -120,8 +122,7 @@ namespace Presentation.UI.PanelUI.Controllers
                     { OwnerTitle = $"{registerDto.Name} {registerDto.Surname}" });
                 if (!resultOwner.IsSuccess) return BadRequest(resultOwner.Error);
 
-                var userCommand = _mapper.Map<AddUserCommand>(registerDto);
-                userCommand.OwnerId = resultOwner.Data.Id;
+                var userCommand = _mapper.Map<AddUserCommand>(registerDto);                
                 userCommand.IsInvited = false;
                 userCommand.PasswordHash = Cipher.Encrypt(registerDto.PasswordHash);
                 IResultDataDto<UserDto> result = await this._mediator.Send(userCommand);
@@ -257,7 +258,7 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(30)
                 };
-                UserRememberCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+                UserCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
 
                 return Ok(userData.Data);
             }

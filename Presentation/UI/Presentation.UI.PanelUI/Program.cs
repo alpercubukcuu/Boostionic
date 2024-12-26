@@ -74,19 +74,17 @@ builder.Services.AddAuthentication(options =>
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;        
     })
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie()
     .AddGoogle(googleOptions =>
     {
+        googleOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         googleOptions.ClientId = googleClientId;
         googleOptions.ClientSecret = googleClientSecret;
-        googleOptions.Scope.Add("openid");
-        googleOptions.Scope.Add("profile");
-        googleOptions.Scope.Add("email");
-        googleOptions.SaveTokens = true;
         
     })
     .AddFacebook(facebookOptions =>
     {
+        facebookOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         facebookOptions.AppId = facebookClientId; 
         facebookOptions.AppSecret = facebookClientSecret;
     })
@@ -94,14 +92,14 @@ builder.Services.AddAuthentication(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidIssuer = builder.Configuration["JwtBearer:ValidIssuer"], // Read directly from configuration
-            ValidAudience = builder.Configuration["JwtBearer:ValidAudience"], // Read directly from configuration
+            ValidIssuer = builder.Configuration["JwtBearer:ValidIssuer"], 
+            ValidAudience = builder.Configuration["JwtBearer:ValidAudience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["JwtBearer:IssuerSigningKey"]!)), // Secure key reading
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtBearer:IssuerSigningKey"]!)), 
             ValidateIssuerSigningKey = true,
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true // Ensures token expiration is checked
+            ValidateLifetime = true 
         };
 
         // Configure error handling for unauthorized responses
@@ -148,14 +146,16 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-
 app.UseSession();
+
 app.UseMiddleware<JwtMiddleware>();
 
 app.UseRouting();
 
-app.UseAuthentication();
+app.UseAuthentication(); 
 app.UseAuthorization();
+
+
 
 app.MapControllerRoute(
     name: "default",

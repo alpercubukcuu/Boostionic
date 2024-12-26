@@ -33,7 +33,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>() { Data = new UserDto() };
             try
             {
-                var getData = _userRepository.GetSingle(predicate: p => p.Email == request.Email, include: p => p.Include(p => p.Client).Include(p => p.UserRole));
+                var getData = _userRepository.GetSingle(predicate: p => p.Email == request.Email && request.EmailVerified == true, include: p => p.Include(p => p.Client).Include(p => p.UserRole));
 
                 if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Your account was not found! If you think there is a mistake, please contact the support team.");
 
