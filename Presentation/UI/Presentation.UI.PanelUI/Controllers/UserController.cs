@@ -144,6 +144,8 @@ namespace Presentation.UI.PanelUI.Controllers
 
                 string subjectTitle = resEmail.Data.Subject;
 
+                var client = _httpClientFactory.CreateClient("InternalApiClient");
+
                 var response = await client.PostAsJsonAsync("api/internal/email/send", new
                 {
                     emailFormat = resEmail.Data,
@@ -246,6 +248,7 @@ namespace Presentation.UI.PanelUI.Controllers
 
                 var userUpdateCommand = _mapper.Map<UpdateUserCommand>(userData.Data);
                 userUpdateCommand.EmailVerified = true;
+
                 IResultDataDto<UserDto> result = await this._mediator.Send(userUpdateCommand);
                 if (!result.IsSuccess) return BadRequest(result.Error);
 
@@ -262,7 +265,7 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(30)
                 };
-                UserRememberCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
+                UserCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
 
                 return Ok(userData.Data);
             }

@@ -72,6 +72,5 @@ namespace Core.Application.Dtos
         public Guid? ParentId { get; set; }
         public byte UserType { get; set; } = 0;
         public bool IsSetup { get; set; } = false;
-        public bool EmailVerified { get; set; } = false;
     }
 }
