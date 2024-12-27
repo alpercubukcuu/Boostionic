@@ -115,32 +115,22 @@ namespace Presentation.UI.PanelUI.Controllers
         {
             try
             {
-                IResultDataDto<UserDto> resultUser =
-                    await this._mediator.Send(new GetByEmailUserQuery() { Email = registerDto.Email });
-                if (resultUser.IsSuccess) return BadRequest("User already exist!");
-
-                IResultDataDto<OwnerEntityDto> resultOwner = await this._mediator.Send(new AddOwnerEntityCommand()
-                    { OwnerTitle = $"{registerDto.Name} {registerDto.Surname}" });
-                if (!resultOwner.IsSuccess) return BadRequest(resultOwner.Error);
-
-                var userCommand = _mapper.Map<AddUserCommand>(registerDto);                
-                userCommand.IsInvited = false;
-                userCommand.PasswordHash = Cipher.Encrypt(registerDto.PasswordHash);
-                IResultDataDto<UserDto> result = await this._mediator.Send(userCommand);
-                if (!result.IsSuccess) return BadRequest(result.Error);
+                var userCommand = _mapper.Map<RegisterUserCommand>(registerDto);
+                IResultDataDto<UserDto> resultData = await this._mediator.Send(userCommand);
+                if (!resultData.IsSuccess) { return BadRequest(resultData.Error); }
 
                 IResultDataDto<UserRegisterCodeDto> resUserRegCode =
-                    await this._mediator.Send(new AddUserRegisterCodeCommand() { UserId = result.Data.Id });
+                    await this._mediator.Send(new AddUserRegisterCodeCommand() { UserId = resultData.Data.Id });
                 if (!resUserRegCode.IsSuccess) return BadRequest(resUserRegCode.Error);
 
                 IResultDataDto<EmailDto> resEmail =
                     await this._mediator.Send(new GetEmailByTypeQuery() { EmailType = 2 });
                 if (!resEmail.IsSuccess) return BadRequest(resEmail.Error);
 
-                string fullname = result.Data.Name + " " + result.Data.SurName;
+                string fullname = resultData.Data.Name + " " + resultData.Data.SurName;
 
                 string bodyHTML = resEmail.Data.HtmlBody.Replace("{code}", resUserRegCode.Data.RegisterCode.ToString())
-                    .Replace("{fullName}", (result.Data.Name + " " + result.Data.SurName).ToString());
+                    .Replace("{fullName}", (resultData.Data.Name + " " + resultData.Data.SurName).ToString());
 
                 string subjectTitle = resEmail.Data.Subject;
 
@@ -149,13 +139,13 @@ namespace Presentation.UI.PanelUI.Controllers
                 var response = await client.PostAsJsonAsync("api/internal/email/send", new
                 {
                     emailFormat = resEmail.Data,
-                    toEmail = result.Data.Email,
+                    toEmail = resultData.Data.Email,
                     subject = subjectTitle,
                     body = bodyHTML
                 });
 
                 TransferEntryInfoDto transferEncode = new();
-                transferEncode.EncodedUserId = Cipher.EncryptUserId(result.Data.Id.ToString(), _secretKey);
+                transferEncode.EncodedUserId = Cipher.EncryptUserId(resultData.Data.Id.ToString(), _secretKey);
                 return Ok(transferEncode.EncodedUserId);
             }
             catch (Exception ex)
@@ -171,7 +161,7 @@ namespace Presentation.UI.PanelUI.Controllers
             var transferEncode = TransferHelper.DecodeUserId(userId);
 
             IResultDataDto<UserDto> result = await this._mediator.Send(new GetByIdUserQuery()
-                { Id = Guid.Parse(transferEncode.DecodedUserId) });
+            { Id = Guid.Parse(transferEncode.DecodedUserId) });
 
             if (!result.IsSuccess)
             {
@@ -187,7 +177,7 @@ namespace Presentation.UI.PanelUI.Controllers
             var transferEncode = TransferHelper.DecodeUserId(userId);
 
             IResultDataDto<UserResetPasswordDto> res = await this._mediator.Send(new CheckResetCodeQuery()
-                { ResetCode = resetCode, UserId = Guid.Parse(transferEncode.DecodedUserId) });
+            { ResetCode = resetCode, UserId = Guid.Parse(transferEncode.DecodedUserId) });
 
             if (res.IsSuccess)
             {
@@ -202,7 +192,7 @@ namespace Presentation.UI.PanelUI.Controllers
             var transferEncode = TransferHelper.DecodeUserId(userId);
 
             IResultDataDto<UserDto> res = await this._mediator.Send(new GetByIdUserQuery()
-                { Id = Guid.Parse(transferEncode.DecodedUserId) });
+            { Id = Guid.Parse(transferEncode.DecodedUserId) });
 
             if (!res.IsSuccess)
             {
@@ -218,7 +208,7 @@ namespace Presentation.UI.PanelUI.Controllers
             var transferEncode = TransferHelper.DecodeUserId(userId);
 
             IResultDataDto<UserDto> result = await this._mediator.Send(new GetByIdUserQuery()
-                { Id = Guid.Parse(transferEncode.DecodedUserId) });
+            { Id = Guid.Parse(transferEncode.DecodedUserId) });
 
             if (!result.IsSuccess)
             {
@@ -235,7 +225,7 @@ namespace Presentation.UI.PanelUI.Controllers
             var transferEncode = TransferHelper.DecodeUserId(userId);
 
             IResultDataDto<UserRegisterCodeDto> resultData = await this._mediator.Send(new CheckRegisterCodeQuery()
-                { RegisterCode = registerCode, UserId = Guid.Parse(transferEncode.DecodedUserId) });
+            { RegisterCode = registerCode, UserId = Guid.Parse(transferEncode.DecodedUserId) });
 
             if (resultData.IsSuccess)
             {
@@ -265,6 +255,7 @@ namespace Presentation.UI.PanelUI.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(30)
                 };
+
                 UserCookieHelper.HandleXXXLoginCookie(userData.Data.Id.ToString(), cookieOptions, _httpContextAccessor, _secretKey);
 
                 return Ok(userData.Data);
@@ -310,14 +301,14 @@ namespace Presentation.UI.PanelUI.Controllers
             var transferEncode = TransferHelper.DecodeUserId(resetPasswordDto.UserId);
 
             IResultDataDto<UserDto> resUser = await this._mediator.Send(new GetByIdUserQuery()
-                { Id = Guid.Parse(transferEncode.DecodedUserId) });
+            { Id = Guid.Parse(transferEncode.DecodedUserId) });
             if (!resUser.IsSuccess) return BadRequest("User not exist!");
 
 
             string newPassword = Cipher.Encrypt(resetPasswordDto.NewPassword);
 
             IResultDataDto<UserDto> res = await this._mediator.Send(new UpdateUserPasswordCommand()
-                { ConfirmedPassword = newPassword, UserId = Guid.Parse(transferEncode.DecodedUserId) });
+            { ConfirmedPassword = newPassword, UserId = Guid.Parse(transferEncode.DecodedUserId) });
             if (!res.IsSuccess) return BadRequest("Password could not updated!");
 
 
@@ -359,7 +350,7 @@ namespace Presentation.UI.PanelUI.Controllers
                         string fullname = resUser.Data.Name + " " + resUser.Data.SurName;
 
                         IResultDataDto<EmailDto> resEmail = await this._mediator.Send(new GetEmailByTypeQuery()
-                            { EmailType = emailType });
+                        { EmailType = emailType });
 
                         if (resEmail.IsSuccess)
                         {

@@ -7,6 +7,7 @@ using Core.Application.Interfaces.Dtos;
 using Core.Application.Interfaces.Repositories;
 using Core.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Core.Application.Features.Commands.UserCommands.Handlers
@@ -36,9 +37,12 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
             OwnerEntity ownerEntity = new();
             try
             {
-                var map = _mapper.Map<User>(request);
 
-                string ownerTitle = map.Name + map.SurName + "owner";
+                var userResult = _userRepository.GetSingle(predicate: d => d.Email == request.Email);
+                if (userResult != null) return result.SetStatus(false).SetErrorMessage("You have account please try to login.").SetMessage("You have account please try to login.");
+    
+                var map = _mapper.Map<User>(request);
+                string ownerTitle = map.Name + map.SurName + "Owner";
 
                 ownerEntity.CreatedDate = request.CreatedDate;
                 ownerEntity.UpdatedDate = request.UpdatedDate;

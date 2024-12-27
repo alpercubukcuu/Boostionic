@@ -26,6 +26,10 @@ namespace Core.Application.Mappings
             CreateMap<AddUserCommand, RegisterDto>().ReverseMap();
             CreateMap<RegisterDto, AddUserCommand>().ReverseMap();
 
+
+            CreateMap<RegisterUserCommand, RegisterDto>().ReverseMap();
+            CreateMap<RegisterDto, RegisterUserCommand>().ReverseMap();
+
         }
     }
 }

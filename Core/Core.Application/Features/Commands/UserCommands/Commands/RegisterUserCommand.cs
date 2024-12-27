@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 namespace Core.Application.Features.Commands.UserCommands.Commands
 {
     public class RegisterUserCommand : UserDto, IRequest<IResultDataDto<UserDto>>
-    {
-        public Guid OwnerId { get; set; }
+    {        
         public bool IsInvated { get; set; } = false;
     }
 }

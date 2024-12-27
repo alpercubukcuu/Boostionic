@@ -47,14 +47,7 @@ public class JwtMiddleware
                     {
                         var user = mapper.Map<User>(userRes.Data);
                         token = jwtRepository.GenerateJwtToken(user);
-                    }
-                    else
-                    {
-                        context.Response.Cookies.Delete("XXXLogin");
-                        context.Response.Cookies.Delete("RememberMe");
-                        context.Session.Remove("JwtToken");
-                        token = null;
-                    }
+                    }                  
 
                     if(token is not null)
                     {

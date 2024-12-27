@@ -36,9 +36,7 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                 var getData = _userRepository.GetSingle(predicate: p => p.Email == request.Email && p.EmailVerified == true, include: p => p.Include(p => p.Client).Include(p => p.UserRole));
 
                 if (getData == null) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Your account was not found! If you think there is a mistake, please contact the support team.");
-
-                if (getData.EmailVerified == false) return result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("Your account is not enable. Please contact the support team.");
-                
+                               
                 if (!Cipher.Decrypt(request.Password, getData.PasswordHash))
                 {
                     getData.FailedLoginAttempts = (getData.FailedLoginAttempts ?? 0) + 1;
@@ -54,12 +52,13 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
                     return result.SetStatus(false)
                                  .SetErrorMessage($"Incorrect password or email! You have {remainingAttempts} attempts left.");
                 }
-
-
+                
                 getData.FailedLoginAttempts = 0;
                 getData.LastLogin = DateTime.Now;
 
                 await _userRepository.UpdateAsync(getData);
+
+
                 var token = _jwtRepository.GenerateJwtToken(getData);
 
                 result.Data.Token = token;
