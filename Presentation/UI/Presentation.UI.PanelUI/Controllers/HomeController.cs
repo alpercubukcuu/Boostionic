@@ -3,36 +3,58 @@ using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Helper;
 using Core.Application.Interfaces.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.UI.PanelUI.Models;
 using System.Diagnostics;
 
 namespace Presentation.UI.PanelUI.Controllers
 {
-
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly string _secretKey;
         private readonly IMediator _mediator;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, IMediator mediator)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, IMediator mediator, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _secretKey = configuration["JwtBearer:ResetPasswordKey"]
-                     ?? throw new Exception("ResetPasswordKey is not configured in appsettings.json");
+                         ?? throw new Exception("ResetPasswordKey is not configured in appsettings.json");
             _mediator = mediator;
+            _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index()
         {
-            string cookieValue = Request.Cookies["XXXLogin"];
-            var userId = Cipher.DecryptUserId(cookieValue, _secretKey);
+            try
+            {
+                var jwtToken = _httpContextAccessor.HttpContext?.Session.GetString("JwtToken");
 
-            IResultDataDto<UserDto> userData = await this._mediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(userId) });
-            if (!userData.IsSuccess) { return RedirectToAction("ErrorPage", "Error", userData.Error); }
+                if (string.IsNullOrEmpty(jwtToken))
+                {
+                    return RedirectToAction("RegisterPage", "User");
+                }
+                var userId = JwtHelper.GetUserIdFromToken(jwtToken, _configuration);
 
-            return View(userData.Data);
+                if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var parsedUserId))
+                {
+                    return RedirectToAction("ErrorPage", "Error", new { errorMessage = "User ID is invalid or missing." });
+                }
+
+                var userData = await _mediator.Send(new GetByIdUserQuery { Id = parsedUserId });
+
+                if (!userData.IsSuccess) { return RedirectToAction("ErrorPage", "Error", new { errorMessage = userData.Error }); }
+
+                return View(userData.Data);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("ErrorPage", "Error");
+            }
         }
 
         public IActionResult Privacy()

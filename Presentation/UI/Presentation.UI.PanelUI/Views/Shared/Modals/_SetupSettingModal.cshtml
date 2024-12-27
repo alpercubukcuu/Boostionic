@@ -2,79 +2,20 @@
 @using Core.Application.Interfaces.Repositories
 @inject IHttpContextAccessor httpContextAccessor;
 @inject IUserRepository _userRepository;
+@inject IConfiguration _configuration;
 
 @{
-    var cookieName = "XXXLogin";
-    var cookieValue = httpContextAccessor.HttpContext?.Request.Cookies[cookieName];
-    var transferData = TransferHelper.DecodeUserId(cookieValue);
-    var dgr = _userRepository.GetSingle(predicate: p => p.Id == Guid.Parse(transferData.DecodedUserId));
+    var jwtToken = httpContextAccessor.HttpContext?.Session.GetString("JwtToken");
+    if (string.IsNullOrEmpty(jwtToken))
+    {
+        throw new Exception("Session has ended. Please log in again.");
+    }
+
+    var userId = JwtHelper.GetUserIdFromToken(jwtToken, _configuration);
+    var dgr = _userRepository.GetSingle(predicate: p => p.Id == Guid.Parse(userId));
     string userFullName = dgr.Name + " " + dgr.SurName;
 
 }
-
-
-@* <div id="customModal" class="custom-modal" style="display: none;">
-    <div class="custom-modal-content">
-        <div class="custom-modal-header">
-            <h5 class="custom-modal-title"> Welcome, @userFullName !</h5>
-        </div>
-        <div class="custom-modal-body">
-            <div id="wizardSteps">
-                <!-- Step 1 -->
-                <div class="wizard-step active" id="step0">
-                    <div class="title_parent_div">
-                        <h2>
-                            What will you use this Workspace
-                            for?
-                        </h2>
-                    </div>
-                    <div class="option-container">
-                        <div class="option" onclick="selectOption('Work')">Work</div>
-                        <div class="option" onclick="selectOption('Personal')">Personal</div>
-                        <div class="option" onclick="selectOption('School')">School</div>
-                    </div>
-                </div>
-                <!-- Step 2 -->
-                <div class="wizard-step d-none" id="step1">
-                    <div class="title_parent_div">
-                        <h2>
-                            What feature would like to use?
-                        </h2>
-                    </div>
-                    <div class="option-container">
-                        <div class="option1" onclick="toggleOption(this, 'Task Management')">Task Management</div>
-                        <div class="option1" onclick="toggleOption(this, 'Social Media Management')">Social Media Management</div>
-                        <div class="option1" onclick="toggleOption(this, 'Marketing')">Marketing</div>
-                    </div>
-                </div>
-                <!-- Step 3 -->
-                <div class="wizard-step d-none" id="step2">
-                    @{
-                        string defaultName = userFullName + "'" + "Workspace";
-                    }
-
-                    <label> Please decide your workspace name</label>
-                    <input type="text" value="@defaultName" />                    
-                </div>
-            </div>
-            <div>
-                <div id="progressContainer" class="progress-container">
-                    <div id="progressBar" class="progress-bar"></div>
-                    <div id="rocket" class="rocket">
-                        <img width="60" src="~/images/rocket_loading_2.gif" alt="Rocket" />
-                    </div>
-                </div>
-            </div>
-            <div class="button_preview_ion_boost">
-                <button class="btn btn-secondary float-start backbutton d-none" onclick="prevStep()"> < Back</button>
-                <button class="btn btn-primary float-end submitSelections d-none" onclick="submitSelections()">Next > </button>
-                <button class="btn btn-primary finishSetup float-end d-none" onclick="finishSetup()">Finish</button>
-            </div>
-        </div>
-    </div>
-</div> *@
-
-
 
 <div id="customModal" class="custom-modal" style="display: none;">
     <div class="custom-modal-content">

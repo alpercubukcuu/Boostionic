@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace Core.Application.Helper;
@@ -86,4 +87,17 @@ public static class UserCookieHelper
         });
     }
 
+
+
+    public static string GetUserIdFromCookie(IHttpContextAccessor httpContextAccessor, string secretKey)
+    {
+        var request = httpContextAccessor?.HttpContext?.Request;
+
+        if (request.Cookies.TryGetValue("XXXLogin", out var cookieValue) && !string.IsNullOrEmpty(cookieValue))
+        {
+            return Cipher.DecryptUserId(cookieValue, secretKey);
+        }
+
+        return string.Empty;
+    }
 }

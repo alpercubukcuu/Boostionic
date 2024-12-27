@@ -4,7 +4,7 @@ using Core.Application.Helper;
 using Core.Application.Interfaces.Repositories;
 using Core.Domain.Entities;
 using MediatR;
-using Microsoft.Extensions.Configuration;
+
 
 
 namespace Presentation.UI.PanelUI.Middlewares;
@@ -43,20 +43,31 @@ public class JwtMiddleware
 
                     var userRes = await scopedMediator.Send(new GetByIdUserQuery() { Id = Guid.Parse(decryptUserId) });
 
-                    if (userRes is not null && token is null)
+                    if (userRes.Data is not null && token is null)
                     {
                         var user = mapper.Map<User>(userRes.Data);
                         token = jwtRepository.GenerateJwtToken(user);
                     }
-
-                    context.Session.SetString("JwtToken", token);
-
-                    if (context.Request.Path == "/" || context.Request.Path == "/User/UserLogin")
+                    else
                     {
-                        context.Request.Headers["Authorization"] = "Bearer " + token;
-                        context.Response.Redirect("/Home/Index");
-                        return;
+                        context.Response.Cookies.Delete("XXXLogin");
+                        context.Response.Cookies.Delete("RememberMe");
+                        context.Session.Remove("JwtToken");
+                        token = null;
                     }
+
+                    if(token is not null)
+                    {
+                        context.Session.SetString("JwtToken", token);
+
+                        if (context.Request.Path == "/" || context.Request.Path == "/User/UserLogin")
+                        {
+                            context.Request.Headers["Authorization"] = "Bearer " + token;
+                            context.Response.Redirect("/Home/Index");
+                            return;
+                        }
+                    }
+                   
                 }
             }
 
