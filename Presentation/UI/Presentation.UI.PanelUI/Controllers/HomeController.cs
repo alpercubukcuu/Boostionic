@@ -1,9 +1,6 @@
-using Core.Application.Dtos;
 using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Helper;
-using Core.Application.Interfaces.Dtos;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.UI.PanelUI.Models;
 using System.Diagnostics;
@@ -32,30 +29,45 @@ namespace Presentation.UI.PanelUI.Controllers
         {
             try
             {
-                var jwtToken = _httpContextAccessor.HttpContext?.Session.GetString("JwtToken");
-
-                if (string.IsNullOrEmpty(jwtToken))
+                string userId = string.Empty;
+               
+                string cookieValue = Request.Cookies["XXXLogin"];
+                if (!string.IsNullOrEmpty(cookieValue))
                 {
-                    return RedirectToAction("RegisterPage", "User");
+                    userId = Cipher.DecryptUserId(cookieValue, _secretKey);
                 }
-                var userId = JwtHelper.GetUserIdFromToken(jwtToken, _configuration);
+                else
+                {                   
+                    var jwtToken = _httpContextAccessor.HttpContext?.Session.GetString("JwtToken");
 
+                    if (string.IsNullOrEmpty(jwtToken))
+                    {
+                        return RedirectToAction("RegisterPage", "User");
+                    }
+
+                    userId = JwtHelper.GetUserIdFromToken(jwtToken, _configuration);
+                }
+              
                 if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var parsedUserId))
                 {
                     return RedirectToAction("ErrorPage", "Error", new { errorMessage = "User ID is invalid or missing." });
                 }
-
+               
                 var userData = await _mediator.Send(new GetByIdUserQuery { Id = parsedUserId });
 
-                if (!userData.IsSuccess) { return RedirectToAction("ErrorPage", "Error", new { errorMessage = userData.Error }); }
-
+                if (!userData.IsSuccess)
+                {
+                    return RedirectToAction("ErrorPage", "Error", new { errorMessage = userData.Error });
+                }
+                
                 return View(userData.Data);
             }
             catch (Exception ex)
-            {
-                return RedirectToAction("ErrorPage", "Error");
+            {                
+                return RedirectToAction("ErrorPage", "Error", new { errorMessage = "An unexpected error occurred." });
             }
         }
+
 
         public IActionResult Privacy()
         {

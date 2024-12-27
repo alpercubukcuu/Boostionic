@@ -5,16 +5,39 @@
 @inject IConfiguration _configuration;
 
 @{
-    var jwtToken = httpContextAccessor.HttpContext?.Session.GetString("JwtToken");
-    if (string.IsNullOrEmpty(jwtToken))
+    string userFullName = string.Empty;
+    string userId = string.Empty;
+
+    try
     {
-        throw new Exception("Session has ended. Please log in again.");
+        var cookieName = "XXXLogin";
+        var cookieValue = httpContextAccessor.HttpContext?.Request.Cookies[cookieName];
+        if (!string.IsNullOrEmpty(cookieValue))
+        {
+            var transferData = TransferHelper.DecodeUserId(cookieValue);
+            userId = transferData.DecodedUserId;
+        }
+        else
+        {
+            var jwtToken = httpContextAccessor.HttpContext?.Session.GetString("JwtToken");
+            if (string.IsNullOrEmpty(jwtToken))
+            {
+                throw new Exception("Session has ended. Please log in again.");
+            }
+            userId = JwtHelper.GetUserIdFromToken(jwtToken, _configuration);
+        }
+
+        var user = _userRepository.GetSingle(predicate: p => p.Id == Guid.Parse(userId));
+        if (user == null) { throw new Exception("User not found."); }
+
+        userFullName = user.Name + " " + user.SurName;
+
     }
+    catch (Exception ex)
+    {
+        userFullName = ex.Message;
 
-    var userId = JwtHelper.GetUserIdFromToken(jwtToken, _configuration);
-    var dgr = _userRepository.GetSingle(predicate: p => p.Id == Guid.Parse(userId));
-    string userFullName = dgr.Name + " " + dgr.SurName;
-
+    }
 }
 
 <div id="customModal" class="custom-modal" style="display: none;">
@@ -54,7 +77,7 @@
                 <!-- Step 3 -->
                 <div class="wizard-step d-none" id="step2">
                     @{
-                        string defaultName = userFullName + "'s" +" "+ "Workspace";
+                        string defaultName = userFullName + "'s" + " " + "Workspace";
                     }
                     <div class="title_parent_div">
                         <h2>

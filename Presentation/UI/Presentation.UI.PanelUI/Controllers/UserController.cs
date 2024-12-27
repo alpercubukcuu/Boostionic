@@ -219,8 +219,7 @@ namespace Presentation.UI.PanelUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EmailVerificationCodePage([FromForm] string registerCode,
-            [FromForm] string userId)
+        public async Task<IActionResult> EmailVerificationCodePage([FromForm] string registerCode, [FromForm] string userId)
         {
             var transferEncode = TransferHelper.DecodeUserId(userId);
 
