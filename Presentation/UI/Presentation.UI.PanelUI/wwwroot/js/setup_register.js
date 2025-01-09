@@ -1,10 +1,26 @@
 ﻿let currentStep = 0;
 let totalSteps = 3;
 
+
+let workspaceData = {
+    usage: "",          
+    features: [],       
+    workspaceName: "",
+    userId: ""
+};
+
 function openModal() {
     const wrapper = document.getElementById('wrapper');
     const modal = document.getElementById('customModal');
-    
+
+    const userIdInput = document.getElementById('setup_user_id');
+    if (userIdInput) {
+        workspaceData.userId = userIdInput.value;
+        console.log("User ID:", workspaceData.userId);
+    } else {
+        console.error("User ID input not found.");
+    }
+
     modal.style.display = 'block';
 
     setTimeout(() => {
@@ -20,8 +36,7 @@ function updateProgress(customProgress = null) {
     const progress = customProgress !== null ? customProgress : (currentStep / totalSteps) * 100;
     
       
-    progressBar.style.width = `${progress}%`;
-    
+    progressBar.style.width = `${progress}%`;    
     rocket.style.left = `calc(${progress}% + 5px)`; 
 }
 
@@ -76,20 +91,56 @@ function closeModal() {
     }, 300);
 }
 
-function finishSetup() {
-    updateProgress(100);   
-     
-    setTimeout(() => {
-        closeModal();
-    }, 500);
+async function finishSetup() {
+    try {
 
-    setTimeout(() => {
-        launchConfetti();
-    }, 500);
-    
+        const workspace_name = document.getElementById('work_space_id');
+        if (workspace_name) {
+            workspaceData.workspaceName = workspace_name.value;
+            console.log("User ID:", workspace_name.userId);
+        } else {
+            console.error("User ID input not found.");
+        }
+
+        console.log("Final Workspace Data:", workspaceData);
+       
+        const response = await fetch('/SetupRegister/SetupSettingSave', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(workspaceData),
+        });
+
+        if (!response.ok) {
+            ToastifyModule.error(result.message || "Failed to save workspace data.");
+            throw new Error("Failed to save workspace data.");
+        }
+
+        const result = await response.json();
+
+        // Gelen cevaba göre modal'ı kapat ve konfeti patlat
+        if (result.success) {
+            console.log("Workspace saved successfully:", result.message);
+
+            
+            updateProgress(100);           
+            closeModal();
+            setTimeout(() => {
+                launchConfetti();
+            }, 500);
+
+        } else {
+            console.error("Error from server:", result.message);
+            ToastifyModule.error(result.message || "An error occurred.");
+        }
+    } catch (error) {
+        console.error("Error in finishSetup:", error);
+        ToastifyModule.error("An error occurred while saving your data. Please try again.");
+    }
 }
 
+
 function selectOption(option) {
+    workspaceData.usage = option;
     console.log(option + " choosed!");
     nextStep();
 }
@@ -98,12 +149,13 @@ let selectedOptions = [];
 
 function toggleOption(element, option) {
     if (selectedOptions.includes(option)) {
-        selectedOptions = selectedOptions.filter(item => item !== option);
+        workspaceData.features = workspaceData.features.filter(item => item !== option);
         element.classList.remove('selected');
     } else {
-        selectedOptions.push(option);
+        workspaceData.features.push(option);
         element.classList.add('selected');
     }
+    console.log('Step 2 - Features:', workspaceData.features);
 }
 
 function submitSelections() {
@@ -115,16 +167,14 @@ function submitSelections() {
         return;
     }
 
+    workspaceData.features = selectedOptions;
+
     console.log('Selected Options:', selectedOptions);
     nextStep();
 }
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    openModal();
-    updateProgress();
-});
 
 
 function launchConfetti() {
@@ -153,3 +203,10 @@ function launchConfetti() {
         );
     }, 250);
 }
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    openModal();
+    updateProgress();
+});
