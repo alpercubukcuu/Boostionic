@@ -33,9 +33,10 @@ namespace Core.Application.Features.Commands.WorkspaceCommands.Handlers
             try
             {
                 var map = _mapper.Map<Workspace>(request);
+                map.CreatedDate = DateTime.Now;
                 var addResult = await _workspaceRepository.AddAsync(map);
                 var resultMap = _mapper.Map<WorkspaceDto>(addResult);
-                result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
+                result.SetStatus(true).SetMessage("The create was successful").SetData(resultMap);
 
                 await AddUserLog("Workspace Create Handler", "Workspace", map.Id, TransactionEnum.Create, addResult.Id);
             }

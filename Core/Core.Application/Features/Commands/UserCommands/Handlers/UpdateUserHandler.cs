@@ -25,26 +25,19 @@ namespace Core.Application.Features.Commands.UserCommands.Handlers
             _userRepository = userRepository;
         }
 
-        public async Task<IResultDataDto<UserDto>> Handle(UpdateUserCommand request,
-            CancellationToken cancellationToken)
+        public async Task<IResultDataDto<UserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>();
             try
             {
-                var getData = _userRepository.GetSingle(predicate: p => p.Id == request.Id);
-                if (getData == null)
-                    return result.SetStatus(false).SetErrorMessage("Not Found Data")
-                        .SetMessage("No content found for the ID value");
-
                 var map = _mapper.Map<User>(request);
-                map.CreatedDate = getData.CreatedDate;
-                map.Id = getData.Id;
+                map.UpdatedDate = DateTime.Now;
 
                 var addResult = await _userRepository.UpdateAsync(map);
                 var resultMap = _mapper.Map<UserDto>(addResult);
 
-                result.SetStatus().SetMessage("The update process was successful").SetData(resultMap);
-                await AddUserLog("User Update Handler", "User", map.Id, TransactionEnum.Update, getData.Id);
+                result.SetStatus(true).SetMessage("The update process was successful").SetData(resultMap);
+                await AddUserLog("User Update Handler", "User", map.Id, TransactionEnum.Update, request.Id);
             }
             catch (Exception exception)
             {

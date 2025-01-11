@@ -21,7 +21,7 @@ namespace Core.Application.Dtos
         public string? PhoneNumber { get; set; }
 
         [JsonProperty("PasswordHash")]
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
 
         [JsonProperty("FailedLoginAttempts")]
         public int? FailedLoginAttempts { get; set; }

@@ -33,10 +33,13 @@ namespace Core.Application.Features.Commands.SetupSettingCommands.Handlers
             try
             {
                 var map = _mapper.Map<SetupSetting>(request);
+                map.CreatedDate = DateTime.Now;
+                map.UpdatedDate = DateTime.Now;
+                map.IsEnable = true;
 
                 var addResult = await _setupSettingRepository.AddAsync(map);
                 var resultMap = _mapper.Map<SetupSettingDto>(addResult);
-                result.SetStatus().SetMessage("The create was successful").SetData(resultMap);
+                result.SetStatus(true).SetMessage("The create was successful").SetData(resultMap);
 
                 await AddUserLog("Setup Setting Create Handler", "SetupSetting", map.Id, TransactionEnum.Create, addResult.Id);
             }

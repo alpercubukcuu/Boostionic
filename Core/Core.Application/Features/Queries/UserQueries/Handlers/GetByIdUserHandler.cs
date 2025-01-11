@@ -5,6 +5,7 @@ using Core.Application.Features.Queries.UserQueries.Queries;
 using Core.Application.Interfaces.Dtos;
 using Core.Application.Interfaces.Repositories;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
@@ -24,7 +25,7 @@ namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
             IResultDataDto<UserDto> result = new ResultDataDto<UserDto>();
             try
             {
-                var repoResult = _userRepository.GetSingle(predicate: d => d.IsEnable == true && d.Id == request.Id);
+                var repoResult = _userRepository.GetSingle(predicate: d => d.IsEnable == true && d.Id == request.Id, include: i => i.Include(i => i.UserRole).Include(i => i.Owner).Include(i => i.Client));
                 if (repoResult == null) result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No data found for the ID value");
                 var map = _mapper.Map<UserDto>(repoResult);
                 result.SetData(map);
@@ -36,8 +37,8 @@ namespace Core.Application.Features.Queries.BusinessPlaceQueries.Handlers
             }
 
         }
-        
-        
+
+
     }
 
 }
