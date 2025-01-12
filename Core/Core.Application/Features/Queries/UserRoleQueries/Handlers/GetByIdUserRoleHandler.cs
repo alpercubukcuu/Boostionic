@@ -8,8 +8,7 @@ using MediatR;
 
 namespace Core.Application.Features.Queries.UserRoleQueries.Handlers;
 
-public class
-    GetByIdUserRoleHandler : IRequestHandler<GetByIdUserRoleQuery, IResultDataDto<UserRoleDto>>
+public class GetByIdUserRoleHandler : IRequestHandler<GetByIdUserRoleQuery, IResultDataDto<UserRoleDto>>
 {
     private readonly IMapper _mapper;
     private readonly IUserRoleRepository _userRoleRepository;
@@ -20,17 +19,17 @@ public class
         _userRoleRepository = userRoleRepository;
     }
 
-    public async Task<IResultDataDto<UserRoleDto>> Handle(GetByIdUserRoleQuery request,
-        CancellationToken cancellationToken)
+    public async Task<IResultDataDto<UserRoleDto>> Handle(GetByIdUserRoleQuery request, CancellationToken cancellationToken)
     {
         IResultDataDto<UserRoleDto> result = new ResultDataDto<UserRoleDto>();
         try
         {
-            var repositoryResult =
-                _userRoleRepository.GetSingle(predicate: d => d.IsEnable == true && d.Id == request.Id);
-            if (repositoryResult == null)
-                result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No data found for the ID value");
+            var repositoryResult = _userRoleRepository.GetSingle(predicate: d => d.IsEnable == true && d.Id == request.Id);
+            if (repositoryResult == null) result.SetStatus(false).SetErrorMessage("Not Found Data").SetMessage("No data found for the ID value");
+           
             var map = _mapper.Map<UserRoleDto>(repositoryResult);
+            result.SetStatus().SetData(map).SetMessage("The userrole have been found");
+
             return result;
         }
         catch (Exception exception)

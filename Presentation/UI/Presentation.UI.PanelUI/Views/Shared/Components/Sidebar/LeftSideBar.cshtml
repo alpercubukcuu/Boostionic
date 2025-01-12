@@ -1,656 +1,320 @@
-<!-- main left menu -->
+@using Core.Application.Dtos.SettingDtos
+@model SettingDto
+@{
+    string fullname = Model.UserDto.Name + " " + Model.UserDto.SurName;
+    int index = 0;
+}
+
 <div id="left-sidebar" class="sidebar">
-<button type="button" class="btn-toggle-offcanvas">
-    <i class="fa fa-arrow-left"></i>
-</button>
-<div class="sidebar-scroll">
-<div class="user-account">
-    <img src="/boostionic/html/dist/assets/images/user.png" class="rounded-circle user-photo" alt="User Profile Picture">
-    <div class="dropdown">
-        <span>Welcome,</span>
-        <a href="~/boostionic/html/dist/javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown">
-            <strong>Pamela Petrus</strong>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-right account">
-            <li>
-                <a href="~/boostionic/html/dist/page-profile2.html"><i class="icon-user"></i>My Profile</a>
+    <button type="button" class="btn-toggle-offcanvas">
+        <i class="fa fa-arrow-left"></i>
+    </button>
+    <div class="sidebar-scroll">
+        <div class="user-account">
+            <img src="/boostionic/html/dist/assets/images/user.png" class="rounded-circle user-photo" alt="User Profile Picture">
+            <div class="dropdown">
+                <span>Welcome,</span>
+                <a href="~/boostionic/html/dist/javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown">
+                    <strong>@fullname</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right account">
+                    <li>
+                        <a href="~/boostionic/html/dist/page-profile2.html"><i class="icon-user"></i>My Profile</a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/app-inbox.html"><i class="icon-envelope-open"></i>Messages</a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);"><i class="icon-settings"></i>Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="~/boostionic/html/dist/page-login.html"><i class="icon-power"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+            <ul class="row list-unstyled">
+                <li class="col-4">
+                    <small>Sales</small>
+                    <h6>561</h6>
+                </li>
+                <li class="col-4">
+                    <small>Order</small>
+                    <h6>920</h6>
+                </li>
+                <li class="col-4">
+                    <small>Revenue</small>
+                    <h6>$23B</h6>
+                </li>
+            </ul>
+        </div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="~/boostionic/html/dist/#menu">Menu</a>
             </li>
-            <li>
-                <a href="~/boostionic/html/dist/app-inbox.html"><i class="icon-envelope-open"></i>Messages</a>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="~/boostionic/html/dist/#Chat">
+                    <i class="icon-book-open"></i>
+                </a>
             </li>
-            <li>
-                <a href="~/boostionic/html/dist/javascript:void(0);"><i class="icon-settings"></i>Settings</a>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="~/boostionic/html/dist/#setting">
+                    <i class="icon-settings"></i>
+                </a>
             </li>
-            <li class="divider"></li>
-            <li>
-                <a href="~/boostionic/html/dist/page-login.html"><i class="icon-power"></i>Logout</a>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="~/boostionic/html/dist/#question">
+                    <i class="icon-question"></i>
+                </a>
             </li>
         </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content padding-0">
+            <div class="tab-pane active" id="menu">
+                <nav id="left-sidebar-nav" class="sidebar-nav">
+                    <ul id="main-menu" class="metismenu li_animation_delay">
+
+                        @foreach (var item in Model.WorkspaceDtos)
+                        {
+                            <li class="@(index == 0 ? "active" : "")">
+                                <a href="~/boostionic/html/dist/#Dashboard" class="has-arrow">
+                                    <i class="fa fa-dashboard"></i><span>@item.Name</span>
+                                </a>
+                                <ul>
+                                    <li class="@(index == 0 ? "active" : "")">
+                                        <a href="~/boostionic/html/dist/index.html">Projects</a>
+                                    </li>
+                                    @if (item.IsMedia)
+                                    {
+                                        <li>
+                                            <a href="~/boostionic/html/dist/h-menu.html">Media</a>
+                                        </li>
+                                    }
+                                    @if (item.IsGrowth)
+                                    {
+                                        <li>
+                                            <a href="~/boostionic/html/dist/index9.html">Growth</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+                            index++;
+                        }
+
+
+                    </ul>
+                </nav>
+            </div>
+            <div class="tab-pane" id="Chat">
+                <form>
+                    <div class="input-group m-b-20">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="icon-magnifier"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </div>
+                </form>
+                <ul class="right_chat list-unstyled li_animation_delay">
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
+                            <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar1.jpg" alt="">
+                            <div class="media-body">
+                                <span class="name d-flex justify-content-between">Chris Fox <i class="fa fa-heart-o font-12"></i></span>
+                                <span class="message">chrisfox@gmail.com</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
+                            <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar2.jpg" alt="">
+                            <div class="media-body">
+                                <span class="name d-flex justify-content-between">Joge Lucky <i class="fa fa-heart-o font-12"></i></span>
+                                <span class="message">Jogelucky@gmail.com</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
+                            <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar3.jpg" alt="">
+                            <div class="media-body">
+                                <span class="name d-flex justify-content-between">Isabella <i class="fa fa-heart-o font-12"></i></span>
+                                <span class="message">Isabella@gmail.com</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
+                            <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar4.jpg" alt="">
+                            <div class="media-body">
+                                <span class="name d-flex justify-content-between">Folisise Chosielie <i class="fa fa-heart font-12"></i></span>
+                                <span class="message">FolisiseChosielie@gmail.com</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
+                            <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar5.jpg" alt="">
+                            <div class="media-body">
+                                <span class="name d-flex justify-content-between">Alexander <i class="fa fa-heart-o font-12"></i></span>
+                                <span class="message">Alexander@gmail.com</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-pane" id="setting">
+                <h6>Choose Skin</h6>
+                <ul class="choose-skin list-unstyled">
+                    <li data-theme="purple">
+                        <div class="purple"></div>
+                    </li>
+                    <li data-theme="blue">
+                        <div class="blue"></div>
+                    </li>
+                    <li data-theme="cyan" class="active">
+                        <div class="cyan"></div>
+                    </li>
+                    <li data-theme="green">
+                        <div class="green"></div>
+                    </li>
+                    <li data-theme="orange">
+                        <div class="orange"></div>
+                    </li>
+                    <li data-theme="blush">
+                        <div class="blush"></div>
+                    </li>
+                    <li data-theme="red">
+                        <div class="red"></div>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled font_setting mt-3">
+                    <li>
+                        <label class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" name="font" value="font-nunito" checked="">
+                            <span class="custom-control-label">Nunito Google Font</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" name="font" value="font-ubuntu">
+                            <span class="custom-control-label">Ubuntu Font</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" name="font" value="font-raleway">
+                            <span class="custom-control-label">Raleway Google Font</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" name="font" value="font-IBMplex">
+                            <span class="custom-control-label">IBM Plex Google Font</span>
+                        </label>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled mt-3">
+                    <li class="d-flex align-items-center mb-2">
+                        <label class="toggle-switch theme-switch">
+                            <input type="checkbox">
+                            <span class="toggle-switch-slider"></span>
+                        </label>
+                        <span class="ml-3">Enable Dark Mode!</span>
+                    </li>
+                    <li class="d-flex align-items-center mb-2">
+                        <label class="toggle-switch theme-rtl">
+                            <input type="checkbox">
+                            <span class="toggle-switch-slider"></span>
+                        </label>
+                        <span class="ml-3">Enable RTL Mode!</span>
+                    </li>
+                    <li class="d-flex align-items-center mb-2">
+                        <label class="toggle-switch theme-high-contrast">
+                            <input type="checkbox">
+                            <span class="toggle-switch-slider"></span>
+                        </label>
+                        <span class="ml-3">Enable High Contrast Mode!</span>
+                    </li>
+                </ul>
+
+                <hr>
+                <h6>General Settings</h6>
+                <ul class="setting-list list-unstyled">
+                    <li>
+                        <label class="fancy-checkbox">
+                            <input type="checkbox" name="checkbox" checked>
+                            <span>Allowed Notifications</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="fancy-checkbox">
+                            <input type="checkbox" name="checkbox">
+                            <span>Offline</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="fancy-checkbox">
+                            <input type="checkbox" name="checkbox">
+                            <span>Location Permission</span>
+                        </label>
+                    </li>
+                </ul>
+
+                <a href="~/boostionic/html/dist/#" target="_blank" class="btn btn-block btn-primary">Buy this item</a>
+                <a href="~/boostionic/html/dist/https://themeforest.net/user/wrraptheme/portfolio" target="_blank" class="btn btn-block btn-secondary">View portfolio</a>
+            </div>
+            <div class="tab-pane" id="question">
+                <form>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="icon-magnifier"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </div>
+                </form>
+                <ul class="list-unstyled question">
+                    <li class="menu-heading">HOW-TO</li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);">How to Create Campaign</a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);">Boost Your Sales</a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);">Website Analytics</a>
+                    </li>
+                    <li class="menu-heading">ACCOUNT</li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);">Cearet New Account</a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);">Change Password?</a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);">Privacy &amp; Policy</a>
+                    </li>
+                    <li class="menu-heading">BILLING</li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);">Payment info</a>
+                    </li>
+                    <li>
+                        <a href="~/boostionic/html/dist/javascript:void(0);">Auto-Renewal</a>
+                    </li>
+                    <li class="menu-button mt-3">
+                        <a href="~/boostionic/html/dist/../docs/index.html" class="btn btn-primary btn-block">Documentation</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <hr>
-    <ul class="row list-unstyled">
-        <li class="col-4">
-            <small>Sales</small>
-            <h6>561</h6>
-        </li>
-        <li class="col-4">
-            <small>Order</small>
-            <h6>920</h6>
-        </li>
-        <li class="col-4">
-            <small>Revenue</small>
-            <h6>$23B</h6>
-        </li>
-    </ul>
-</div>
-<!-- Nav tabs -->
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="~/boostionic/html/dist/#menu">Menu</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="~/boostionic/html/dist/#Chat">
-            <i class="icon-book-open"></i>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="~/boostionic/html/dist/#setting">
-            <i class="icon-settings"></i>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="~/boostionic/html/dist/#question">
-            <i class="icon-question"></i>
-        </a>
-    </li>
-</ul>
-
-<!-- Tab panes -->
-<div class="tab-content padding-0">
-<div class="tab-pane active" id="menu">
-<nav id="left-sidebar-nav" class="sidebar-nav">
-<ul id="main-menu" class="metismenu li_animation_delay">
-<li class="active">
-    <a href="~/boostionic/html/dist/#Dashboard" class="has-arrow">
-        <i class="fa fa-dashboard"></i><span>Dashboard</span>
-    </a>
-    <ul>
-        <li class="active">
-            <a href="~/boostionic/html/dist/index.html">Analytical</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/h-menu.html">Analytical H-Menu</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/index9.html">IoT Dashboard</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/index2.html">Demographic</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/index6.html">Project Board</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/index7.html">Crypto Dashboard</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/index8.html">eCommerce</a>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#App" class="has-arrow">
-        <i class="fa fa-th-large"></i><span>Ready App</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/app-inbox.html">Inbox</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/app-chat.html">Chat</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/app-calendar.html">Calendar</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/app-contact.html">Contact list</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/app-contact-grid.html">Contact Card <span class="badge badge-warning float-right">New</span></a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/app-taskboard.html">Taskboard</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">
-                <span>Blog</span>
-            </a>
-            <ul>
-                <li>
-                    <a href="~/boostionic/html/dist/blog-dashboard.html">Dashboard</a>
-                </li>
-                <li>
-                    <a href="~/boostionic/html/dist/blog-post.html">New Post</a>
-                </li>
-                <li>
-                    <a href="~/boostionic/html/dist/blog-list.html">Blog List</a>
-                </li>
-                <li>
-                    <a href="~/boostionic/html/dist/blog-details.html">Blog Detail</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">
-                <span>File Manager</span>
-            </a>
-            <ul>
-                <li>
-                    <a href="~/boostionic/html/dist/file-dashboard.html">Dashboard</a>
-                </li>
-                <li>
-                    <a href="~/boostionic/html/dist/file-documents.html">Documents</a>
-                </li>
-                <li>
-                    <a href="~/boostionic/html/dist/file-media.html">Media</a>
-                </li>
-                <li>
-                    <a href="~/boostionic/html/dist/file-images.html">Images</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#Widgets" class="has-arrow">
-        <i class="fa fa-puzzle-piece"></i><span>Widgets</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/widgets-statistics.html">Statistics</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/widgets-data.html">Data</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/widgets-chart.html">Chart</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/widgets-weather.html">Weather</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/widgets-social.html">Social</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/widgets-blog.html">Blog</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/widgets-ecommerce.html">eCommerce</a>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#uiElements" class="has-arrow">
-        <i class="fa fa-diamond"></i><span>UI Elements</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/ui-typography.html">Typography</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-tabs.html">Tabs</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-buttons.html">Buttons</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-bootstrap.html">Bootstrap UI</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-icons.html">Icons</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-notifications.html">Notifications</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-colors.html">Colors</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-dialogs.html">Dialogs</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-list-group.html">List Group</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-media-object.html">Media Object</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-modals.html">Modals</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-nestable.html">Nestable</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-progressbars.html">Progress Bars</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-range-sliders.html">Range Sliders</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/ui-treeview.html">Treeview</a>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#charts" class="has-arrow">
-        <i class="fa fa-area-chart"></i><span>Charts</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/chart-apex.html">Apex</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/chart-c3.html">C3 Charts</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/chart-morris.html">Morris</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/chart-flot.html">Flot</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/chart-chartjs.html">ChartJS</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/chart-jquery-knob.html">Jquery Knob</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/chart-sparkline.html">Sparkline Chart</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/chart-peity.html">Peity</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/chart-gauges.html">Gauges</a>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#forms" class="has-arrow">
-        <i class="fa fa-pencil"></i><span>Forms</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/forms-validation.html">Form Validation</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/forms-advanced.html">Advanced Elements</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/forms-basic.html">Basic Elements</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/forms-wizard.html">Form Wizard</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/forms-dragdropupload.html">Drag &amp; Drop Upload</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/forms-cropping.html">Image Cropping</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/forms-summernote.html">Summernote</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/forms-editors.html">CKEditor</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/forms-markdown.html">Markdown</a>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#Tables" class="has-arrow">
-        <i class="fa fa-table"></i><span>Tables</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/table-basic.html">Tables Example<span class="badge badge-info float-right">New</span></a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/table-normal.html">Normal Tables</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/table-jquery-datatable.html">Jquery Datatables</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/table-editable.html">Editable Tables</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/table-color.html">Tables Color</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/table-filter.html">Table Filter <span class="badge badge-info float-right">New</span></a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/table-dragger.html">Table dragger <span class="badge badge-info float-right">New</span></a>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#Authentication" class="has-arrow">
-        <i class="fa fa-lock"></i><span>Authentication</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/page-login.html">Login</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-register.html">Register</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-lockscreen.html">Lockscreen</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-forgot-password.html">Forgot Password</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-404.html">Page 404</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-403.html">Page 403</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-500.html">Page 500</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-503.html">Page 503</a>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#Pages" class="has-arrow">
-        <i class="fa fa-file"></i><span>Extra Pages</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/page-blank.html">Blank Page</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-profile.html">Profile <span class="badge badge-default float-right">v1</span></a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-profile2.html">Profile <span class="badge badge-warning float-right">v2</span></a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-gallery.html">Image Gallery <span class="badge badge-default float-right">v1</span></a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-gallery2.html">Image Gallery <span class="badge badge-warning float-right">v2</span></a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-timeline.html">Timeline</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-timeline-h.html">Horizontal Timeline</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-pricing.html">Pricing</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-invoices.html">Invoices</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-invoices2.html">Invoices <span class="badge badge-warning float-right">v2</span></a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-search-results.html">Search Results</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-helper-class.html">Helper Classes</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-teams-board.html">Teams Board</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-projects-list.html">Projects List</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-maintenance.html">Maintenance</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-testimonials.html">Testimonials</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/page-faq.html">FAQ</a>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="~/boostionic/html/dist/#Maps" class="has-arrow">
-        <i class="fa fa-map"></i><span>Maps</span>
-    </a>
-    <ul>
-        <li>
-            <a href="~/boostionic/html/dist/map-google.html">Google Map</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/map-yandex.html">Yandex Map</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/map-jvectormap.html">jVector Map</a>
-        </li>
-    </ul>
-</li>
-</ul>
-</nav>
-</div>
-<div class="tab-pane" id="Chat">
-    <form>
-        <div class="input-group m-b-20">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="icon-magnifier"></i>
-                </span>
-            </div>
-            <input type="text" class="form-control" placeholder="Search...">
-        </div>
-    </form>
-    <ul class="right_chat list-unstyled li_animation_delay">
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
-                <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar1.jpg" alt="">
-                <div class="media-body">
-                    <span class="name d-flex justify-content-between">Chris Fox <i class="fa fa-heart-o font-12"></i></span>
-                    <span class="message">chrisfox@gmail.com</span>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
-                <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar2.jpg" alt="">
-                <div class="media-body">
-                    <span class="name d-flex justify-content-between">Joge Lucky <i class="fa fa-heart-o font-12"></i></span>
-                    <span class="message">Jogelucky@gmail.com</span>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
-                <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar3.jpg" alt="">
-                <div class="media-body">
-                    <span class="name d-flex justify-content-between">Isabella <i class="fa fa-heart-o font-12"></i></span>
-                    <span class="message">Isabella@gmail.com</span>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
-                <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar4.jpg" alt="">
-                <div class="media-body">
-                    <span class="name d-flex justify-content-between">Folisise Chosielie <i class="fa fa-heart font-12"></i></span>
-                    <span class="message">FolisiseChosielie@gmail.com</span>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);" class="media">
-                <img class="media-object" src="~/boostionic/html/dist/assets/images/xs/avatar5.jpg" alt="">
-                <div class="media-body">
-                    <span class="name d-flex justify-content-between">Alexander <i class="fa fa-heart-o font-12"></i></span>
-                    <span class="message">Alexander@gmail.com</span>
-                </div>
-            </a>
-        </li>
-    </ul>
-</div>
-<div class="tab-pane" id="setting">
-    <h6>Choose Skin</h6>
-    <ul class="choose-skin list-unstyled">
-        <li data-theme="purple">
-            <div class="purple"></div>
-        </li>
-        <li data-theme="blue">
-            <div class="blue"></div>
-        </li>
-        <li data-theme="cyan" class="active">
-            <div class="cyan"></div>
-        </li>
-        <li data-theme="green">
-            <div class="green"></div>
-        </li>
-        <li data-theme="orange">
-            <div class="orange"></div>
-        </li>
-        <li data-theme="blush">
-            <div class="blush"></div>
-        </li>
-        <li data-theme="red">
-            <div class="red"></div>
-        </li>
-    </ul>
-
-    <ul class="list-unstyled font_setting mt-3">
-        <li>
-            <label class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" name="font" value="font-nunito" checked="">
-                <span class="custom-control-label">Nunito Google Font</span>
-            </label>
-        </li>
-        <li>
-            <label class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" name="font" value="font-ubuntu">
-                <span class="custom-control-label">Ubuntu Font</span>
-            </label>
-        </li>
-        <li>
-            <label class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" name="font" value="font-raleway">
-                <span class="custom-control-label">Raleway Google Font</span>
-            </label>
-        </li>
-        <li>
-            <label class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" name="font" value="font-IBMplex">
-                <span class="custom-control-label">IBM Plex Google Font</span>
-            </label>
-        </li>
-    </ul>
-
-    <ul class="list-unstyled mt-3">
-        <li class="d-flex align-items-center mb-2">
-            <label class="toggle-switch theme-switch">
-                <input type="checkbox">
-                <span class="toggle-switch-slider"></span>
-            </label>
-            <span class="ml-3">Enable Dark Mode!</span>
-        </li>
-        <li class="d-flex align-items-center mb-2">
-            <label class="toggle-switch theme-rtl">
-                <input type="checkbox">
-                <span class="toggle-switch-slider"></span>
-            </label>
-            <span class="ml-3">Enable RTL Mode!</span>
-        </li>
-        <li class="d-flex align-items-center mb-2">
-            <label class="toggle-switch theme-high-contrast">
-                <input type="checkbox">
-                <span class="toggle-switch-slider"></span>
-            </label>
-            <span class="ml-3">Enable High Contrast Mode!</span>
-        </li>
-    </ul>
-
-    <hr>
-    <h6>General Settings</h6>
-    <ul class="setting-list list-unstyled">
-        <li>
-            <label class="fancy-checkbox">
-                <input type="checkbox" name="checkbox" checked>
-                <span>Allowed Notifications</span>
-            </label>
-        </li>
-        <li>
-            <label class="fancy-checkbox">
-                <input type="checkbox" name="checkbox">
-                <span>Offline</span>
-            </label>
-        </li>
-        <li>
-            <label class="fancy-checkbox">
-                <input type="checkbox" name="checkbox">
-                <span>Location Permission</span>
-            </label>
-        </li>
-    </ul>
-
-    <a href="~/boostionic/html/dist/#" target="_blank" class="btn btn-block btn-primary">Buy this item</a>
-    <a href="~/boostionic/html/dist/https://themeforest.net/user/wrraptheme/portfolio" target="_blank" class="btn btn-block btn-secondary">View portfolio</a>
-</div>
-<div class="tab-pane" id="question">
-    <form>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="icon-magnifier"></i>
-                </span>
-            </div>
-            <input type="text" class="form-control" placeholder="Search...">
-        </div>
-    </form>
-    <ul class="list-unstyled question">
-        <li class="menu-heading">HOW-TO</li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">How to Create Campaign</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">Boost Your Sales</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">Website Analytics</a>
-        </li>
-        <li class="menu-heading">ACCOUNT</li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">Cearet New Account</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">Change Password?</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">Privacy &amp; Policy</a>
-        </li>
-        <li class="menu-heading">BILLING</li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">Payment info</a>
-        </li>
-        <li>
-            <a href="~/boostionic/html/dist/javascript:void(0);">Auto-Renewal</a>
-        </li>
-        <li class="menu-button mt-3">
-            <a href="~/boostionic/html/dist/../docs/index.html" class="btn btn-primary btn-block">Documentation</a>
-        </li>
-    </ul>
-</div>
-</div>
-</div>
 </div>

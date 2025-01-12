@@ -24,8 +24,7 @@ namespace Core.Application.Helper
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(signingKey);
-
-                // Token doğrulama kuralları
+                
                 var validationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -34,14 +33,13 @@ namespace Core.Application.Helper
                     ValidIssuer = validIssuer,
                     ValidateAudience = true,
                     ValidAudience = validAudience,
-                    ValidateLifetime = true, // Token süresi dolmuşsa hata verir
-                    ClockSkew = TimeSpan.Zero // Token doğrulaması sırasında saat farkı tanımlanmaz
+                    ValidateLifetime = true, 
+                    ClockSkew = TimeSpan.Zero 
                 };
-
-                // Token doğrulama ve çözümleme
+                
                 var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
 
-                // Kullanıcı kimliği claim'den alınır
+               
                 var userId = principal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
 
                 if (string.IsNullOrEmpty(userId))
@@ -52,8 +50,7 @@ namespace Core.Application.Helper
                 return userId;
             }
             catch (Exception ex)
-            {
-                // Hata fırlatma yerine loglama eklenebilir
+            {               
                 throw new SecurityTokenException($"Invalid token: {ex.Message}");
             }
         }

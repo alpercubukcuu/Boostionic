@@ -20,6 +20,7 @@ public class
         _relationUserToWorkspaceRepository = relationUserToWorkspaceRepository;
     }
 
+    //HATALI DÜZELTMEDEN KULLANAM !
     public async Task<IResultDataDto<RelationUserToWorkspaceDto>> Handle(GetByIdRelationUserToWorkspaceQuery request,
         CancellationToken cancellationToken)
     {
