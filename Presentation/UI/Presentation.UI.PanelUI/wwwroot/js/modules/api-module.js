@@ -8,6 +8,9 @@
     get: function (url, successCallback, errorCallback) {
         this.ajaxRequest("GET", url, null, "application/x-www-form-urlencoded", successCallback, errorCallback);
     },
+    deleteJson: function (url, successCallback, errorCallback) {
+        this.ajaxRequest("DELETE", url, null, "application/json", successCallback, errorCallback);
+    },
     ajaxRequest: function (type, url, data, contentType, successCallback, errorCallback) {
         $("#loading-spinner").show();
 

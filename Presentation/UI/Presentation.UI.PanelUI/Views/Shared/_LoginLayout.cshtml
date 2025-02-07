@@ -21,17 +21,18 @@
 
 <body data-theme="light" class="font-nunito">
 
-@RenderBody()
+    @RenderBody()
 
-<script src="~/boostionic/html/dist/assets/vendor/jquery/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="~/boostionic/html/dist/assets/vendor/jquery/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-<!-- Modules -->
-<script src="~/js/modules/api-module.js"></script>
-<script src="~/js/modules/toastify-module.js"></script>
-<script src="~/js/modules/cookie-module.js"></script>
+    <!-- Modules -->
+    <script src="~/js/modules/api-module.js"></script>
+    <script src="~/js/modules/toastify-module.js"></script>
+    <script src="~/js/modules/cookie-module.js"></script>
+    
 
-@await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>
